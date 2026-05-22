@@ -1,39 +1,121 @@
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  --sun-orange: #F97316;
+  --bg-deep: #060912;
+  --bg-base: #0A0E1A;
+  --bg-elevated: #11172A;
+  --bg-surface: #161D33;
+
+  --aluminum-light: #C9D4E0;
+  --aluminum-mid: #8FA0BB;
+  --aluminum-dark: #4A5670;
+  --aluminum-edge: #2A3247;
+
+  --sun-orange: #FF6B1A;
+  --sun-orange-bright: #FF8533;
   --sun-yellow: #FBB034;
-  --deep-navy: #0A0F1E;
-  --steel-grey: #1A2035;
-  --light-grey: #8B9BBE;
-  --white: #FFFFFF;
-  --accent-green: #22C55E;
+  --sun-glow: rgba(255, 107, 26, 0.4);
+
+  --text-primary: #F4F6FB;
+  --text-secondary: #A8B3C7;
+  --text-muted: #6B7691;
+
+  --border-subtle: rgba(201, 212, 224, 0.08);
+  --border-accent: rgba(255, 107, 26, 0.3);
+
+  --gradient-sun: linear-gradient(135deg, #FF6B1A 0%, #FBB034 100%);
+  --gradient-aluminum: linear-gradient(135deg, #C9D4E0 0%, #8FA0BB 50%, #4A5670 100%);
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; background: var(--bg-base); }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background: var(--deep-navy);
-  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  background: var(--bg-base);
+  color: var(--text-primary);
   overflow-x: hidden;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+img, svg { display: block; max-width: 100%; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--aluminum-edge); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--aluminum-dark); }
+::selection { background: var(--sun-orange); color: var(--bg-base); }
+
+.container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--sun-orange);
+  margin-bottom: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.section-label::before {
+  content: ''; width: 24px; height: 1px; background: var(--sun-orange);
+}
+
+.gradient-text {
+  background: var(--gradient-sun);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  padding: 0.95rem 1.8rem;
+  background: var(--gradient-sun);
+  color: var(--bg-deep);
+  font-weight: 700; font-size: 0.85rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  border-radius: 2px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(255, 107, 26, 0.35);
+}
+
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  padding: 0.95rem 1.8rem;
+  background: transparent;
+  color: var(--text-primary);
+  font-weight: 600; font-size: 0.85rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  border: 1px solid var(--aluminum-dark);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-secondary:hover {
+  border-color: var(--sun-orange);
+  color: var(--sun-orange);
+  background: rgba(255, 107, 26, 0.05);
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 1.25rem; }
 }
