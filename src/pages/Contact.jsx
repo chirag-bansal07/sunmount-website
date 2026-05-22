@@ -1,162 +1,105 @@
 import { useState } from 'react'
+import { ArrowRightIcon } from '../components/icons'
 
 const FIELDS = [
-  { name: 'name', label: 'Full Name', type: 'text', col: 1 },
-  { name: 'company', label: 'Company Name', type: 'text', col: 1 },
-  { name: 'email', label: 'Email Address', type: 'email', col: 1 },
-  { name: 'phone', label: 'Phone Number', type: 'tel', col: 1 },
+  { name: 'name', label: 'Full Name', type: 'text', placeholder: 'Raj Sharma' },
+  { name: 'company', label: 'Company / Organization', type: 'text', placeholder: 'Solar EPC Ltd.' },
+  { name: 'email', label: 'Email Address', type: 'email', placeholder: 'raj@company.com' },
+  { name: 'phone', label: 'Phone Number', type: 'tel', placeholder: '+91 98765 43210' },
 ]
 
-export default function Contact() {
-  const [form, setForm] = useState({ name: '', company: '', email: '', phone: '', subject: '', message: '', meetF2F: false })
-  const [focus, setFocus] = useState(null)
+const Contact = () => {
+  const [form, setForm] = useState({ name:'', company:'', email:'', phone:'', requirement:'', message:'' })
+  const [sent, setSent] = useState(false)
+  const handleChange = e => setForm(p => ({ ...p, [e.target.name]: e.target.value }))
+  const handleSubmit = e => { e.preventDefault(); setSent(true) }
 
-  const handleChange = e => {
-    const { name, value, type, checked } = e.target
-    setForm(p => ({ ...p, [name]: type === 'checkbox' ? checked : value }))
+  const inputStyle = {
+    width:'100%', padding:'0.85rem 1rem',
+    background:'var(--bg-elevated)', border:'1px solid var(--border-subtle)',
+    color:'var(--text-primary)', fontFamily:'Montserrat', fontSize:'0.9rem',
+    outline:'none', transition:'border-color 0.3s',
   }
 
-  const inputStyle = (field) => ({
-    width: '100%',
-    padding: '0.85rem 1rem',
-    background: focus === field ? 'rgba(249,115,22,0.05)' : 'rgba(255,255,255,0.03)',
-    border: `1px solid ${focus === field ? 'rgba(249,115,22,0.5)' : 'rgba(200,213,220,0.12)'}`,
-    borderRadius: 4,
-    color: 'var(--text-1)',
-    fontSize: '0.9rem',
-    outline: 'none',
-    transition: 'border-color 0.3s, background 0.3s',
-    fontFamily: 'Montserrat',
-  })
-
   return (
-    <main style={{ paddingTop: 72, minHeight: '100vh', background: 'var(--bg-0)' }}>
-      {/* Hero */}
-      <div style={{
-        padding: '5rem 5%',
-        background: 'linear-gradient(180deg, #0D0F15 0%, var(--bg-0) 100%)',
-        borderBottom: '1px solid var(--border)',
-        textAlign: 'center',
-      }}>
-        <div className="section-label" style={{ justifyContent: 'center' }}>Get In Touch</div>
-        <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', marginBottom: '1rem' }}>
-          Let's Build Something<br />
-          <span style={{ color: 'var(--solar)' }}>Together</span>
-        </h1>
-        <p style={{ color: 'var(--text-2)', maxWidth: 500, margin: '0 auto', fontSize: '0.95rem', lineHeight: 1.7 }}>
-          Our engineering team is ready to help with your solar mounting requirements.
-          Supplying all over the world.
-        </p>
+    <main style={{ paddingTop:'80px', minHeight:'100vh', background:'var(--bg-base)' }}>
+      <div style={{ padding:'5rem 0 4rem', background:'linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-base) 100%)', borderBottom:'1px solid var(--border-subtle)', position:'relative' }}>
+        <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:'var(--gradient-sun)' }} />
+        <div className="container">
+          <div className="section-label">CONTACT US</div>
+          <h1 style={{ fontSize:'clamp(2.5rem, 6vw, 5rem)', maxWidth:700 }}>
+            Let's Build Something<br /><span className="gradient-text">Great Together.</span>
+          </h1>
+        </div>
       </div>
-
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '5rem 5%' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '4rem' }}>
-
-          {/* LEFT — Info */}
+      <div className="container" style={{ padding:'5rem 2rem' }}>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'5rem', alignItems:'start' }} className="contact-grid">
           <div>
-            <h2 style={{ fontFamily: 'Rajdhani', fontSize: '1.8rem', marginBottom: '2rem' }}>Contact Information</h2>
-
-            {[
-              { icon: '📍', label: 'Visit Us', value: 'Sunmount Solutions, Begu Road\nSirsa 125055, Haryana, India' },
-              { icon: '📞', label: 'Call Us', value: '+91 7837 999 222', href: 'tel:+917837999222' },
-              { icon: '✉️', label: 'Email Us', value: 'info@sunmount.in', href: 'mailto:info@sunmount.in' },
-              { icon: '🌍', label: 'Supply', value: 'All Over The World' },
-            ].map((item, i) => (
-              <div key={i} style={{
-                display: 'flex', gap: '1rem', alignItems: 'flex-start',
-                padding: '1.25rem 0',
-                borderBottom: '1px solid var(--border)',
-              }}>
-                <span style={{ fontSize: '1.3rem', flexShrink: 0, marginTop: 2 }}>{item.icon}</span>
-                <div>
-                  <div style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--solar)', fontWeight: 700, marginBottom: '0.3rem' }}>{item.label}</div>
-                  {item.href ? (
-                    <a href={item.href} style={{ color: 'var(--text-1)', fontSize: '0.95rem', lineHeight: 1.5 }}>{item.value}</a>
-                  ) : (
-                    <div style={{ color: 'var(--text-2)', fontSize: '0.9rem', lineHeight: 1.5, whiteSpace: 'pre-line' }}>{item.value}</div>
-                  )}
-                </div>
+            {sent ? (
+              <div style={{ padding:'3rem', background:'var(--bg-elevated)', border:'1px solid var(--border-accent)', textAlign:'center' }}>
+                <div style={{ fontSize:'3rem', marginBottom:'1rem' }}>✓</div>
+                <h3 style={{ fontSize:'1.6rem', marginBottom:'0.8rem', color:'var(--sun-orange)' }}>Message Sent!</h3>
+                <p style={{ color:'var(--text-secondary)' }}>Our team will get back to you within 24 hours.</p>
               </div>
-            ))}
-
-            {/* Social */}
-            <div style={{ marginTop: '2rem', display: 'flex', gap: '0.75rem' }}>
-              <a href="https://api.whatsapp.com/send?phone=917837999222" target="_blank" rel="noopener noreferrer"
-                className="btn-primary" style={{ fontSize: '0.75rem', padding: '0.6rem 1.2rem' }}>
-                WhatsApp
-              </a>
-              <a href="https://www.linkedin.com/in/raj-g-3b59b9123/" target="_blank" rel="noopener noreferrer"
-                className="btn-ghost" style={{ fontSize: '0.75rem', padding: '0.6rem 1.2rem' }}>
-                LinkedIn
-              </a>
-            </div>
-          </div>
-
-          {/* RIGHT — Form */}
-          <div>
-            <div style={{
-              background: 'linear-gradient(145deg, #161A22, #111318)',
-              border: '1px solid var(--border)',
-              borderRadius: 8, padding: '2.5rem',
-            }}>
-              <h2 style={{ fontFamily: 'Rajdhani', fontSize: '1.8rem', marginBottom: '2rem' }}>Send a Message</h2>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
-                {FIELDS.map(f => (
-                  <div key={f.name}>
-                    <label style={{ display: 'block', fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-3)', marginBottom: '0.4rem', fontWeight: 600 }}>
-                      {f.label}
-                    </label>
-                    <input
-                      type={f.type} name={f.name} value={form[f.name]}
-                      onChange={handleChange}
-                      onFocus={() => setFocus(f.name)}
-                      onBlur={() => setFocus(null)}
-                      style={inputStyle(f.name)}
-                    />
+            ) : (
+              <form onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:'1.2rem' }}>
+                {FIELDS.map(({ name, label, type, placeholder }) => (
+                  <div key={name}>
+                    <label style={{ display:'block', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }}>{label}</label>
+                    <input name={name} type={type} placeholder={placeholder} value={form[name]} onChange={handleChange} required
+                      style={inputStyle} onFocus={e => e.target.style.borderColor='var(--sun-orange)'} onBlur={e => e.target.style.borderColor='var(--border-subtle)'} />
                   </div>
                 ))}
+                <div>
+                  <label style={{ display:'block', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }}>Product Requirement</label>
+                  <select name="requirement" value={form.requirement} onChange={handleChange}
+                    style={{ ...inputStyle, cursor:'pointer' }}
+                    onFocus={e => e.target.style.borderColor='var(--sun-orange)'} onBlur={e => e.target.style.borderColor='var(--border-subtle)'}>
+                    <option value="">Select product type…</option>
+                    <option value="mini">MiniRail System</option>
+                    <option value="mono">MonoRail System</option>
+                    <option value="long">Long Rail System</option>
+                    <option value="other">Other / Consultation</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display:'block', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }}>Message / Project Details</label>
+                  <textarea name="message" rows={5} placeholder="Describe your project — roof type, number of panels, location..."
+                    value={form.message} onChange={handleChange} style={{ ...inputStyle, resize:'vertical', minHeight:130 }}
+                    onFocus={e => e.target.style.borderColor='var(--sun-orange)'} onBlur={e => e.target.style.borderColor='var(--border-subtle)'} />
+                </div>
+                <button type="submit" className="btn-primary" style={{ justifyContent:'center', fontSize:'0.9rem' }}>
+                  Send Message <ArrowRightIcon />
+                </button>
+              </form>
+            )}
+          </div>
+          <div style={{ display:'flex', flexDirection:'column', gap:'1.5rem' }}>
+            {[
+              { label:'HEADQUARTERS', lines:['Sunmount Solutions','Begu Road, Sirsa 125055','Haryana, India'] },
+              { label:'PHONE', lines:['+91 7837 999 222'] },
+              { label:'EMAIL', lines:['info@sunmount.in'] },
+              { label:'SUPPLY COVERAGE', lines:['Pan India','International — All Over World'] },
+            ].map((item, i) => (
+              <div key={i} style={{ padding:'1.8rem', background:'var(--bg-elevated)', border:'1px solid var(--border-subtle)', borderLeft:'2px solid var(--sun-orange)' }}>
+                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.65rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.6rem' }}>// {item.label}</div>
+                {item.lines.map((line, j) => <div key={j} style={{ fontSize:'0.95rem', color:'var(--text-primary)', lineHeight:1.6 }}>{line}</div>)}
               </div>
-
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={{ display: 'block', fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-3)', marginBottom: '0.4rem', fontWeight: 600 }}>
-                  Subject
-                </label>
-                <input type="text" name="subject" value={form.subject} onChange={handleChange}
-                  onFocus={() => setFocus('subject')} onBlur={() => setFocus(null)}
-                  style={inputStyle('subject')} placeholder="e.g. Quote for 100 kWp rooftop project"
-                />
+            ))}
+            <div style={{ padding:'1.8rem', background:'var(--bg-elevated)', border:'1px solid var(--border-subtle)' }}>
+              <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.65rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', marginBottom:'1rem' }}>// CERTIFICATIONS</div>
+              <div style={{ display:'flex', gap:'0.75rem', flexWrap:'wrap' }}>
+                {['ISO Certified','TÜV Certified','MSME Registered','Made in India'].map(c => (
+                  <span key={c} style={{ padding:'0.3rem 0.75rem', background:'rgba(255,107,26,0.08)', border:'1px solid var(--border-accent)', fontFamily:'JetBrains Mono', fontSize:'0.65rem', letterSpacing:'0.1em', color:'var(--sun-orange)', textTransform:'uppercase' }}>{c}</span>
+                ))}
               </div>
-
-              <div style={{ marginBottom: '1.25rem' }}>
-                <label style={{ display: 'block', fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-3)', marginBottom: '0.4rem', fontWeight: 600 }}>
-                  Message
-                </label>
-                <textarea name="message" value={form.message} onChange={handleChange} rows={5}
-                  onFocus={() => setFocus('message')} onBlur={() => setFocus(null)}
-                  style={{ ...inputStyle('message'), resize: 'vertical' }}
-                  placeholder="Tell us about your project requirements..."
-                />
-              </div>
-
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', marginBottom: '1.5rem' }}>
-                <input type="checkbox" name="meetF2F" checked={form.meetF2F} onChange={handleChange}
-                  style={{ accentColor: '#F97316', width: 16, height: 16 }}
-                />
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-2)' }}>I'd prefer a face-to-face meeting</span>
-              </label>
-
-              <button
-                onClick={() => alert('Thank you! We will contact you shortly.')}
-                className="btn-primary"
-                style={{ width: '100%', justifyContent: 'center', padding: '1rem', fontSize: '0.85rem' }}
-              >
-                Send Message →
-              </button>
             </div>
           </div>
         </div>
       </div>
+      <style>{`@media(max-width:900px){.contact-grid{grid-template-columns:1fr!important;gap:3rem!important}}`}</style>
     </main>
   )
 }
+
+export default Contact
