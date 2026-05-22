@@ -1,6 +1,6 @@
-import { useRef, useEffect, Suspense, useState } from 'react'
+import { useRef, useEffect, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { PerspectiveCamera, Environment } from '@react-three/drei'
+import { PerspectiveCamera, Environment, useGLTF } from '@react-three/drei'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import * as THREE from 'three'
@@ -8,314 +8,299 @@ import { DownloadIcon, ArrowRightIcon } from '../components/icons'
 
 gsap.registerPlugin(ScrollTrigger)
 
-/* ─────────────────────────────────────────────
-   ALUMINUM MOUNTING RAIL
-   Runs along Z-axis. Flies in from ±X.
-   T-slot extrusion cross-section.
-───────────────────────────────────────────── */
-function AlumRail({ length = 7.5 }) {
-  const geo = new THREE.Shape()
-  geo.moveTo(-0.07, 0)
-  geo.lineTo(-0.07, 0.06)
-  geo.lineTo(-0.025, 0.06)
-  geo.lineTo(-0.025, 0.22)
-  geo.lineTo(-0.05,  0.22)
-  geo.lineTo(-0.05,  0.28)
-  geo.lineTo( 0.05,  0.28)
-  geo.lineTo( 0.05,  0.22)
-  geo.lineTo( 0.025, 0.22)
-  geo.lineTo( 0.025, 0.06)
-  geo.lineTo( 0.07,  0.06)
-  geo.lineTo( 0.07,  0)
-  geo.lineTo(-0.07, 0)
+/* ══════════════════════════════════════════════════════════════
+   COORDINATE SYSTEM (calibrated to factory image perspective)
+   Camera sits at (+X, +Y, +Z) = upper-right-front corner
+   Roof surface = Y = 0
+   Building long axis = Z   (corrugations run along Z)
+   Building short axis = X
+   
+   Rails run along Z (parallel to corrugations).
+   3 SETS of 2 rails each, spread across X.
+   Sets fly in from X = -20 (left edge of screen).
+   
+   Set layout on visible front-right roof area:
+     Set A: rail pair at x = 0.2  and x = 1.5
+     Set B: rail pair at x = 2.5  and x = 3.8
+     Set C: rail pair at x = 4.8  and x = 6.1
+   
+   Each rail: length 6.2 along Z, centred at z = 0
+   2 bolts per rail at z = -1.8 and z = 1.8
+   2 panels per set, at z = -1.3 and z = 1.3,
+     x = midpoint of the rail pair
+══════════════════════════════════════════════════════════════ */
 
-  const geometry = new THREE.ExtrudeGeometry(geo, {
+const SETS = [
+  { xA: 0.2,  xB: 1.5 },
+  { xA: 2.5,  xB: 3.8 },
+  { xA: 4.8,  xB: 6.1 },
+]
+const RAIL_Z_HALF = 3.1          // rail half-length → full length = 6.2
+const BOLT_Z     = [-1.8, 1.8]  // 2 bolts per rail
+const PANEL_TILT = -0.22         // ~12.6° tilt toward viewer (south-facing)
+const PANEL_W    = 1.1           // panel width in X
+const PANEL_H    = 2.4           // panel height in Z (portrait)
+const PANEL_Y    = 0.28          // rests on top of rail height
+const PANEL_ZS   = [-1.3, 1.3]  // 2 panels per set
+
+/* ── RAIL — T-slot extrusion along Z ── */
+function Rail({ length = RAIL_Z_HALF * 2 }) {
+  const profile = new THREE.Shape()
+  profile.moveTo(-0.065, 0)
+  profile.lineTo(-0.065, 0.055)
+  profile.lineTo(-0.022, 0.055)
+  profile.lineTo(-0.022, 0.19)
+  profile.lineTo(-0.048, 0.19)
+  profile.lineTo(-0.048, 0.24)
+  profile.lineTo( 0.048, 0.24)
+  profile.lineTo( 0.048, 0.19)
+  profile.lineTo( 0.022, 0.19)
+  profile.lineTo( 0.022, 0.055)
+  profile.lineTo( 0.065, 0.055)
+  profile.lineTo( 0.065, 0)
+  profile.lineTo(-0.065, 0)
+  const geo = new THREE.ExtrudeGeometry(profile, {
     depth: length, bevelEnabled: false,
   })
-  geometry.translate(0, 0, -length / 2)
-
+  geo.translate(0, 0, -length / 2)
   return (
-    <mesh geometry={geometry} castShadow receiveShadow>
+    <mesh geometry={geo} castShadow receiveShadow>
       <meshStandardMaterial
-        color="#D8E0EC"
-        metalness={0.96}
-        roughness={0.12}
-        envMapIntensity={1.8}
+        color="#D0DAE8"
+        metalness={0.97}
+        roughness={0.10}
+        envMapIntensity={2.0}
       />
     </mesh>
   )
 }
 
-/* ─────────────────────────────────────────────
-   SMALL BOLT  (drops from above into rail)
-───────────────────────────────────────────── */
-function Bolt({ position }) {
+/* ── BOLT — hex head + shank ── */
+function Bolt() {
   return (
-    <group position={position}>
-      {/* Hex head */}
-      <mesh position={[0, 0.045, 0]}>
-        <cylinderGeometry args={[0.018, 0.018, 0.018, 6]} />
-        <meshStandardMaterial color="#888" metalness={1} roughness={0.2} />
+    <group>
+      <mesh position={[0, 0.042, 0]} castShadow>
+        <cylinderGeometry args={[0.016, 0.016, 0.016, 6]} />
+        <meshStandardMaterial color="#777" metalness={1} roughness={0.15} />
       </mesh>
-      {/* Shank */}
-      <mesh position={[0, 0.01, 0]}>
-        <cylinderGeometry args={[0.009, 0.009, 0.05, 8]} />
+      <mesh position={[0, 0.012, 0]} castShadow>
+        <cylinderGeometry args={[0.007, 0.007, 0.045, 8]} />
         <meshStandardMaterial color="#999" metalness={1} roughness={0.2} />
       </mesh>
     </group>
   )
 }
 
-/* ─────────────────────────────────────────────
-   SOLAR PANEL  — bright premium blue
-───────────────────────────────────────────── */
+/* ── SOLAR PANEL — premium bright blue ──
+   ⬇  SWAP IN REAL GLB: drop your fab.com model as /public/solar_panel.glb
+   ⬇  then: const { scene } = useGLTF('/solar_panel.glb')
+   ⬇  return <primitive object={scene.clone()} scale={0.01} />
+*/
 function SolarPanel() {
-  const W = 1.68, H = 2.72, D = 0.04
-  const cells = { cols: 6, rows: 10 }
-  const cw = (W - 0.08) / cells.cols
-  const ch = (H - 0.08) / cells.rows
-
+  const W = PANEL_W, D = PANEL_H, T = 0.038
+  const cols = 6, rows = 10
+  const cw = (W - 0.07) / cols
+  const ch = (D - 0.07) / rows
   return (
     <group>
-      {/* Anodised aluminium frame */}
-      <mesh castShadow>
-        <boxGeometry args={[W, D, H]} />
-        <meshStandardMaterial color="#E2E8F0" metalness={0.92} roughness={0.18} />
+      {/* Frame */}
+      <mesh castShadow receiveShadow>
+        <boxGeometry args={[W, T, D]} />
+        <meshStandardMaterial color="#EAEFF6" metalness={0.94} roughness={0.14} />
       </mesh>
-
-      {/* PV laminate — glowing blue */}
-      <mesh position={[0, D / 2 + 0.002, 0]}>
-        <boxGeometry args={[W - 0.06, 0.005, H - 0.06]} />
+      {/* PV surface — emissive deep blue */}
+      <mesh position={[0, T / 2 + 0.001, 0]}>
+        <boxGeometry args={[W - 0.055, 0.004, D - 0.055]} />
         <meshStandardMaterial
-          color="#0A1D6B"
-          metalness={0.6}
-          roughness={0.08}
-          emissive="#0D3099"
-          emissiveIntensity={0.55}
+          color="#081660"
+          metalness={0.55}
+          roughness={0.06}
+          emissive="#0B2299"
+          emissiveIntensity={0.65}
         />
       </mesh>
-
       {/* Cell grid */}
-      {Array.from({ length: cells.cols }).flatMap((_, c) =>
-        Array.from({ length: cells.rows }).map((_, r) => {
-          const x = -(W - 0.08) / 2 + cw * (c + 0.5)
-          const z = -(H - 0.08) / 2 + ch * (r + 0.5)
-          return (
-            <mesh key={`${c}-${r}`} position={[x, D / 2 + 0.005, z]}>
-              <boxGeometry args={[cw * 0.90, 0.003, ch * 0.90]} />
-              <meshStandardMaterial
-                color="#1840CC"
-                metalness={0.7}
-                roughness={0.06}
-                emissive="#1840CC"
-                emissiveIntensity={0.4}
-              />
-            </mesh>
-          )
-        })
+      {Array.from({ length: cols }).flatMap((_, c) =>
+        Array.from({ length: rows }).map((_, r) => (
+          <mesh
+            key={`${c}-${r}`}
+            position={[
+              -(W - 0.07) / 2 + cw * (c + 0.5),
+              T / 2 + 0.003,
+              -(D - 0.07) / 2 + ch * (r + 0.5),
+            ]}
+          >
+            <boxGeometry args={[cw * 0.91, 0.003, ch * 0.91]} />
+            <meshStandardMaterial
+              color="#1435BB"
+              metalness={0.65}
+              roughness={0.04}
+              emissive="#1435BB"
+              emissiveIntensity={0.45}
+            />
+          </mesh>
+        ))
       )}
-
-      {/* Anti-reflective sheen plane */}
-      <mesh position={[0, D / 2 + 0.007, 0]} rotation={[0, 0, 0]}>
-        <boxGeometry args={[W - 0.07, 0.001, H - 0.07]} />
+      {/* AR sheen */}
+      <mesh position={[0, T / 2 + 0.006, 0]}>
+        <boxGeometry args={[W - 0.058, 0.0008, D - 0.058]} />
         <meshStandardMaterial
-          color="#4488FF"
-          metalness={0.3}
-          roughness={0.02}
-          transparent
-          opacity={0.08}
+          color="#3366FF"
+          transparent opacity={0.07}
+          metalness={0.2} roughness={0.01}
         />
       </mesh>
     </group>
   )
 }
 
-/* ─────────────────────────────────────────────
-   FLASH SPARK  (tiny sphere at bolt landing)
-───────────────────────────────────────────── */
-function Spark({ position, visible }) {
-  if (!visible) return null
-  return (
-    <mesh position={position}>
-      <sphereGeometry args={[0.04, 8, 8]} />
-      <meshStandardMaterial
-        color="#FBB034"
-        emissive="#FBB034"
-        emissiveIntensity={8}
-        transparent
-        opacity={0.9}
-      />
-    </mesh>
-  )
-}
-
-/* ─────────────────────────────────────────────
-   ASSEMBLY SCENE
-   The flat factory roof sits at y = 0.
-   Rails  → slide in from ±X to rest on roof
-   Bolts  → drop from y+0.6 to y+0.06 on each rail
-   Panels → drop from y+9 to y+0.06 (on top of rails)
-───────────────────────────────────────────── */
-
-// Rail layout on the flat roof:
-// 4 rails running along Z (long building axis)
-// They fly in from screen-left (x=-18) and screen-right (x=18) in two groups
-const RAIL_Z    = [-3.5, -1.2,  1.2,  3.5]   // 4 rails across roof width
-const RAIL_Y    = 0.10                          // resting height on roof surface
-const RAIL_LEN  = 8.5                           // spans roof length (Z direction)
-
-// Bolts: 3 per rail at regular Z intervals
-const BOLT_Z_OFFSETS = [-3, 0, 3]
-
-// Panels: mounted in a 2×4 grid (2 X, 4 Z)
-// Tilt: 18° along X axis (south-facing, toward viewer)
-const PANEL_TILT = -Math.PI * 0.10            // ~18° tilt toward viewer
-const PANEL_POSITIONS = [
-  [-2.0, -2.7], [-2.0,  0.0], [-2.0,  2.7],
-  [ 2.0, -2.7], [ 2.0,  0.0], [ 2.0,  2.7],
-]
-// Panel sits on top of rails: rail top is at RAIL_Y + 0.28 (rail height)
-// Panel frame is 0.04 thick, tilt adds a little — keep it flush
-const PANEL_Y_FINAL = RAIL_Y + 0.30
-
+/* ── MAIN ASSEMBLY SCENE ── */
 function AssemblyScene({ scrollRef }) {
-  // --- Rail refs (4 rails, split into left group and right group) ---
-  const leftRailsRef  = useRef([])   // rails at RAIL_Z[0] and RAIL_Z[1]
-  const rightRailsRef = useRef([])   // rails at RAIL_Z[2] and RAIL_Z[3]
-
-  // --- Bolt groups (4 rails × 3 bolts each) ---
-  const boltGroupRefs = useRef([[], [], [], []])
-
-  // --- Panel refs ---
-  const panelRefs = useRef([])
-
-  // Track which phases have "landed" for spark effects
-  const [sparks, setSparks] = useState([])
+  // 6 rail refs (3 sets × 2 rails)
+  const railRefs  = useRef(SETS.flatMap(() => [null, null]))
+  // 12 bolt refs (6 rails × 2 bolts)  stored flat
+  const boltRefs  = useRef(SETS.flatMap(() => BOLT_Z.flatMap(() => [null, null])))
+  // 6 panel refs (3 sets × 2 panels)
+  const panelRefs = useRef(SETS.flatMap(() => [null, null]))
 
   useFrame(() => {
-    const p = scrollRef.current  // 0 → 1
+    const p = scrollRef.current
 
-    /* ── PHASE 1: RAILS (0 → 0.32) ── */
-    const railP = THREE.MathUtils.clamp(p / 0.32, 0, 1)
-    const railE = 1 - Math.pow(1 - railP, 3)  // easeOutCubic
+    /* ── PHASE 1: RAILS slide in from X = -20  (0 → 0.35) ── */
+    const rP = THREE.MathUtils.clamp(p / 0.35, 0, 1)
+    const rE = 1 - Math.pow(1 - rP, 3)  // easeOutCubic
 
-    leftRailsRef.current.forEach(rail => {
-      if (rail) rail.position.x = THREE.MathUtils.lerp(-18, 0, railE)
+    SETS.forEach((set, si) => {
+      // Rail A (index si*2), Rail B (index si*2+1)
+      const rA = railRefs.current[si * 2]
+      const rB = railRefs.current[si * 2 + 1]
+      if (rA) rA.position.x = THREE.MathUtils.lerp(-20, set.xA, rE)
+      if (rB) rB.position.x = THREE.MathUtils.lerp(-20, set.xB, rE)
     })
-    rightRailsRef.current.forEach(rail => {
-      if (rail) rail.position.x = THREE.MathUtils.lerp(18, 0, railE)
-    })
 
-    /* ── PHASE 2: BOLTS (0.36 → 0.56) — staggered per rail ── */
-    const allRails = [...leftRailsRef.current, ...rightRailsRef.current]
-    allRails.forEach((_, railIdx) => {
-      BOLT_Z_OFFSETS.forEach((_, boltIdx) => {
-        const bRef = boltGroupRefs.current[railIdx]?.[boltIdx]
-        if (!bRef) return
-        const start = 0.36 + railIdx * 0.025 + boltIdx * 0.012
-        const bp = THREE.MathUtils.clamp((p - start) / 0.10, 0, 1)
-        const be = bp < 1 ? 1 - Math.pow(1 - bp, 4) : 1
-        bRef.position.y = THREE.MathUtils.lerp(0.7, 0.06, be)
+    /* ── PHASE 2: BOLTS drop  (0.38 → 0.62) staggered ── */
+    let bIdx = 0
+    SETS.forEach((set, si) => {
+      [set.xA, set.xB].forEach((_, ri) => {
+        BOLT_Z.forEach((bz, bi) => {
+          const ref = boltRefs.current[bIdx]
+          if (ref) {
+            const start = 0.38 + si * 0.04 + ri * 0.018 + bi * 0.010
+            const bp = THREE.MathUtils.clamp((p - start) / 0.11, 0, 1)
+            const be = bp < 1 ? 1 - Math.pow(1 - bp, 4) : 1
+            ref.position.y = THREE.MathUtils.lerp(0.65, 0.04, be)
+          }
+          bIdx++
+        })
       })
     })
 
-    /* ── PHASE 3: PANELS (0.60 → 0.95) — staggered ── */
-    panelRefs.current.forEach((panel, i) => {
-      if (!panel) return
-      const start = 0.60 + i * 0.055
-      const pp = THREE.MathUtils.clamp((p - start) / 0.12, 0, 1)
-      const pe = pp < 1 ? 1 - Math.pow(1 - pp, 4) : 1
-      panel.position.y = THREE.MathUtils.lerp(9, PANEL_Y_FINAL, pe)
+    /* ── PHASE 3: PANELS drop from Y = 8  (0.65 → 0.96) staggered ── */
+    SETS.forEach((set, si) => {
+      PANEL_ZS.forEach((pz, pi) => {
+        const ref = panelRefs.current[si * 2 + pi]
+        if (!ref) return
+        const start = 0.65 + si * 0.07 + pi * 0.04
+        const pp = THREE.MathUtils.clamp((p - start) / 0.13, 0, 1)
+        const pe = pp < 1 ? 1 - Math.pow(1 - pp, 4) : 1
+        ref.position.y = THREE.MathUtils.lerp(8, PANEL_Y, pe)
+      })
     })
   })
 
   return (
     <>
-      <ambientLight intensity={0.5} />
+      {/* Lighting to match golden-hour factory image */}
+      <ambientLight intensity={0.55} />
       <directionalLight
-        position={[10, 18, 8]}
-        intensity={2.5}
+        position={[10, 16, 8]}
+        intensity={2.4}
         color="#FBB034"
         castShadow
-        shadow-mapSize={[2048, 2048]}
-        shadow-camera-far={50}
-        shadow-camera-left={-12}
-        shadow-camera-right={12}
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+        shadow-camera-left={-14}
+        shadow-camera-right={14}
         shadow-camera-top={10}
-        shadow-camera-bottom={-5}
+        shadow-camera-bottom={-6}
+        shadow-camera-far={60}
       />
-      <directionalLight position={[-8, 10, -6]} intensity={0.8} color="#4A6282" />
-      <pointLight position={[0, 4, 6]} intensity={1.2} color="#E05540" />
+      <directionalLight position={[-6, 8, -4]} intensity={0.7} color="#6688BB" />
+      <pointLight position={[4, 5, 5]} intensity={0.9} color="#E05540" />
+      {/* Blue emissive fill on panels */}
+      <pointLight position={[3, 2, 0]} intensity={0.5} color="#2244CC" />
 
-      {/* ── INVISIBLE ROOF COLLISION PLANE (for shadows) ── */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]} receiveShadow>
-        <planeGeometry args={[20, 20]} />
-        <shadowMaterial opacity={0.35} />
+      {/* Transparent shadow catcher — sits at roof level */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[3, 0.001, 0]} receiveShadow>
+        <planeGeometry args={[14, 12]} />
+        <shadowMaterial opacity={0.22} />
       </mesh>
 
-      {/* ── LEFT RAILS (RAIL_Z[0] and RAIL_Z[1]) ── */}
-      {[RAIL_Z[0], RAIL_Z[1]].map((z, i) => (
-        <group
-          key={`lr-${i}`}
-          ref={el => (leftRailsRef.current[i] = el)}
-          position={[-18, RAIL_Y, z]}
-        >
-          <AlumRail length={RAIL_LEN} />
-        </group>
-      ))}
-
-      {/* ── RIGHT RAILS (RAIL_Z[2] and RAIL_Z[3]) ── */}
-      {[RAIL_Z[2], RAIL_Z[3]].map((z, i) => (
-        <group
-          key={`rr-${i}`}
-          ref={el => (rightRailsRef.current[i] = el)}
-          position={[18, RAIL_Y, z]}
-        >
-          <AlumRail length={RAIL_LEN} />
-        </group>
-      ))}
-
-      {/* ── BOLTS on each rail ── */}
-      {[RAIL_Z[0], RAIL_Z[1], RAIL_Z[2], RAIL_Z[3]].map((z, railIdx) => (
-        BOLT_Z_OFFSETS.map((bz, boltIdx) => (
+      {/* ── RAILS ── */}
+      {SETS.map((set, si) =>
+        [set.xA, set.xB].map((targetX, ri) => (
           <group
-            key={`bolt-${railIdx}-${boltIdx}`}
-            ref={el => {
-              if (!boltGroupRefs.current[railIdx]) boltGroupRefs.current[railIdx] = []
-              boltGroupRefs.current[railIdx][boltIdx] = el
-            }}
-            position={[0, 0.7, z + bz]}
+            key={`rail-${si}-${ri}`}
+            ref={el => { railRefs.current[si * 2 + ri] = el }}
+            position={[-20, 0.06, 0]}  /* start far left */
           >
-            <Bolt position={[0, 0, 0]} />
+            <Rail />
           </group>
         ))
-      ))}
+      )}
+
+      {/* ── BOLTS ── */}
+      {(() => {
+        const elements = []
+        let idx = 0
+        SETS.forEach((set, si) => {
+          ;[set.xA, set.xB].forEach((railX, ri) => {
+            BOLT_Z.forEach((bz, bi) => {
+              const capturedIdx = idx
+              elements.push(
+                <group
+                  key={`bolt-${si}-${ri}-${bi}`}
+                  ref={el => { boltRefs.current[capturedIdx] = el }}
+                  position={[railX, 0.65, bz]}
+                >
+                  <Bolt />
+                </group>
+              )
+              idx++
+            })
+          })
+        })
+        return elements
+      })()}
 
       {/* ── PANELS ── */}
-      {PANEL_POSITIONS.map(([px, pz], i) => (
-        <group
-          key={`panel-${i}`}
-          ref={el => (panelRefs.current[i] = el)}
-          position={[px, 9, pz]}
-          rotation={[PANEL_TILT, 0, 0]}
-        >
-          <SolarPanel />
-        </group>
-      ))}
+      {SETS.map((set, si) =>
+        PANEL_ZS.map((pz, pi) => {
+          const midX = (set.xA + set.xB) / 2
+          return (
+            <group
+              key={`panel-${si}-${pi}`}
+              ref={el => { panelRefs.current[si * 2 + pi] = el }}
+              position={[midX, 8, pz]}
+              rotation={[PANEL_TILT, 0, 0]}
+            >
+              <SolarPanel />
+            </group>
+          )
+        })
+      )}
 
       <Environment preset="sunset" background={false} />
     </>
   )
 }
 
-/* ─────────────────────────────────────────────
-   HERO WRAPPER
-───────────────────────────────────────────── */
+/* ── HERO SECTION ── */
 const Hero = () => {
   const sectionRef  = useRef(null)
   const scrollRef   = useRef(0)
   const phaseRef    = useRef(null)
-  const progressRef = useRef(null)
+  const barRef      = useRef(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -324,20 +309,19 @@ const Hero = () => {
         start: 'top top',
         end: '+=3200',
         pin: true,
-        scrub: 0.9,
+        scrub: 0.85,
         anticipatePin: 1,
         onUpdate: self => {
           scrollRef.current = self.progress
-
-          const phase =
-            self.progress < 0.04 ? 'READY' :
-            self.progress < 0.32 ? 'SLIDING RAILS INTO POSITION' :
-            self.progress < 0.58 ? 'BOLTING STRUCTURE' :
-            self.progress < 0.92 ? 'MOUNTING SOLAR PANELS' :
-            'INSTALLATION COMPLETE ✓'
-
-          if (phaseRef.current)    phaseRef.current.textContent = phase
-          if (progressRef.current) progressRef.current.style.width = `${self.progress * 100}%`
+          if (barRef.current) barRef.current.style.width = `${self.progress * 100}%`
+          if (phaseRef.current) {
+            phaseRef.current.textContent =
+              self.progress < 0.04 ? 'READY' :
+              self.progress < 0.35 ? 'SLIDING RAILS INTO POSITION' :
+              self.progress < 0.62 ? 'BOLTING STRUCTURE' :
+              self.progress < 0.95 ? 'MOUNTING SOLAR PANELS' :
+              'INSTALLATION COMPLETE ✓'
+          }
         },
       })
     }, sectionRef)
@@ -347,55 +331,45 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      style={{
-        position: 'relative',
-        height: '100vh',
-        width: '100%',
-        overflow: 'hidden',
-      }}
+      style={{ position: 'relative', height: '100vh', width: '100%', overflow: 'hidden' }}
     >
-      {/* ── FACTORY BACKGROUND IMAGE ── */}
+      {/* ── FACTORY IMAGE — full bleed background ── */}
       <div style={{
         position: 'absolute', inset: 0,
         backgroundImage: 'url(/factory.png)',
         backgroundSize: 'cover',
-        backgroundPosition: 'center 30%',
-        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center 25%',
       }} />
 
-      {/* Dark overlay — deepens for the 3D to pop */}
+      {/* Subtle dark overlay — just enough to pop the 3D */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(180deg, rgba(6,9,18,0.52) 0%, rgba(6,9,18,0.28) 40%, rgba(6,9,18,0.60) 100%)',
+        background: 'linear-gradient(180deg, rgba(4,6,14,0.38) 0%, rgba(4,6,14,0.18) 55%, rgba(4,6,14,0.55) 100%)',
       }} />
 
-      {/* ── THREE.JS ASSEMBLY OVERLAY ── */}
-      {/*
-        Camera is positioned to roughly match the factory image's perspective:
-        - upper-right viewpoint, looking down-left at ~35° elevation
-        - fov 44°, position (8, 7, 10) → looks at (0, 1, 0)
-        The 3D scene y=0 maps to the rooftop surface of the building in the image.
-        The image building roof occupies the upper-center of frame,
-        so we offset canvas to the right side of the screen.
+      {/* ── THREE.JS CANVAS — full screen, transparent ──
+          Camera calibrated to match factory image perspective:
+          • Elevated upper-right viewpoint ≈ 36° elevation, 38° from front
+          • FOV 42°  →  target = front-right visible roof area
       */}
-      <div style={{
-        position: 'absolute',
-        top: 0, right: 0,
-        width: '75%',
-        height: '100%',
-      }}>
+      <div style={{ position: 'absolute', inset: 0 }}>
         <Canvas
           shadows
           dpr={[1, 1.5]}
           gl={{ antialias: true, alpha: true }}
           style={{ background: 'transparent' }}
         >
+          {/*
+            Camera position (11.5, 9.8, 11.2) → lookAt (3, 0, -0.5)
+            Places world Y=0 (roof surface) over the visible roof area in the image.
+            Adjust lookAt X/Z if elements drift — positive X shifts right, negative Z shifts back.
+          */}
           <PerspectiveCamera
             makeDefault
-            position={[6, 8.5, 9.5]}
-            fov={44}
-            near={0.1}
-            far={120}
+            position={[11.5, 9.8, 11.2]}
+            fov={42}
+            near={0.05}
+            far={160}
           />
           <Suspense fallback={null}>
             <AssemblyScene scrollRef={scrollRef} />
@@ -403,81 +377,70 @@ const Hero = () => {
         </Canvas>
       </div>
 
-      {/* ── PROGRESS BAR ── */}
+      {/* ── BOTTOM PROGRESS BAR ── */}
       <div style={{
         position: 'absolute', bottom: 0, left: 0, right: 0,
         height: 3, background: 'rgba(255,255,255,0.06)', zIndex: 20,
       }}>
-        <div ref={progressRef} style={{
+        <div ref={barRef} style={{
           height: '100%', width: '0%',
           background: 'linear-gradient(90deg, #E05540, #E8923A)',
           transition: 'width 0.08s linear',
         }} />
       </div>
 
-      {/* ── PHASE INDICATOR ── */}
+      {/* ── PHASE INDICATOR — bottom left ── */}
       <div style={{
-        position: 'absolute', bottom: '1.8rem', left: '2rem', zIndex: 20,
-        display: 'flex', alignItems: 'center', gap: '0.75rem',
-        padding: '0.55rem 1.1rem',
-        background: 'rgba(6,9,18,0.75)', backdropFilter: 'blur(14px)',
-        border: '1px solid rgba(201,212,224,0.1)',
+        position: 'absolute', bottom: '1.6rem', left: '2rem', zIndex: 20,
+        display: 'flex', alignItems: 'center', gap: '0.7rem',
+        padding: '0.5rem 1rem',
+        background: 'rgba(4,6,14,0.72)',
+        backdropFilter: 'blur(12px)',
+        border: '1px solid rgba(201,212,224,0.10)',
       }}>
         <div style={{
           width: 7, height: 7, borderRadius: '50%',
-          background: '#E05540',
-          boxShadow: '0 0 10px #E05540',
+          background: '#E05540', boxShadow: '0 0 10px #E05540',
           animation: 'blink 1.6s ease-in-out infinite',
         }} />
-        <span style={{
-          fontFamily: 'JetBrains Mono', fontSize: '0.67rem',
-          letterSpacing: '0.18em', color: 'var(--text-muted)',
-        }}>STATUS</span>
-        <span ref={phaseRef} style={{
-          fontFamily: 'JetBrains Mono', fontSize: '0.67rem',
-          letterSpacing: '0.13em', color: '#E8923A', fontWeight: 600,
-        }}>READY</span>
+        <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.66rem', letterSpacing:'0.18em', color:'var(--text-muted)' }}>STATUS</span>
+        <span ref={phaseRef} style={{ fontFamily:'JetBrains Mono', fontSize:'0.66rem', letterSpacing:'0.12em', color:'#E8923A', fontWeight:600 }}>READY</span>
       </div>
 
-      {/* ── SCROLL CUE ── */}
+      {/* ── SCROLL CUE — bottom right ── */}
       <div style={{
-        position: 'absolute', bottom: '1.8rem', right: '2rem', zIndex: 20,
+        position: 'absolute', bottom: '1.6rem', right: '2rem', zIndex: 20,
         display: 'flex', alignItems: 'center', gap: '0.6rem',
-        fontFamily: 'JetBrains Mono', fontSize: '0.65rem',
-        letterSpacing: '0.2em', color: 'var(--aluminum-mid)',
+        fontFamily: 'JetBrains Mono', fontSize: '0.63rem', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.45)',
       }}>
         SCROLL TO ASSEMBLE
-        <svg width="14" height="22" viewBox="0 0 14 22" fill="none" style={{ animation: 'bob 2s ease-in-out infinite' }}>
-          <rect x="4" y="1" width="6" height="11" rx="3" stroke="currentColor" strokeWidth="1.2" />
-          <rect x="6" y="3" width="2" height="3.5" rx="1" fill="currentColor" style={{ animation: 'sdot 2s ease-in-out infinite' }} />
-          <path d="M3 16l4 4 4-4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-        </svg>
+        <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:3 }}>
+          <div style={{ width:1, height:18, background:'linear-gradient(180deg,rgba(224,85,64,0.8),transparent)', animation:'scrollBar 1.8s ease-in-out infinite' }} />
+          <div style={{ width:4, height:4, borderRadius:'50%', background:'rgba(224,85,64,0.6)' }} />
+        </div>
       </div>
 
-      {/* ── BOTTOM CTA BAR — fades in when assembly complete ── */}
+      {/* ── BOTTOM CTA BUTTONS ── */}
       <div style={{
-        position: 'absolute', bottom: '3.5rem', left: 0, right: 0, zIndex: 20,
-        display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap',
-        padding: '0 2rem',
-        opacity: 0.85,
+        position: 'absolute', bottom: '4.2rem', left: '50%', transform: 'translateX(-50%)',
+        zIndex: 20, display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center',
       }}>
-        <a href="#products" className="btn-primary" style={{ fontSize: '0.82rem', padding: '0.8rem 1.6rem' }}>
-          Explore Products <ArrowRightIcon />
+        <a href="#products" className="btn-primary" style={{ fontSize:'0.83rem', padding:'0.82rem 1.6rem', boxShadow:'0 4px 24px rgba(224,85,64,0.35)' }}>
+          EXPLORE PRODUCTS <ArrowRightIcon />
         </a>
         <a
           href="https://www.sunmount.in/wp-content/uploads/2024/09/Catalogue-2024-rev-2.pdf"
           target="_blank" rel="noopener noreferrer"
           className="btn-secondary"
-          style={{ fontSize: '0.82rem', padding: '0.8rem 1.6rem', background: 'rgba(6,9,18,0.6)', backdropFilter: 'blur(8px)' }}
+          style={{ fontSize:'0.83rem', padding:'0.82rem 1.6rem', background:'rgba(4,6,14,0.65)', backdropFilter:'blur(10px)' }}
         >
-          <DownloadIcon /> Catalogue
+          <DownloadIcon /> CATALOGUE
         </a>
       </div>
 
       <style>{`
-        @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.4)} }
-        @keyframes bob   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }
-        @keyframes sdot  { 0%,100%{opacity:1;transform:translateY(0)} 50%{opacity:0.2;transform:translateY(3px)} }
+        @keyframes blink   { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.35;transform:scale(1.5)} }
+        @keyframes scrollBar { 0%,100%{opacity:0.8;transform:scaleY(1)} 50%{opacity:0.3;transform:scaleY(0.3)} }
       `}</style>
     </section>
   )
