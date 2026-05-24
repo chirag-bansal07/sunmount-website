@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const BADGES = [
-  { src: '/badge-makeindia.png', alt: 'Make in India',     title: 'Made in India' },
-  { src: '/badge-iso.png',       alt: 'ISO 9001 Certified', title: 'ISO 9001 Certified' },
-  { src: '/badge-tuv.png',       alt: 'TÜV SÜD Certified', title: 'TÜV SÜD Certified' },
-  { src: '/badge-msme.png',      alt: 'MSME Registered',   title: 'MSME Registered' },
+  { src: '/badge-makeindia.png', alt: 'Make in India',      title: 'Made in India' },
+  { src: '/badge-iso.png',       alt: 'ISO 9001 Certified',  title: 'ISO 9001 Certified' },
+  { src: '/badge-tuv.png',       alt: 'TÜV SÜD Certified',  title: 'TÜV SÜD Certified' },
+  { src: '/badge-msme.png',      alt: 'MSME Registered',    title: 'MSME Registered' },
 ]
 
 const NAV_LINKS = [
@@ -17,9 +17,9 @@ const NAV_LINKS = [
 ]
 
 const Navbar = () => {
-  const [scrolled, setScrolled]   = useState(false)
-  const [menuOpen, setMenuOpen]   = useState(false)
-  const location                  = useLocation()
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const location                = useLocation()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -27,67 +27,74 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Logo & badge sizes scale with scroll state
+  const logoH  = scrolled ? 42 : 64   // SunMount logo height
+  const badgeS = scrolled ? 44 : 64   // badge box size
+
   return (
     <>
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
-        padding: scrolled ? '0.55rem 0' : '1rem 0',
-        background: scrolled ? 'rgba(6,9,18,0.92)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none',
-        borderBottom: scrolled ? '1px solid var(--border-subtle)' : '1px solid transparent',
+        padding: scrolled ? '0.5rem 0' : '0.75rem 0',
+        background: scrolled ? 'rgba(6,9,18,0.94)' : 'rgba(6,9,18,0.60)',
+        backdropFilter: 'blur(18px) saturate(180%)',
+        borderBottom: scrolled ? '1px solid var(--border-subtle)' : '1px solid rgba(255,255,255,0.06)',
         transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
       }}>
-        <div className="container" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'1.5rem' }}>
+        <div className="container" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'1rem' }}>
 
-          {/* LOGO */}
+          {/* ── SUNMOUNT LOGO ── */}
           <Link to="/" style={{ display:'flex', alignItems:'center', flexShrink:0 }}>
-            <img src="/logo.png" alt="SunMount Solar Mounting Solutions"
+            <img
+              src="/logo.png"
+              alt="SunMount Solar Mounting Solutions"
               style={{
-                height: scrolled ? 36 : 44, width:'auto',
-                transition:'height 0.4s cubic-bezier(0.16,1,0.3,1)',
-                filter:'drop-shadow(0 0 10px rgba(224,85,64,0.2))',
-              }} />
+                height: logoH,
+                width: 'auto',
+                transition: 'height 0.4s cubic-bezier(0.16,1,0.3,1)',
+                filter: 'drop-shadow(0 0 10px rgba(224,85,64,0.22))',
+              }}
+            />
           </Link>
 
-          {/* DESKTOP NAV */}
-          <div className="nav-desktop" style={{ display:'flex', gap:'2rem', alignItems:'center' }}>
+          {/* ── DESKTOP NAV ── */}
+          <div className="nav-desktop" style={{ display:'flex', gap:'2rem', alignItems:'center', flex:1, justifyContent:'center' }}>
             {NAV_LINKS.map(link => {
               const active = location.pathname === link.to.split('#')[0] && !link.to.includes('#')
               return (
                 <Link key={link.label} to={link.to} className="nav-link" style={{
-                  fontFamily:'Montserrat', fontSize:'0.82rem', fontWeight:600,
-                  letterSpacing:'0.08em', textTransform:'uppercase',
+                  fontFamily: 'Montserrat', fontSize: '0.84rem', fontWeight: 600,
+                  letterSpacing: '0.08em', textTransform: 'uppercase',
                   color: active ? 'var(--sun-orange)' : 'var(--text-secondary)',
-                  position:'relative', padding:'0.4rem 0',
+                  position: 'relative', padding: '0.4rem 0',
                 }}>{link.label}</Link>
               )
             })}
           </div>
 
-          {/* TRUST BADGES — real images */}
-          <div className="trust-badges" style={{ display:'flex', gap:'0.55rem', alignItems:'center' }}>
+          {/* ── TRUST BADGES ── large, real images ── */}
+          <div className="trust-badges" style={{ display:'flex', gap:'0.5rem', alignItems:'center', flexShrink:0 }}>
             {BADGES.map(({ src, alt, title }) => (
               <div key={alt} title={title} style={{
-                display:'flex', alignItems:'center', justifyContent:'center',
-                width: scrolled ? 36 : 48, height: scrolled ? 36 : 48,
-                background:'rgba(255,255,255,0.08)',
-                borderRadius:4,
-                padding: scrolled ? "3px" : "4px",
-                transition:'transform 0.25s, background 0.25s',
-                cursor:'help',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                width: badgeS, height: badgeS,
+                background: 'rgba(255,255,255,0.10)',
+                borderRadius: 6,
+                padding: '5px',
+                transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
+                cursor: 'help',
               }}
-                onMouseEnter={e => { e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.background='rgba(255,255,255,0.16)' }}
-                onMouseLeave={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.background='rgba(255,255,255,0.08)' }}
+                onMouseEnter={e => { e.currentTarget.style.background='rgba(255,255,255,0.2)'; e.currentTarget.style.transform='translateY(-3px) scale(1.05)' }}
+                onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.10)'; e.currentTarget.style.transform='translateY(0) scale(1)' }}
               >
                 <img src={src} alt={alt}
-                  style={{ width:'100%', height:'100%', objectFit:'contain', filter:'brightness(1.1)' }} />
+                  style={{ width:'100%', height:'100%', objectFit:'contain', filter:'brightness(1.15) contrast(1.05)' }} />
               </div>
             ))}
           </div>
 
-          {/* MOBILE TOGGLE */}
-          <button className="mobile-toggle" onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
+          {/* ── MOBILE TOGGLE ── */}
+          <button className="mobile-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu"
             style={{ display:'none', flexDirection:'column', justifyContent:'center', gap:5, width:32, height:32, background:'none', border:'none', cursor:'pointer' }}>
             {[0,1,2].map(i => (
               <span key={i} style={{
@@ -102,7 +109,7 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* MOBILE MENU */}
+        {/* ── MOBILE MENU ── */}
         {menuOpen && (
           <div style={{
             position:'absolute', top:'100%', left:0, right:0,
@@ -118,7 +125,8 @@ const Navbar = () => {
             ))}
             <div style={{ display:'flex', gap:'0.5rem', marginTop:'0.5rem' }}>
               {BADGES.map(({ src, alt }) => (
-                <img key={alt} src={src} alt={alt} style={{ width:32, height:32, objectFit:'contain', filter:'brightness(1.1)' }} />
+                <img key={alt} src={src} alt={alt}
+                  style={{ width:44, height:44, objectFit:'contain', filter:'brightness(1.15)' }} />
               ))}
             </div>
           </div>
@@ -126,13 +134,16 @@ const Navbar = () => {
       </nav>
 
       <style>{`
-        .nav-link::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;
-          background:var(--sun-orange);transform:scaleX(0);transform-origin:right;
-          transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
-        .nav-link:hover{color:var(--sun-orange)!important;text-shadow:0 0 20px rgba(224,85,64,0.5)}
-        .nav-link:hover::after{transform:scaleX(1);transform-origin:left}
-        @media(max-width:1140px){.trust-badges{display:none!important}}
-        @media(max-width:900px){.nav-desktop{display:none!important}.mobile-toggle{display:flex!important}}
+        .nav-link::after {
+          content:''; position:absolute; left:0; bottom:0;
+          width:100%; height:1px; background:var(--sun-orange);
+          transform:scaleX(0); transform-origin:right;
+          transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .nav-link:hover { color:var(--sun-orange)!important; text-shadow:0 0 20px rgba(224,85,64,0.5); }
+        .nav-link:hover::after { transform:scaleX(1); transform-origin:left; }
+        @media(max-width:1200px) { .trust-badges { display:none!important; } }
+        @media(max-width:900px)  { .nav-desktop { display:none!important; } .mobile-toggle { display:flex!important; } }
       `}</style>
     </>
   )
