@@ -1,38 +1,37 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { MadeInIndiaIcon, ISOIcon, TUVIcon, MSMEIcon } from './icons'
+
+const BADGES = [
+  { src: '/badge-makeindia.png', alt: 'Make in India',     title: 'Made in India' },
+  { src: '/badge-iso.png',       alt: 'ISO 9001 Certified', title: 'ISO 9001 Certified' },
+  { src: '/badge-tuv.png',       alt: 'TÜV SÜD Certified', title: 'TÜV SÜD Certified' },
+  { src: '/badge-msme.png',      alt: 'MSME Registered',   title: 'MSME Registered' },
+]
+
+const NAV_LINKS = [
+  { to: '/',          label: 'Home' },
+  { to: '/#products', label: 'Products' },
+  { to: '/#why',      label: 'Why Sunmount' },
+  { to: '/#team',     label: 'Team' },
+  { to: '/contact',   label: 'Contact Us' },
+]
 
 const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
-  const location = useLocation()
+  const [scrolled, setScrolled]   = useState(false)
+  const [menuOpen, setMenuOpen]   = useState(false)
+  const location                  = useLocation()
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
-
-  const navLinks = [
-    { to: '/',          label: 'Home' },
-    { to: '/#products', label: 'Products' },
-    { to: '/#why',      label: 'Why Sunmount' },
-    { to: '/#team',     label: 'Team' },
-    { to: '/contact',   label: 'Contact Us' },
-  ]
-
-  const badges = [
-    { Icon: MadeInIndiaIcon, label: 'Made in India' },
-    { Icon: ISOIcon,         label: 'ISO Certified' },
-    { Icon: TUVIcon,         label: 'TÜV Certified' },
-    { Icon: MSMEIcon,        label: 'MSME Registered' },
-  ]
 
   return (
     <>
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
-        padding: scrolled ? '0.6rem 0' : '1rem 0',
+        padding: scrolled ? '0.55rem 0' : '1rem 0',
         background: scrolled ? 'rgba(6,9,18,0.92)' : 'transparent',
         backdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none',
         borderBottom: scrolled ? '1px solid var(--border-subtle)' : '1px solid transparent',
@@ -40,53 +39,66 @@ const Navbar = () => {
       }}>
         <div className="container" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'1.5rem' }}>
 
-          {/* LOGO — real image */}
+          {/* LOGO */}
           <Link to="/" style={{ display:'flex', alignItems:'center', flexShrink:0 }}>
-            <img
-              src="/logo.png"
-              alt="SunMount Solar Mounting Solutions"
+            <img src="/logo.png" alt="SunMount Solar Mounting Solutions"
               style={{
-                height: scrolled ? 38 : 46,
-                width: 'auto',
-                transition: 'height 0.4s cubic-bezier(0.16,1,0.3,1)',
-                filter: 'drop-shadow(0 0 12px rgba(224,85,64,0.25))',
-              }}
-            />
+                height: scrolled ? 36 : 44, width:'auto',
+                transition:'height 0.4s cubic-bezier(0.16,1,0.3,1)',
+                filter:'drop-shadow(0 0 10px rgba(224,85,64,0.2))',
+              }} />
           </Link>
 
           {/* DESKTOP NAV */}
           <div className="nav-desktop" style={{ display:'flex', gap:'2rem', alignItems:'center' }}>
-            {navLinks.map(link => {
-              const isActive = location.pathname === link.to.split('#')[0] && !link.to.includes('#')
+            {NAV_LINKS.map(link => {
+              const active = location.pathname === link.to.split('#')[0] && !link.to.includes('#')
               return (
                 <Link key={link.label} to={link.to} className="nav-link" style={{
-                  fontFamily: 'Montserrat', fontSize:'0.82rem', fontWeight:600,
+                  fontFamily:'Montserrat', fontSize:'0.82rem', fontWeight:600,
                   letterSpacing:'0.08em', textTransform:'uppercase',
-                  color: isActive ? 'var(--sun-orange)' : 'var(--text-secondary)',
+                  color: active ? 'var(--sun-orange)' : 'var(--text-secondary)',
                   position:'relative', padding:'0.4rem 0',
                 }}>{link.label}</Link>
               )
             })}
           </div>
 
-          {/* TRUST BADGES */}
-          <div className="trust-badges" style={{ display:'flex', gap:'0.65rem', alignItems:'center', color:'var(--aluminum-mid)' }}>
-            {badges.map(({ Icon, label }, i) => (
-              <div key={i} title={label} style={{ transition:'color 0.3s, transform 0.3s', cursor:'help' }}
-                onMouseEnter={e => { e.currentTarget.style.color='var(--sun-orange)'; e.currentTarget.style.transform='translateY(-2px)' }}
-                onMouseLeave={e => { e.currentTarget.style.color='var(--aluminum-mid)'; e.currentTarget.style.transform='translateY(0)' }}>
-                <Icon />
+          {/* TRUST BADGES — real images */}
+          <div className="trust-badges" style={{ display:'flex', gap:'0.55rem', alignItems:'center' }}>
+            {BADGES.map(({ src, alt, title }) => (
+              <div key={alt} title={title} style={{
+                display:'flex', alignItems:'center', justifyContent:'center',
+                width:36, height:36,
+                background:'rgba(255,255,255,0.08)',
+                borderRadius:4,
+                padding:'3px',
+                transition:'transform 0.25s, background 0.25s',
+                cursor:'help',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.background='rgba(255,255,255,0.16)' }}
+                onMouseLeave={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.background='rgba(255,255,255,0.08)' }}
+              >
+                <img src={src} alt={alt}
+                  style={{ width:'100%', height:'100%', objectFit:'contain', filter:'brightness(1.1)' }} />
               </div>
             ))}
           </div>
 
           {/* MOBILE TOGGLE */}
           <button className="mobile-toggle" onClick={() => setMenuOpen(!menuOpen)}
-            style={{ display:'none', width:32, height:32, flexDirection:'column', justifyContent:'center', gap:'5px' }}
-            aria-label="Menu">
-            <span style={{ width:22, height:2, background:'var(--text-primary)', transition:'transform 0.3s', display:'block', transform: menuOpen ? 'rotate(45deg) translate(5px,5px)' : 'none' }} />
-            <span style={{ width:22, height:2, background:'var(--text-primary)', opacity: menuOpen ? 0 : 1, transition:'opacity 0.3s', display:'block' }} />
-            <span style={{ width:22, height:2, background:'var(--text-primary)', transition:'transform 0.3s', display:'block', transform: menuOpen ? 'rotate(-45deg) translate(5px,-5px)' : 'none' }} />
+            aria-label="Menu"
+            style={{ display:'none', flexDirection:'column', justifyContent:'center', gap:5, width:32, height:32, background:'none', border:'none', cursor:'pointer' }}>
+            {[0,1,2].map(i => (
+              <span key={i} style={{
+                display:'block', width:22, height:2, background:'var(--text-primary)',
+                transition:'all 0.3s',
+                transform: menuOpen
+                  ? i===0 ? 'rotate(45deg) translate(5px,5px)' : i===2 ? 'rotate(-45deg) translate(5px,-5px)' : 'scaleX(0)'
+                  : 'none',
+                opacity: menuOpen && i===1 ? 0 : 1,
+              }} />
+            ))}
           </button>
         </div>
 
@@ -98,14 +110,16 @@ const Navbar = () => {
             padding:'2rem', display:'flex', flexDirection:'column', gap:'1.2rem',
             borderBottom:'1px solid var(--border-subtle)',
           }}>
-            {navLinks.map(link => (
-              <Link key={link.label} to={link.to} onClick={() => setMenuOpen(false)}
+            {NAV_LINKS.map(l => (
+              <Link key={l.label} to={l.to} onClick={() => setMenuOpen(false)}
                 style={{ fontSize:'1.1rem', fontWeight:600, color:'var(--text-primary)' }}>
-                {link.label}
+                {l.label}
               </Link>
             ))}
-            <div style={{ display:'flex', gap:'1rem', marginTop:'1rem', color:'var(--aluminum-mid)' }}>
-              {badges.map(({ Icon, label }, i) => <div key={i} title={label}><Icon /></div>)}
+            <div style={{ display:'flex', gap:'0.5rem', marginTop:'0.5rem' }}>
+              {BADGES.map(({ src, alt }) => (
+                <img key={alt} src={src} alt={alt} style={{ width:32, height:32, objectFit:'contain', filter:'brightness(1.1)' }} />
+              ))}
             </div>
           </div>
         )}
@@ -117,7 +131,7 @@ const Navbar = () => {
           transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
         .nav-link:hover{color:var(--sun-orange)!important;text-shadow:0 0 20px rgba(224,85,64,0.5)}
         .nav-link:hover::after{transform:scaleX(1);transform-origin:left}
-        @media(max-width:1100px){.trust-badges{display:none!important}}
+        @media(max-width:1140px){.trust-badges{display:none!important}}
         @media(max-width:900px){.nav-desktop{display:none!important}.mobile-toggle{display:flex!important}}
       `}</style>
     </>
