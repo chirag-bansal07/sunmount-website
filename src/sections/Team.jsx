@@ -7,7 +7,7 @@ const STATS = [
 ]
 
 const Team = () => (
-  <section id="team" style={{ padding:'8rem 0 0', background:'var(--bg-deep)', position:'relative' }}>
+  <section id="team" style={{ padding:'8rem 0 6rem', background:'var(--bg-deep)', position:'relative' }}>
     <div className="container">
       <div style={{ marginBottom:'4rem' }}>
         <div className="section-label">OUR TEAM & CULTURE</div>
@@ -82,21 +82,6 @@ const Team = () => (
       </div>
     </div>
 
-    {/* Factory photo — full width at bottom of section */}
-    <div style={{ position:'relative', width:'100%', height:420, overflow:'hidden' }}>
-      <img src="/factory.png" alt="SunMount Factory — Sirsa, Haryana"
-        style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 30%' }} />
-      {/* Dark overlay */}
-      <div style={{ position:'absolute', inset:0, background:'linear-gradient(0deg,rgba(6,9,18,0.8) 0%,rgba(6,9,18,0.2) 50%,rgba(6,9,18,0.55) 100%)' }} />
-      <div style={{ position:'absolute', bottom:'2.5rem', left:0, right:0, textAlign:'center' }}>
-        <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.22em', color:'var(--sun-orange)', marginBottom:'0.4rem', textTransform:'uppercase' }}>
-          // OUR FACILITY
-        </div>
-        <div style={{ fontSize:'1.2rem', fontWeight:700, color:'var(--text-primary)' }}>
-          Integrated Manufacturing Plant · Begu Road, Sirsa 125055, Haryana
-        </div>
-      </div>
-    </div>
 
     <style>{`@media(max-width:900px){.team-grid{grid-template-columns:1fr!important;gap:3rem!important}}`}</style>
   </section>

@@ -69,10 +69,10 @@ const Navbar = () => {
             {BADGES.map(({ src, alt, title }) => (
               <div key={alt} title={title} style={{
                 display:'flex', alignItems:'center', justifyContent:'center',
-                width:36, height:36,
+                width: scrolled ? 36 : 48, height: scrolled ? 36 : 48,
                 background:'rgba(255,255,255,0.08)',
                 borderRadius:4,
-                padding:'3px',
+                padding: scrolled ? "3px" : "4px",
                 transition:'transform 0.25s, background 0.25s',
                 cursor:'help',
               }}

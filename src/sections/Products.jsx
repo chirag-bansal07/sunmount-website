@@ -311,7 +311,7 @@ const Products = () => (
         </p>
       </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(290px,1fr))', gap:'1.4rem', marginBottom:'4rem' }}>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'1.4rem', marginBottom:'4rem' }}>
         {PRODUCTS.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
       </div>
 
