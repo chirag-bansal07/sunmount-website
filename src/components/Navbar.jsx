@@ -41,7 +41,7 @@ const Navbar = () => {
         borderBottom: scrolled ? '1px solid var(--border-subtle)' : '1px solid rgba(255,255,255,0.06)',
         transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
       }}>
-        <div className="container" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'1rem' }}>
+        <div className="container" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'1rem', paddingLeft:'0.75rem' }}>
 
           {/* ── SUNMOUNT LOGO ── */}
           <Link to="/" style={{ display:'flex', alignItems:'center', flexShrink:0 }}>
@@ -72,24 +72,25 @@ const Navbar = () => {
             })}
           </div>
 
-          {/* ── TRUST BADGES ── large, real images ── */}
-          <div className="trust-badges" style={{ display:'flex', gap:'0.5rem', alignItems:'center', flexShrink:0 }}>
+          {/* ── TRUST BADGES ── no background, direct images ── */}
+          <div className="trust-badges" style={{ display:'flex', gap:'0.9rem', alignItems:'center', flexShrink:0 }}>
             {BADGES.map(({ src, alt, title }) => (
-              <div key={alt} title={title} style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                width: badgeS, height: badgeS,
-                background: 'rgba(255,255,255,0.10)',
-                borderRadius: 6,
-                padding: '5px',
-                transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
-                cursor: 'help',
-              }}
-                onMouseEnter={e => { e.currentTarget.style.background='rgba(255,255,255,0.2)'; e.currentTarget.style.transform='translateY(-3px) scale(1.05)' }}
-                onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.10)'; e.currentTarget.style.transform='translateY(0) scale(1)' }}
-              >
-                <img src={src} alt={alt}
-                  style={{ width:'100%', height:'100%', objectFit:'contain', filter:'brightness(1.15) contrast(1.05)' }} />
-              </div>
+              <img
+                key={alt}
+                src={src}
+                alt={alt}
+                title={title}
+                style={{
+                  height: badgeS,
+                  width: 'auto',
+                  objectFit: 'contain',
+                  filter: 'brightness(1.15) contrast(1.05)',
+                  transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
+                  cursor: 'help',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform='translateY(-3px) scale(1.08)' }}
+                onMouseLeave={e => { e.currentTarget.style.transform='translateY(0) scale(1)' }}
+              />
             ))}
           </div>
 

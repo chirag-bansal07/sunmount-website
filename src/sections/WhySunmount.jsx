@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
+
+const fadeUp = { hidden:{opacity:0,y:32}, show:{opacity:1,y:0,transition:{duration:0.7,ease:[0.16,1,0.3,1]}} }
 
 const PILLARS = [
   {
@@ -41,20 +44,27 @@ const WhySunmount = () => {
       }} />
 
       <div className="container" style={{ position:'relative', zIndex:1 }}>
-        <div style={{ textAlign:'center', marginBottom:'5rem', maxWidth:720, margin:'0 auto 5rem' }}>
+        <motion.div
+          variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
+          style={{ textAlign:'center', marginBottom:'5rem', maxWidth:720, margin:'0 auto 5rem' }}
+        >
           <div className="section-label" style={{ display:'inline-flex' }}>WHY SUNMOUNT®</div>
           <h2 style={{ fontSize:'clamp(2.2rem,4.5vw,3.6rem)', marginBottom:'1.2rem' }}>
             Built on <span className="gradient-text">Principles</span>,<br />
             Driven by <span style={{ color:'var(--aluminum-light)' }}>Purpose.</span>
           </h2>
-        </div>
+        </motion.div>
 
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'4rem', alignItems:'center' }} className="why-grid">
 
           {/* Interactive orbital wheel */}
-          <div style={{ position:'relative', width:'100%', aspectRatio:'1', maxWidth:480, margin:'0 auto' }}>
+          <motion.div
+            initial={{opacity:0,scale:0.88}} whileInView={{opacity:1,scale:1}}
+            viewport={{once:true,margin:'-80px'}} transition={{duration:0.8,ease:[0.16,1,0.3,1]}}
+            style={{ position:'relative', width:'100%', aspectRatio:'1', maxWidth:560, margin:'0 auto' }}
+          >
             {/* Orbit rings */}
-            {[180, 280, 380].map((size, i) => (
+            {[210, 330, 450].map((size, i) => (
               <div key={i} style={{
                 position:'absolute', top:'50%', left:'50%',
                 transform:'translate(-50%,-50%)',
@@ -68,9 +78,9 @@ const WhySunmount = () => {
             <div style={{
               position:'absolute', top:'50%', left:'50%',
               transform:'translate(-50%,-50%)',
-              width:130, height:130, borderRadius:'50%',
+              width:150, height:150, borderRadius:'50%',
               overflow:'hidden',
-              boxShadow:'0 0 70px rgba(232,146,58,0.45), inset -8px -8px 24px rgba(0,0,0,0.25)',
+              boxShadow:'0 0 80px rgba(232,146,58,0.50), inset -8px -8px 24px rgba(0,0,0,0.25)',
               zIndex:2,
               border:'3px solid rgba(232,146,58,0.3)',
             }}>
@@ -82,7 +92,7 @@ const WhySunmount = () => {
             {PILLARS.map(pillar => {
               const isActive = pillar.id === active
               const rad = (pillar.angle * Math.PI) / 180
-              const radius = 175
+              const radius = 205
               const x = Math.cos(rad - Math.PI / 2) * radius
               const y = Math.sin(rad - Math.PI / 2) * radius
 
@@ -127,8 +137,8 @@ const WhySunmount = () => {
               {PILLARS.map(pillar => {
                 const isActive = pillar.id === active
                 const rad = (pillar.angle * Math.PI) / 180
-                const x2 = `calc(50% + ${Math.cos(rad - Math.PI / 2) * 125}px)`
-                const y2 = `calc(50% + ${Math.sin(rad - Math.PI / 2) * 125}px)`
+                const x2 = `calc(50% + ${Math.cos(rad - Math.PI / 2) * 148}px)`
+                const y2 = `calc(50% + ${Math.sin(rad - Math.PI / 2) * 148}px)`
                 return (
                   <line key={pillar.id} x1="50%" y1="50%" x2={x2} y2={y2}
                     stroke={isActive ? 'var(--sun-orange)' : 'var(--aluminum-edge)'}
@@ -139,10 +149,13 @@ const WhySunmount = () => {
                 )
               })}
             </svg>
-          </div>
+          </motion.div>
 
           {/* Text panel */}
-          <div style={{
+          <motion.div
+            initial={{opacity:0,x:40}} whileInView={{opacity:1,x:0}}
+            viewport={{once:true,margin:'-80px'}} transition={{duration:0.7,ease:[0.16,1,0.3,1],delay:0.15}}
+            style={{
             padding:'2.5rem', background:'linear-gradient(180deg,var(--bg-elevated) 0%,var(--bg-surface) 100%)',
             border:'1px solid var(--border-subtle)', position:'relative', overflow:'hidden',
           }}>
@@ -165,7 +178,7 @@ const WhySunmount = () => {
                 }} />
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 

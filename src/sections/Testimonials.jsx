@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import { StarIcon, ArrowRightIcon } from '../components/icons'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+
+const fadeUp = { hidden:{opacity:0,y:28}, show:{opacity:1,y:0,transition:{duration:0.7,ease:[0.16,1,0.3,1]}} }
 
 const REVIEWS = [
   {
@@ -37,17 +40,21 @@ const Testimonials = () => {
   return (
     <section style={{ padding:'8rem 0', background:'var(--bg-base)', position:'relative' }}>
       <div className="container">
-        <div style={{ textAlign:'center', marginBottom:'4rem' }}>
+        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
+          style={{ textAlign:'center', marginBottom:'4rem' }}>
           <div className="section-label" style={{ display:'inline-flex' }}>CLIENT TESTIMONIALS</div>
           <h2 style={{ fontSize:'clamp(2.2rem,4.5vw,3.6rem)' }}>
             Trusted by <span className="gradient-text">Industry Leaders</span>
           </h2>
-        </div>
+        </motion.div>
 
         {/* Carousel */}
-        <div style={{ position:'relative', maxWidth:880, margin:'0 auto' }}
+        <motion.div
+          variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-60px'}}
+          style={{ position:'relative', maxWidth:880, margin:'0 auto' }}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
+          transition={{ delay:0.1 }}
         >
           {/* Cards */}
           <div style={{ position:'relative', minHeight:320 }}>
@@ -136,10 +143,12 @@ const Testimonials = () => {
               </svg>
             </button>
           </div>
-        </div>
+        </motion.div>
 
         {/* CTA */}
-        <div style={{ marginTop:'5rem', padding:'3.5rem 2rem', textAlign:'center', background:'linear-gradient(135deg,rgba(224,85,64,0.07) 0%,rgba(224,85,64,0) 70%)', border:'1px solid var(--border-subtle)', position:'relative' }}>
+        <motion.div
+          variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-40px'}}
+          style={{ marginTop:'5rem', padding:'3.5rem 2rem', textAlign:'center', background:'linear-gradient(135deg,rgba(224,85,64,0.07) 0%,rgba(224,85,64,0) 70%)', border:'1px solid var(--border-subtle)', position:'relative' }}>
           <div style={{ position:'absolute', top:0, left:0, height:2, width:'100%', background:'var(--gradient-sun)' }} />
           <h3 style={{ fontSize:'clamp(1.6rem,3vw,2.4rem)', marginBottom:'0.6rem' }}>
             Looking for Professional <span className="gradient-text">High Quality Products?</span>
@@ -150,7 +159,7 @@ const Testimonials = () => {
           <Link to="/contact" className="btn-primary" style={{ fontSize:'0.95rem', padding:'1.1rem 2.4rem' }}>
             Contact Us <ArrowRightIcon />
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

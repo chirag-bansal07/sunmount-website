@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { DownloadIcon, ArrowRightIcon } from '../components/icons'
+import { motion } from 'framer-motion'
 
 const STATS = [
   { value: '50+',  label: 'Global Locations' },
@@ -40,38 +41,58 @@ const Hero = () => (
       position:'relative', zIndex:3,
       height:'100%', display:'flex', alignItems:'center',
     }}>
-      <div style={{ maxWidth:620, paddingTop:'5rem' }}>
+      <motion.div
+        style={{ maxWidth:620, paddingTop:'5rem' }}
+        initial={{ opacity:0, y:44 }}
+        animate={{ opacity:1, y:0 }}
+        transition={{ duration:1, ease:[0.16,1,0.3,1] }}
+      >
 
         {/* Label */}
-        <div className="section-label" style={{ marginBottom:'1.4rem' }}>
+        <motion.div
+          className="section-label" style={{ marginBottom:'1.4rem' }}
+          initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:0.2, duration:0.7 }}
+        >
           ISO 9001 · TÜV SÜD Certified · MSME Registered
-        </div>
+        </motion.div>
 
         {/* Headline */}
-        <h1 style={{
-          fontSize:'clamp(2.8rem, 5.5vw, 5rem)',
-          fontWeight:900, lineHeight:1.05,
-          marginBottom:'1.6rem',
-          letterSpacing:'-0.02em',
-        }}>
+        <motion.h1
+          style={{
+            fontSize:'clamp(2.8rem, 5.5vw, 5rem)',
+            fontWeight:900, lineHeight:1.05,
+            marginBottom:'1.6rem',
+            letterSpacing:'-0.02em',
+          }}
+          initial={{ opacity:0, y:24 }} animate={{ opacity:1, y:0 }}
+          transition={{ delay:0.15, duration:0.9, ease:[0.16,1,0.3,1] }}
+        >
           Solar Mounting<br />
           <span className="gradient-text">Structures</span><br />
           Redefined.
-        </h1>
+        </motion.h1>
 
         {/* Sub-copy */}
-        <p style={{
-          fontSize:'1.08rem', color:'rgba(244,246,251,0.72)',
-          lineHeight:1.75, marginBottom:'2.5rem', maxWidth:500,
-        }}>
+        <motion.p
+          style={{
+            fontSize:'1.08rem', color:'rgba(244,246,251,0.72)',
+            lineHeight:1.75, marginBottom:'2.5rem', maxWidth:500,
+          }}
+          initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
+          transition={{ delay:0.3, duration:0.8, ease:[0.16,1,0.3,1] }}
+        >
           India's indigenous solar PV mounting manufacturer.
           Aluminium &amp; steel structures engineered for extreme wind loads —
           supplying across the globe.
-        </p>
+        </motion.p>
 
         {/* CTAs */}
-        <div style={{ display:'flex', gap:'1rem', flexWrap:'wrap' }}>
-          <Link to="/#products" className="btn-primary" style={{ fontSize:'0.9rem', padding:'1rem 2rem' }}>
+        <motion.div
+          style={{ display:'flex', gap:'1rem', flexWrap:'wrap' }}
+          initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
+          transition={{ delay:0.45, duration:0.8, ease:[0.16,1,0.3,1] }}
+        >
+          <Link to="/products" className="btn-primary" style={{ fontSize:'0.9rem', padding:'1rem 2rem' }}>
             Explore Products <ArrowRightIcon />
           </Link>
           <a
@@ -82,16 +103,20 @@ const Hero = () => (
           >
             <DownloadIcon /> Download Catalogue
           </a>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
 
     {/* ── STATS BAR ── */}
-    <div style={{
-      position:'absolute', bottom:0, left:0, right:0, zIndex:4,
-      background:'rgba(6,9,18,0.78)', backdropFilter:'blur(16px)',
-      borderTop:'1px solid rgba(255,255,255,0.07)',
-    }}>
+    <motion.div
+      style={{
+        position:'absolute', bottom:0, left:0, right:0, zIndex:4,
+        background:'rgba(6,9,18,0.78)', backdropFilter:'blur(16px)',
+        borderTop:'1px solid rgba(255,255,255,0.07)',
+      }}
+      initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
+      transition={{ delay:0.7, duration:0.8, ease:[0.16,1,0.3,1] }}
+    >
       <div className="container">
         <div style={{
           display:'grid', gridTemplateColumns:'repeat(4,1fr)',
@@ -111,7 +136,7 @@ const Hero = () => (
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
 
     <style>{`@media(max-width:600px){.stats-grid{grid-template-columns:repeat(2,1fr)!important}}`}</style>
   </section>

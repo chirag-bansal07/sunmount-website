@@ -1,4 +1,5 @@
 import { ArrowRightIcon } from '../components/icons'
+import { motion } from 'framer-motion'
 
 const STATS = [
   { num:'75+',  label:'Years Combined Experience' },
@@ -6,20 +7,26 @@ const STATS = [
   { num:'50+',  label:'Global Locations Served' },
 ]
 
+const slideLeft  = { hidden:{opacity:0,x:-40}, show:{opacity:1,x:0,transition:{duration:0.75,ease:[0.16,1,0.3,1]}} }
+const slideRight = { hidden:{opacity:0,x:40},  show:{opacity:1,x:0,transition:{duration:0.75,ease:[0.16,1,0.3,1],delay:0.1}} }
+const fadeUp     = { hidden:{opacity:0,y:24},  show:{opacity:1,y:0, transition:{duration:0.6,ease:[0.16,1,0.3,1]}} }
+
 const Team = () => (
   <section id="team" style={{ padding:'8rem 0 6rem', background:'var(--bg-deep)', position:'relative' }}>
     <div className="container">
-      <div style={{ marginBottom:'4rem' }}>
+      <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
+        style={{ marginBottom:'4rem' }}>
         <div className="section-label">OUR TEAM & CULTURE</div>
         <h2 style={{ fontSize:'clamp(2.2rem,4.5vw,3.6rem)' }}>
           Engineers, Architects,<br /><span className="gradient-text">Innovators.</span>
         </h2>
-      </div>
+      </motion.div>
 
       <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:'4rem', alignItems:'start', marginBottom:'6rem' }} className="team-grid">
 
-        {/* LEFT: Culture */}
-        <div>
+        {/* LEFT: Culture + factory image */}
+        <motion.div variants={slideLeft} initial="hidden" whileInView="show" viewport={{once:true,margin:'-60px'}}
+          style={{ display:'flex', flexDirection:'column' }}>
           <p style={{ fontSize:'1.05rem', lineHeight:1.8, color:'var(--text-secondary)', marginBottom:'1.5rem' }}>
             SunMount® is an industrious team of prolific, vastly experienced professionals —
             Engineers, Chartered Engineers, Architects, and Post-Graduates in Commerce & Marketing.
@@ -37,10 +44,43 @@ const Team = () => (
               </div>
             ))}
           </div>
-        </div>
+
+          {/* Factory image — fills remaining space to match director card bottom */}
+          <div style={{
+            flex:1, minHeight:180, maxHeight:320,
+            overflow:'hidden', position:'relative',
+            border:'1px solid var(--border-subtle)',
+          }}>
+            <img
+              src="/factory.png"
+              alt="SunMount Manufacturing Facility, Sirsa"
+              style={{
+                width:'100%', height:'100%',
+                objectFit:'cover', objectPosition:'55% 40%',
+                display:'block',
+                filter:'brightness(0.70) saturate(0.85)',
+              }}
+            />
+            {/* Bottom gradient overlay */}
+            <div style={{
+              position:'absolute', inset:0,
+              background:'linear-gradient(180deg, transparent 50%, rgba(6,9,18,0.75) 100%)',
+            }} />
+            {/* Caption */}
+            <div style={{
+              position:'absolute', bottom:'0.9rem', left:'1rem',
+              fontFamily:'JetBrains Mono', fontSize:'0.6rem',
+              letterSpacing:'0.18em', color:'rgba(255,255,255,0.55)',
+              textTransform:'uppercase',
+            }}>
+              // Manufacturing Facility · Sirsa, Haryana
+            </div>
+          </div>
+        </motion.div>
 
         {/* RIGHT: Director card */}
-        <div style={{ position:'sticky', top:120 }}>
+        <motion.div variants={slideRight} initial="hidden" whileInView="show" viewport={{once:true,margin:'-60px'}}
+          style={{ position:'sticky', top:120 }}>
           <div style={{ background:'linear-gradient(180deg,var(--bg-elevated) 0%,var(--bg-surface) 100%)', border:'1px solid var(--border-subtle)', overflow:'hidden' }}>
             <div style={{ height:3, background:'var(--gradient-sun)' }} />
 
@@ -78,10 +118,9 @@ const Team = () => (
               </a>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
-
 
     <style>{`@media(max-width:900px){.team-grid{grid-template-columns:1fr!important;gap:3rem!important}}`}</style>
   </section>

@@ -3,6 +3,11 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows } from '@react-three/drei'
 import { MiniRail, MonoRail, LongRail } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
+import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+
+const fadeUp  = { hidden:{opacity:0,y:30}, show:{opacity:1,y:0,transition:{duration:0.7,ease:[0.16,1,0.3,1]}} }
+const stagger = { hidden:{},              show:{transition:{staggerChildren:0.11}} }
 
 const PRODUCTS = [
   {
@@ -280,7 +285,7 @@ const ProductCard = ({ product, index }) => {
           )}
         </div>
 
-        <button style={{
+        <Link to={`/products#${product.id}`} style={{
           display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%',
           padding:'0.8rem 1rem', marginBottom:'1.4rem',
           background: hover ? 'var(--gradient-sun)' : 'transparent',
@@ -288,10 +293,10 @@ const ProductCard = ({ product, index }) => {
           color: hover ? 'var(--bg-deep)' : 'var(--text-primary)',
           fontFamily:'Montserrat', fontSize:'0.78rem', fontWeight:700,
           letterSpacing:'0.08em', textTransform:'uppercase',
-          transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)', cursor:'pointer',
+          transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)',
         }}>
           Know More <ArrowRightIcon />
-        </button>
+        </Link>
       </div>
     </div>
   )
@@ -300,7 +305,8 @@ const ProductCard = ({ product, index }) => {
 const Products = () => (
   <section id="products" style={{ padding:'8rem 0 6rem', background:'var(--bg-base)', position:'relative' }}>
     <div className="container">
-      <div style={{ textAlign:'center', marginBottom:'4rem', maxWidth:680, margin:'0 auto 4rem' }}>
+      <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
+        style={{ textAlign:'center', marginBottom:'4rem', maxWidth:680, margin:'0 auto 4rem' }}>
         <div className="section-label" style={{ display:'inline-flex' }}>OUR PRODUCT RANGE</div>
         <h2 style={{ fontSize:'clamp(2.2rem,4.5vw,3.4rem)', marginBottom:'1.1rem' }}>
           Engineered for <span className="gradient-text">Every Roof.</span>
@@ -309,19 +315,26 @@ const Products = () => (
           Four precision-engineered mounting systems — from trapezoidal metal sheets to
           standing seam profiles. All rated for 200 km/h wind speeds.
         </p>
-      </div>
+      </motion.div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'1.4rem', marginBottom:'4rem' }}>
-        {PRODUCTS.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
-      </div>
+      <motion.div
+        variants={stagger} initial="hidden" whileInView="show" viewport={{once:true,margin:'-60px'}}
+        style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'1.4rem', marginBottom:'4rem' }}>
+        {PRODUCTS.map((p, i) => (
+          <motion.div key={p.id} variants={fadeUp}>
+            <ProductCard product={p} index={i} />
+          </motion.div>
+        ))}
+      </motion.div>
 
-      <div style={{ textAlign:'center' }}>
+      <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true}}
+        style={{ textAlign:'center' }}>
         <a href="https://www.sunmount.in/wp-content/uploads/2024/09/Catalogue-2024-rev-2.pdf"
           target="_blank" rel="noopener noreferrer" className="btn-primary"
           style={{ fontSize:'0.95rem', padding:'1.1rem 2.2rem' }}>
           <DownloadIcon /> Download Full Catalogue
         </a>
-      </div>
+      </motion.div>
     </div>
   </section>
 )
