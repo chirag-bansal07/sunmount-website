@@ -10,7 +10,7 @@ const BADGES = [
 
 const NAV_LINKS = [
   { to: '/',          label: 'Home' },
-  { to: '/#products', label: 'Products' },
+  { to: '/products',  label: 'Products' },
   { to: '/#why',      label: 'Why Sunmount' },
   { to: '/#team',     label: 'Team' },
   { to: '/contact',   label: 'Contact Us' },
