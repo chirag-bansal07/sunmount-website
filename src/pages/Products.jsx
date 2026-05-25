@@ -1,7 +1,7 @@
-import { useState, useRef, Suspense, useEffect } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Environment, PerspectiveCamera, ContactShadows } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail } from '../three/RailModels'
+import { useState, Suspense, useEffect } from 'react'
+import { Canvas } from '@react-three/fiber'
+import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
+import { MiniRail, MonoRail, LongRail, SeamClamp } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -94,7 +94,7 @@ const PRODUCTS = [
     badge: 'No Puncture',
     tagline: 'Clamp-based system for standing seam roofs — zero roof penetration, preserves warranty.',
     desc: 'The Standing Seam System uses precision-engineered seam clamps that grip the standing seam roof profile without any drilling or roof puncturing. This preserves the roof manufacturer\'s warranty, eliminates leak risk entirely, and makes it the fastest-installing system in the SunMount range.',
-    Component: null,
+    Component: SeamClamp,
     specs: [
       { label: 'Clamp Size',        value: 'H 55 mm × L 60 mm' },
       { label: 'Material',          value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
@@ -115,61 +115,33 @@ const PRODUCTS = [
 ]
 
 /* ── 3D HELPERS ───────────────────────────────────────────────── */
-function SpinRail({ Component }) {
-  const ref = useRef()
-  useFrame((_, dt) => {
-    if (ref.current) ref.current.rotation.y += dt * 0.5
-  })
-  return (
-    <group ref={ref} position={[0, -0.25, 0]}>
-      <Component length={3.8} />
-    </group>
-  )
-}
-
 function RailCanvas({ Component }) {
+  const isClamp = Component === SeamClamp
   return (
     <Canvas dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
-      <PerspectiveCamera makeDefault position={[2.2, 1.4, 2.8]} fov={46} />
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[3, 5, 2]} intensity={1.6} color="#FBB034" />
-      <directionalLight position={[-3, 2, -2]} intensity={0.5} color="#5882c4" />
+      <PerspectiveCamera makeDefault position={isClamp ? [1.8, 1.2, 2.2] : [2.2, 1.4, 2.8]} fov={46} />
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[3, 5, 2]} intensity={1.8} color="#FBB034" />
+      <directionalLight position={[-3, 2, -2]} intensity={0.6} color="#5882c4" />
+      <directionalLight position={[0, 4, -3]} intensity={0.4} color="#ffffff" />
       <Suspense fallback={null}>
-        <SpinRail Component={Component} />
+        <group position={[0, isClamp ? -0.15 : -0.25, 0]}>
+          {isClamp ? <Component /> : <Component length={3.8} />}
+        </group>
         <Environment preset="sunset" />
       </Suspense>
-      <ContactShadows position={[0, -0.55, 0]} opacity={0.35} scale={5} blur={2} far={2} />
+      <ContactShadows position={[0, isClamp ? -0.38 : -0.55, 0]} opacity={0.35} scale={5} blur={2} far={2} />
+      <OrbitControls
+        enableZoom={false}
+        enablePan={false}
+        autoRotate
+        autoRotateSpeed={1.4}
+        makeDefault
+      />
     </Canvas>
   )
 }
 
-function SeamVisual() {
-  return (
-    <div style={{
-      height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      flexDirection: 'column', gap: '1rem',
-      background: 'radial-gradient(ellipse at 50% 60%, rgba(224,85,64,0.08) 0%, transparent 70%)',
-    }}>
-      <svg viewBox="0 0 200 120" width="220" height="130" style={{ opacity: 0.9 }}>
-        <rect x="0" y="90" width="200" height="12" fill="#C9D4E0" opacity="0.4" />
-        {[30, 70, 110, 150].map(x => (
-          <g key={x}>
-            <rect x={x - 8} y="60" width="16" height="30" fill="#8FA0BB" opacity="0.6" />
-            <polygon points={`${x - 10},60 ${x + 10},60 ${x + 8},48 ${x - 8},48`} fill="#C9D4E0" opacity="0.8" />
-            <rect x={x - 12} y="48" width="24" height="8" rx="2" fill="#E8923A" opacity="0.9" />
-          </g>
-        ))}
-        <rect x="15" y="38" width="170" height="10" rx="2" fill="#C9D4E0" opacity="0.85" />
-        <rect x="20" y="22" width="160" height="18" rx="1" fill="#0A1D6B" opacity="0.9" />
-        <rect x="22" y="24" width="156" height="14" rx="1" fill="#1638BB" opacity="0.7" />
-      </svg>
-      <span style={{
-        fontFamily: 'JetBrains Mono', fontSize: '0.65rem',
-        letterSpacing: '0.18em', color: 'var(--aluminum-mid)', textTransform: 'uppercase',
-      }}>Seam Clamp Profile</span>
-    </div>
-  )
-}
 
 /* ── ACCESSORIES ──────────────────────────────────────────────── */
 const ACCESSORIES = [
@@ -423,27 +395,22 @@ export default function Products() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* 3D / Visual canvas */}
+              {/* 3D canvas — drag to rotate */}
               <div style={{
                 height: 380, position: 'relative', marginBottom: '2.5rem',
                 background: 'radial-gradient(ellipse at 50% 70%, rgba(224,85,64,0.07) 0%, transparent 70%)',
                 border: '1px solid var(--border-subtle)',
+                cursor: 'grab',
               }}>
-                {product.Component ? (
-                  <RailCanvas Component={product.Component} />
-                ) : (
-                  <SeamVisual />
-                )}
-                {/* Rotating hint */}
-                {product.Component && (
-                  <div style={{
-                    position: 'absolute', bottom: '1rem', right: '1.2rem',
-                    fontFamily: 'JetBrains Mono', fontSize: '0.6rem', letterSpacing: '0.14em',
-                    color: 'var(--text-muted)', textTransform: 'uppercase',
-                  }}>
-                    ↻ Auto-rotating 3D model
-                  </div>
-                )}
+                <RailCanvas Component={product.Component} />
+                <div style={{
+                  position: 'absolute', bottom: '1rem', right: '1.2rem',
+                  fontFamily: 'JetBrains Mono', fontSize: '0.6rem', letterSpacing: '0.14em',
+                  color: 'var(--text-muted)', textTransform: 'uppercase',
+                  pointerEvents: 'none',
+                }}>
+                  ↻ Drag to rotate
+                </div>
               </div>
 
               {/* Product header */}

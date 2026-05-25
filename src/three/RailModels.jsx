@@ -155,6 +155,50 @@ export function LFoot({ ...props }) {
   )
 }
 
+// ------------------ SEAM CLAMP ------------------
+// Clamp-based mounting for standing seam roofs — zero penetration
+export function SeamClamp({ ...props }) {
+  return (
+    <group {...props}>
+      {/* Main body plate */}
+      <mesh castShadow position={[0, 0.14, 0]}>
+        <boxGeometry args={[0.55, 0.22, 0.62]} />
+        {aluminumMaterial('#C9D4E0')}
+      </mesh>
+      {/* Left jaw arm */}
+      <mesh castShadow position={[-0.22, -0.04, 0]}>
+        <boxGeometry args={[0.10, 0.20, 0.60]} />
+        {aluminumMaterial('#8FA0BB')}
+      </mesh>
+      {/* Right jaw arm */}
+      <mesh castShadow position={[0.22, -0.04, 0]}>
+        <boxGeometry args={[0.10, 0.20, 0.60]} />
+        {aluminumMaterial('#8FA0BB')}
+      </mesh>
+      {/* Bottom channel (grips the seam) */}
+      <mesh castShadow position={[0, -0.14, 0]}>
+        <boxGeometry args={[0.22, 0.06, 0.58]} />
+        {aluminumMaterial('#C9D4E0')}
+      </mesh>
+      {/* Mounting bolt shank */}
+      <mesh castShadow position={[0, 0.32, 0]}>
+        <cylinderGeometry args={[0.045, 0.045, 0.28, 10]} />
+        <meshStandardMaterial color="#3A4258" metalness={0.98} roughness={0.18} />
+      </mesh>
+      {/* Hex bolt head */}
+      <mesh castShadow position={[0, 0.47, 0]}>
+        <cylinderGeometry args={[0.09, 0.09, 0.07, 6]} />
+        <meshStandardMaterial color="#2A3247" metalness={0.98} roughness={0.25} />
+      </mesh>
+      {/* EPDM sealing strip */}
+      <mesh position={[0, -0.115, 0]}>
+        <boxGeometry args={[0.20, 0.025, 0.56]} />
+        <meshStandardMaterial color="#1a1a1a" roughness={0.95} metalness={0} />
+      </mesh>
+    </group>
+  )
+}
+
 // ------------------ SOLAR PANEL ------------------
 export function SolarPanel({ width = 2, height = 1.2, ...props }) {
   return (

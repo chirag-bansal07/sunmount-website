@@ -36,7 +36,7 @@ const Navbar = () => {
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
         padding: scrolled ? '0.5rem 0' : '0.75rem 0',
-        background: scrolled ? 'rgba(6,9,18,0.94)' : 'rgba(6,9,18,0.60)',
+        background: scrolled ? 'rgba(6,9,18,0.96)' : 'rgba(6,9,18,0.90)',
         backdropFilter: 'blur(18px) saturate(180%)',
         borderBottom: scrolled ? '1px solid var(--border-subtle)' : '1px solid rgba(255,255,255,0.06)',
         transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
@@ -73,20 +73,22 @@ const Navbar = () => {
           </div>
 
           {/* ── TRUST BADGES ── uniform container, no heavy bg ── */}
-          <div className="trust-badges" style={{ display:'flex', gap:'0.8rem', alignItems:'center', flexShrink:0 }}>
+          <div className="trust-badges" style={{ display:'flex', gap:'0.6rem', alignItems:'center', flexShrink:0 }}>
             {BADGES.map(({ src, alt, title }) => (
               <div key={alt} title={title} style={{
                 display:'flex', alignItems:'center', justifyContent:'center',
-                height: badgeS + 6, padding:'4px 5px',
-                background:'rgba(255,255,255,0.07)', borderRadius:5,
+                height: badgeS + 6, padding:'3px 4px',
+                background:'transparent',
                 transition:'all 0.35s cubic-bezier(0.16,1,0.3,1)', cursor:'help',
               }}
-                onMouseEnter={e => { e.currentTarget.style.transform='translateY(-2px) scale(1.06)'; e.currentTarget.style.background='rgba(255,255,255,0.14)' }}
-                onMouseLeave={e => { e.currentTarget.style.transform='translateY(0) scale(1)';     e.currentTarget.style.background='rgba(255,255,255,0.07)' }}
+                onMouseEnter={e => { e.currentTarget.style.transform='translateY(-2px) scale(1.08)' }}
+                onMouseLeave={e => { e.currentTarget.style.transform='translateY(0) scale(1)' }}
               >
                 <img src={src} alt={alt} style={{
                   height: badgeS, width:'auto', objectFit:'contain',
-                  filter:'brightness(1.1) contrast(1.05)',
+                  filter: src.includes('makeindia')
+                    ? 'brightness(0) invert(1) opacity(0.88)'
+                    : 'brightness(1.15) contrast(1.08) drop-shadow(0 1px 4px rgba(0,0,0,0.4))',
                 }} />
               </div>
             ))}
@@ -125,7 +127,12 @@ const Navbar = () => {
             <div style={{ display:'flex', gap:'0.5rem', marginTop:'0.5rem' }}>
               {BADGES.map(({ src, alt }) => (
                 <img key={alt} src={src} alt={alt}
-                  style={{ width:44, height:44, objectFit:'contain', filter:'brightness(1.15)' }} />
+                  style={{
+                    width:44, height:44, objectFit:'contain',
+                    filter: src.includes('makeindia')
+                      ? 'brightness(0) invert(1) opacity(0.85)'
+                      : 'brightness(1.15)',
+                  }} />
               ))}
             </div>
           </div>
