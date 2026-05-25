@@ -118,8 +118,13 @@ function SpinModel({ Component, hover }) {
   useFrame((_, dt) => {
     if (!ref.current) return
     if (hover) {
-      ref.current.rotation.y += (-0.65 - ref.current.rotation.y) * 0.10
-      ref.current.rotation.x += (-0.28 - ref.current.rotation.x) * 0.10
+      // Snap to nearest full turn of the target so we never spin backwards
+      const y = ref.current.rotation.y
+      const x = ref.current.rotation.x
+      const tY = -0.65 + Math.round((y + 0.65) / (Math.PI * 2)) * Math.PI * 2
+      const tX = -0.28 + Math.round((x + 0.28) / (Math.PI * 2)) * Math.PI * 2
+      ref.current.rotation.y += (tY - y) * 0.10
+      ref.current.rotation.x += (tX - x) * 0.10
     } else {
       ref.current.rotation.y += dt * 0.55
       ref.current.rotation.x += (0.18 - ref.current.rotation.x) * 0.05

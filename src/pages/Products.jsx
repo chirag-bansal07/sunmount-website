@@ -144,148 +144,18 @@ function RailCanvas({ Component }) {
 
 /* ── ACCESSORIES ──────────────────────────────────────────────── */
 const ACCESSORIES = [
-  {
-    name: 'U-Clamp',
-    material: 'Aluminium 6063 T6',
-    icon: (
-      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M10 10 L10 26 Q10 32 20 32 Q30 32 30 26 L30 10" />
-        <line x1="10" y1="10" x2="6" y2="10" /><line x1="30" y1="10" x2="34" y2="10" />
-        <circle cx="20" cy="22" r="2" fill="currentColor" strokeWidth="0" />
-      </svg>
-    ),
-    features: ['Quick & easy installation', 'High strength', 'All PV modules'],
-  },
-  {
-    name: 'Z-Clamp',
-    material: 'Aluminium 6063 T6',
-    icon: (
-      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="8" y1="12" x2="24" y2="12" /><line x1="24" y1="12" x2="16" y2="28" /><line x1="16" y1="28" x2="32" y2="28" />
-        <line x1="8" y1="9" x2="8" y2="15" /><line x1="32" y1="25" x2="32" y2="31" />
-      </svg>
-    ),
-    features: ['30 / 35 / 40 mm modules', 'Cost-effective', 'Long-lasting'],
-  },
-  {
-    name: 'L-Clamp',
-    material: 'Aluminium 6063 T6',
-    icon: (
-      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 8 L12 28 L32 28" />
-        <line x1="9" y1="8" x2="15" y2="8" /><line x1="32" y1="25" x2="32" y2="31" />
-      </svg>
-    ),
-    features: ['Robust construction', 'Universal PV compat.', 'Budget-friendly'],
-  },
-  {
-    name: 'Rail Nut',
-    material: 'Aluminium 6063 T6',
-    icon: (
-      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="20,6 32,13 32,27 20,34 8,27 8,13" />
-        <circle cx="20" cy="20" r="5" />
-      </svg>
-    ),
-    features: ['Works with all rails', 'High strength', 'Extended lifespan'],
-  },
-  {
-    name: 'Flange Nut',
-    material: 'SS 304',
-    icon: (
-      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <ellipse cx="20" cy="26" rx="13" ry="4" />
-        <polygon points="20,8 28,13 28,21 20,26 12,21 12,13" />
-        <circle cx="20" cy="17" r="3.5" />
-      </svg>
-    ),
-    features: ['Superior strength', 'Durable construction', 'Easy removal'],
-  },
-  {
-    name: 'Spring Washer',
-    material: 'SS 304',
-    icon: (
-      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20 10 A10 10 0 1 1 10 20" />
-        <path d="M10 20 A10 10 0 0 0 20 30" />
-        <line x1="20" y1="10" x2="20" y2="14" /><line x1="20" y1="26" x2="20" y2="30" />
-      </svg>
-    ),
-    features: ['Prevents nut loosening', 'Reinforces joints', 'Minimal maintenance'],
-  },
-  {
-    name: 'Allen Key Bolt',
-    material: 'SS 304',
-    icon: (
-      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="20,8 27,12 27,20 20,24 13,20 13,12" />
-        <rect x="18" y="24" width="4" height="10" rx="1" />
-        <circle cx="20" cy="16" r="2.5" />
-      </svg>
-    ),
-    features: ['Strong & durable', 'Quick installation', 'Low maintenance'],
-  },
-  {
-    name: 'T-Bolt',
-    material: 'SS 304',
-    icon: (
-      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="10" y1="12" x2="30" y2="12" />
-        <line x1="20" y1="12" x2="20" y2="32" />
-        <rect x="17" y="28" width="6" height="4" rx="1" />
-      </svg>
-    ),
-    features: ['T-slot compatible', 'Robust & long-lasting', 'Easy upkeep'],
-  },
-  {
-    name: 'Hex Bolt',
-    material: 'SS 304',
-    icon: (
-      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="20,7 27,11 27,19 20,23 13,19 13,11" />
-        <line x1="20" y1="23" x2="20" y2="34" />
-        <line x1="17" y1="30" x2="23" y2="30" />
-      </svg>
-    ),
-    features: ['High strength', 'Extended lifespan', 'Simple maintenance'],
-  },
-  {
-    name: 'SDS Screw',
-    material: 'Xylan Coated',
-    icon: (
-      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="20,7 26,10 26,16 20,19 14,16 14,10" />
-        <line x1="20" y1="19" x2="20" y2="34" />
-        {[22,25,28,31].map(y=><line key={y} x1="17" y1={y} x2="23" y2={y-1.5} strokeWidth="1.2" />)}
-      </svg>
-    ),
-    features: ['One-tool approach', 'Self-drilling', 'Cost-effective'],
-  },
-  {
-    name: 'Rivet',
-    material: 'Aluminium',
-    icon: (
-      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <ellipse cx="20" cy="11" rx="7" ry="4" />
-        <rect x="17.5" y="11" width="5" height="18" rx="2" />
-        <ellipse cx="20" cy="29" rx="4" ry="2.5" />
-      </svg>
-    ),
-    features: ['Strong & affordable', 'Industry standard', 'Durable'],
-  },
-  {
-    name: 'EPDM Tape',
-    material: '100% Genuine EPDM',
-    icon: (
-      <svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="6" y="16" width="28" height="8" rx="2" />
-        <path d="M6 16 Q8 12 14 12 L26 12 Q32 12 34 16" />
-        <path d="M6 24 Q8 28 14 28 L26 28 Q32 28 34 24" />
-        <line x1="12" y1="12" x2="12" y2="28" strokeWidth="1" strokeDasharray="2 2" />
-      </svg>
-    ),
-    features: ['ASTM tested', 'Moisture & heat resistant', 'Good electrical resistivity'],
-  },
+  { name: 'U-Clamp',       material: 'Aluminium 6063 T6',  image: '/accessories/u-clamp.png',       features: ['Quick & easy installation', 'High strength', 'All PV modules'] },
+  { name: 'Z-Clamp',       material: 'Aluminium 6063 T6',  image: '/accessories/z-clamp.png',       features: ['30 / 35 / 40 mm modules', 'Cost-effective', 'Long-lasting'] },
+  { name: 'L-Clamp',       material: 'Aluminium 6063 T6',  image: '/accessories/l-clamp.png',       features: ['Robust construction', 'Universal PV compat.', 'Budget-friendly'] },
+  { name: 'Rail Nut',      material: 'Aluminium 6063 T6',  image: '/accessories/rail-nut.png',      features: ['Works with all rails', 'High strength', 'Extended lifespan'] },
+  { name: 'Flange Nut',    material: 'SS 304',              image: '/accessories/flange-nut.png',    features: ['Superior strength', 'Durable construction', 'Easy removal'] },
+  { name: 'Spring Washer', material: 'SS 304',              image: '/accessories/spring-washer.png', features: ['Prevents nut loosening', 'Reinforces joints', 'Minimal maintenance'] },
+  { name: 'Allen Key Bolt',material: 'SS 304',              image: '/accessories/allen-bolt.png',    features: ['Strong & durable', 'Quick installation', 'Low maintenance'] },
+  { name: 'T-Bolt',        material: 'SS 304',              image: '/accessories/t-bolt.png',        features: ['T-slot compatible', 'Robust & long-lasting', 'Easy upkeep'] },
+  { name: 'Hex Bolt',      material: 'SS 304',              image: '/accessories/hex-bolt.png',      features: ['High strength', 'Extended lifespan', 'Simple maintenance'] },
+  { name: 'SDS Screw',     material: 'Xylan Coated',        image: '/accessories/sds-screw.png',     features: ['One-tool approach', 'Self-drilling', 'Cost-effective'] },
+  { name: 'Rivet',         material: 'Aluminium',           image: '/accessories/rivet.png',         features: ['Strong & affordable', 'Industry standard', 'Durable'] },
+  { name: 'EPDM Tape',     material: '100% Genuine EPDM',   image: '/accessories/epdm-tape.png',     features: ['ASTM tested', 'Moisture & heat resistant', 'Good electrical resistivity'] },
 ]
 
 /* ── MAIN PAGE ─────────────────────────────────────────────────── */
@@ -581,9 +451,13 @@ export default function Products() {
                   / {String(i + 1).padStart(2, '0')}
                 </div>
 
-                {/* Icon */}
-                <div className="acc-icon" style={{ color:'var(--aluminum-mid)', marginBottom:'0.9rem', transition:'color 0.4s' }}>
-                  {acc.icon}
+                {/* Product image */}
+                <div style={{
+                  width: 72, height: 72, borderRadius: 6, overflow: 'hidden',
+                  background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  marginBottom: '0.9rem', flexShrink: 0,
+                }}>
+                  <img src={acc.image} alt={acc.name} style={{ width: 60, height: 60, objectFit: 'contain' }} />
                 </div>
 
                 {/* Name */}
