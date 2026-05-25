@@ -119,18 +119,26 @@ function RailCanvas({ Component }) {
   const isClamp = Component === SeamClamp
   return (
     <Canvas dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
-      <PerspectiveCamera makeDefault position={isClamp ? [1.8, 1.2, 2.2] : [2.2, 1.4, 2.8]} fov={46} />
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[3, 5, 2]} intensity={1.8} color="#FBB034" />
-      <directionalLight position={[-3, 2, -2]} intensity={0.6} color="#5882c4" />
-      <directionalLight position={[0, 4, -3]} intensity={0.4} color="#ffffff" />
+      {/* Lower camera (y=0.7) to see cross-section, not just the top face */}
+      <PerspectiveCamera makeDefault position={isClamp ? [1.6, 0.9, 2.0] : [1.9, 0.70, 2.4]} fov={42} />
+      <ambientLight intensity={0.55} />
+      <directionalLight position={[4, 4, 2]} intensity={2.0} color="#FBB034" />
+      <directionalLight position={[-3, 1, -2]} intensity={0.7} color="#6090d4" />
+      <directionalLight position={[0, 3, -4]} intensity={0.5} color="#ffffff" />
       <Suspense fallback={null}>
-        <group position={[0, isClamp ? -0.15 : -0.25, 0]}>
-          {isClamp ? <Component /> : <Component length={3.8} />}
+        {/*
+         * Initial rotation angles the profile toward the viewer.
+         * OrbitControls auto-rotate spins the camera — user can drag to inspect.
+         */}
+        <group
+          position={[0, isClamp ? -0.10 : -0.18, 0]}
+          rotation={isClamp ? [0.15, 0.5, 0] : [0.20, -0.62, 0]}
+        >
+          {isClamp ? <Component /> : <Component length={2.2} />}
         </group>
         <Environment preset="sunset" />
       </Suspense>
-      <ContactShadows position={[0, isClamp ? -0.38 : -0.55, 0]} opacity={0.35} scale={5} blur={2} far={2} />
+      <ContactShadows position={[0, isClamp ? -0.32 : -0.45, 0]} opacity={0.40} scale={4} blur={2.5} far={2} />
       <OrbitControls
         enableZoom={false}
         enablePan={false}

@@ -123,13 +123,13 @@ const Navbar = () => {
                   justifyContent: 'center',
                   transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1)',
                   cursor: 'help',
-                  /* White-bg badges (Make in India) get a subtle rounded card so the
-                     white area looks intentional instead of floating on the dark nav */
-                  ...(whiteBg ? {
-                    background: 'rgba(255,255,255,0.92)',
-                    borderRadius: 6,
-                    padding: '3px 6px',
-                  } : {}),
+                  /*
+                   * Make in India has a dark gear-lion on white bg.
+                   * invert(1) flips it → white lion on black bg.
+                   * mix-blend-mode: screen over the dark nav makes
+                   * the black bg disappear and the white lion pop.
+                   */
+                  ...(whiteBg ? { mixBlendMode: 'screen' } : {}),
                 }}
                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.08)' }}
                 onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0) scale(1)' }}
@@ -143,7 +143,7 @@ const Navbar = () => {
                     objectFit: 'contain',
                     display: 'block',
                     filter: whiteBg
-                      ? 'none'
+                      ? 'invert(1) brightness(1.1)'
                       : 'brightness(1.15) contrast(1.08) drop-shadow(0 1px 5px rgba(0,0,0,0.5))',
                   }}
                 />
@@ -197,16 +197,14 @@ const Navbar = () => {
               {BADGES.map(({ src, alt, whiteBg }) => (
                 <div
                   key={alt}
-                  style={{
-                    ...(whiteBg ? { background: 'rgba(255,255,255,0.92)', borderRadius: 5, padding: '2px 5px' } : {}),
-                  }}
+                  style={{ ...(whiteBg ? { mixBlendMode: 'screen' } : {}) }}
                 >
                   <img
                     src={src}
                     alt={alt}
                     style={{
                       width: 44, height: 44, objectFit: 'contain', display: 'block',
-                      filter: whiteBg ? 'none' : 'brightness(1.15)',
+                      filter: whiteBg ? 'invert(1) brightness(1.1)' : 'brightness(1.15)',
                     }}
                   />
                 </div>
