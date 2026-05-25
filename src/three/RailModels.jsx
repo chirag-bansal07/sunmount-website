@@ -76,6 +76,16 @@ export function SeamClamp (props) {
   return <primitive object={model} {...props} />
 }
 
+/** Inclined System — reuses the mono-rail profile with a visible tilt */
+export function InclinedRail (props) {
+  const model = useNormalisedModel('/models/mono-rail.glb')
+  return (
+    <group rotation={[0.28, 0, 0]}>
+      <primitive object={model} {...props} />
+    </group>
+  )
+}
+
 /* Pre-warm cache */
 useGLTF.preload('/models/mono-rail.glb')
 useGLTF.preload('/models/mini-rail.glb')

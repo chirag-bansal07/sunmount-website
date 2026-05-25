@@ -1,7 +1,7 @@
 import { useState, useRef, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp } from '../three/RailModels'
+import { MiniRail, MonoRail, LongRail, SeamClamp, InclinedRail } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -89,6 +89,26 @@ const PRODUCTS = [
       'Compatible with all PV modules',
     ],
     Component: SeamClamp,
+  },
+  {
+    id: 'inclined',
+    name: 'Inclined System',
+    tag: 'PORTRAIT',
+    badge: 'Adjustable Tilt',
+    summary: 'Tilted mounting structure for flat or low-pitch roofs. Adjustable inclination from 5° to 20° optimises generation on north-, east- or west-facing roofs.',
+    specs: [
+      'C-Channel height: 50 mm | Length: Custom',
+      'Aluminium 6063 T6 | SS 304 | EPDM',
+      'Design wind: Up to 170 km/h',
+      'Tilt: 5° – 20° adjustable',
+    ],
+    highlights: [
+      'Higher energy yield on flat / low-pitch roofs',
+      'Portrait orientation, south-facing',
+      'Works on metal & asbestos roofs',
+      'Adjustable angle 5° to 20°',
+    ],
+    Component: InclinedRail,
   },
 ]
 
@@ -290,7 +310,7 @@ const Products = () => (
 
       <motion.div
         variants={stagger} initial="hidden" whileInView="show" viewport={{once:true,margin:'-60px'}}
-        style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'1.2rem', marginBottom:'2.5rem', alignItems:'stretch' }}>
+        style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))', gap:'1.2rem', marginBottom:'2.5rem', alignItems:'stretch' }}>
         {PRODUCTS.map((p, i) => (
           <motion.div key={p.id} variants={fadeUp} style={{ height:'100%', display:'flex', flexDirection:'column' }}>
             <ProductCard product={p} index={i} />

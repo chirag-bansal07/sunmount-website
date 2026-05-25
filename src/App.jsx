@@ -13,7 +13,10 @@ function ScrollHandler() {
     if (hash) {
       const timer = setTimeout(() => {
         const el = document.querySelector(hash)
+        // Only anchor-scroll when a real element has that id.
+        // Product-page hashes (#mono/#mini/…) select a tab — scroll to top instead.
         if (el) el.scrollIntoView({ behavior: 'smooth' })
+        else window.scrollTo({ top: 0, behavior: 'instant' })
       }, 120)
       return () => clearTimeout(timer)
     } else {
