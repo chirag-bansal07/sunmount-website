@@ -2,24 +2,24 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const BADGES = [
-  { src: '/badge-makeindia.png', alt: 'Make in India',      title: 'Made in India' },
-  { src: '/badge-iso.png',       alt: 'ISO 9001 Certified',  title: 'ISO 9001 Certified' },
-  { src: '/badge-tuv.png',       alt: 'TÜV SÜD Certified',  title: 'TÜV SÜD Certified' },
-  { src: '/badge-msme.png',      alt: 'MSME Registered',    title: 'MSME Registered' },
+  { src: '/badge-makeindia.png', alt: 'Make in India',     title: 'Made in India',     whiteBg: true  },
+  { src: '/badge-iso.png',       alt: 'ISO 9001 Certified', title: 'ISO 9001 Certified', whiteBg: false },
+  { src: '/badge-tuv.png',       alt: 'TÜV SÜD Certified', title: 'TÜV SÜD Certified', whiteBg: false },
+  { src: '/badge-msme.png',      alt: 'MSME Registered',   title: 'MSME Registered',   whiteBg: false },
 ]
 
 const NAV_LINKS = [
-  { to: '/',          label: 'Home' },
-  { to: '/products',  label: 'Products' },
-  { to: '/#why',      label: 'Why Sunmount' },
-  { to: '/#team',     label: 'Team' },
-  { to: '/contact',   label: 'Contact Us' },
+  { to: '/',         label: 'Home'          },
+  { to: '/products', label: 'Products'      },
+  { to: '/#why',     label: 'Why Sunmount'  },
+  { to: '/#team',    label: 'Team'          },
+  { to: '/contact',  label: 'Contact Us'    },
 ]
 
 const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
-  const location                = useLocation()
+  const [scrolled,  setScrolled]  = useState(false)
+  const [menuOpen,  setMenuOpen]  = useState(false)
+  const location                  = useLocation()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -27,23 +27,32 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Logo & badge sizes scale with scroll state
-  const logoH  = scrolled ? 42 : 64   // SunMount logo height
-  const badgeS = scrolled ? 44 : 64   // badge box size
+  const logoH  = scrolled ? 40 : 60
+  const badgeH = scrolled ? 40 : 56   // image height inside each badge slot
 
   return (
     <>
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
-        padding: scrolled ? '0.5rem 0' : '0.75rem 0',
-        background: scrolled ? 'rgba(6,9,18,0.96)' : 'rgba(6,9,18,0.90)',
-        backdropFilter: 'blur(18px) saturate(180%)',
+        padding: scrolled ? '0.4rem 0' : '0.6rem 0',
+        background: scrolled ? 'rgba(6,9,18,0.97)' : 'rgba(6,9,18,0.92)',
+        backdropFilter: 'blur(20px) saturate(180%)',
         borderBottom: scrolled ? '1px solid var(--border-subtle)' : '1px solid rgba(255,255,255,0.06)',
         transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
       }}>
-        <div className="container" style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:'1rem', paddingLeft:'0.75rem' }}>
 
-          {/* ── SUNMOUNT LOGO ── */}
+        {/* ── Full-width inner row — logo far left, badges far right ── */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 2rem',
+          gap: '2rem',
+          width: '100%',
+          boxSizing: 'border-box',
+        }}>
+
+          {/* ── SUNMOUNT LOGO — far left ── */}
           <Link to="/" style={{ display:'flex', alignItems:'center', flexShrink:0 }}>
             <img
               src="/logo.png"
@@ -57,54 +66,110 @@ const Navbar = () => {
             />
           </Link>
 
-          {/* ── DESKTOP NAV ── */}
-          <div className="nav-desktop" style={{ display:'flex', gap:'2rem', alignItems:'center', flex:1, justifyContent:'center' }}>
+          {/* ── DESKTOP NAV — centred, no wrapping ── */}
+          <div
+            className="nav-desktop"
+            style={{
+              display: 'flex',
+              gap: '2.8rem',
+              alignItems: 'center',
+              flex: 1,
+              justifyContent: 'center',
+              whiteSpace: 'nowrap',
+            }}
+          >
             {NAV_LINKS.map(link => {
               const active = location.pathname === link.to.split('#')[0] && !link.to.includes('#')
               return (
-                <Link key={link.label} to={link.to} className="nav-link" style={{
-                  fontFamily: 'Montserrat', fontSize: '0.84rem', fontWeight: 600,
-                  letterSpacing: '0.08em', textTransform: 'uppercase',
-                  color: active ? 'var(--sun-orange)' : 'var(--text-secondary)',
-                  position: 'relative', padding: '0.4rem 0',
-                }}>{link.label}</Link>
+                <Link
+                  key={link.label}
+                  to={link.to}
+                  className="nav-link"
+                  style={{
+                    fontFamily: 'Montserrat',
+                    fontSize: '0.82rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.07em',
+                    textTransform: 'uppercase',
+                    color: active ? 'var(--sun-orange)' : 'var(--text-secondary)',
+                    position: 'relative',
+                    padding: '0.4rem 0',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {link.label}
+                </Link>
               )
             })}
           </div>
 
-          {/* ── TRUST BADGES ── uniform container, no heavy bg ── */}
-          <div className="trust-badges" style={{ display:'flex', gap:'0.6rem', alignItems:'center', flexShrink:0 }}>
-            {BADGES.map(({ src, alt, title }) => (
-              <div key={alt} title={title} style={{
-                display:'flex', alignItems:'center', justifyContent:'center',
-                height: badgeS + 6, padding:'3px 4px',
-                background:'transparent',
-                transition:'all 0.35s cubic-bezier(0.16,1,0.3,1)', cursor:'help',
-              }}
-                onMouseEnter={e => { e.currentTarget.style.transform='translateY(-2px) scale(1.08)' }}
-                onMouseLeave={e => { e.currentTarget.style.transform='translateY(0) scale(1)' }}
+          {/* ── TRUST BADGES — far right ── */}
+          <div
+            className="trust-badges"
+            style={{
+              display: 'flex',
+              gap: '1rem',
+              alignItems: 'center',
+              flexShrink: 0,
+            }}
+          >
+            {BADGES.map(({ src, alt, title, whiteBg }) => (
+              <div
+                key={alt}
+                title={title}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1)',
+                  cursor: 'help',
+                  /* White-bg badges (Make in India) get a subtle rounded card so the
+                     white area looks intentional instead of floating on the dark nav */
+                  ...(whiteBg ? {
+                    background: 'rgba(255,255,255,0.92)',
+                    borderRadius: 6,
+                    padding: '3px 6px',
+                  } : {}),
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.08)' }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0) scale(1)' }}
               >
-                <img src={src} alt={alt} style={{
-                  height: badgeS, width:'auto', objectFit:'contain',
-                  filter: src.includes('makeindia')
-                    ? 'brightness(0) invert(1) opacity(0.88)'
-                    : 'brightness(1.15) contrast(1.08) drop-shadow(0 1px 4px rgba(0,0,0,0.4))',
-                }} />
+                <img
+                  src={src}
+                  alt={alt}
+                  style={{
+                    height: badgeH,
+                    width: 'auto',
+                    objectFit: 'contain',
+                    display: 'block',
+                    filter: whiteBg
+                      ? 'none'
+                      : 'brightness(1.15) contrast(1.08) drop-shadow(0 1px 5px rgba(0,0,0,0.5))',
+                  }}
+                />
               </div>
             ))}
           </div>
 
           {/* ── MOBILE TOGGLE ── */}
-          <button className="mobile-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu"
-            style={{ display:'none', flexDirection:'column', justifyContent:'center', gap:5, width:32, height:32, background:'none', border:'none', cursor:'pointer' }}>
-            {[0,1,2].map(i => (
+          <button
+            className="mobile-toggle"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Menu"
+            style={{
+              display: 'none', flexDirection: 'column', justifyContent: 'center',
+              gap: 5, width: 32, height: 32, background: 'none', border: 'none', cursor: 'pointer',
+            }}
+          >
+            {[0, 1, 2].map(i => (
               <span key={i} style={{
-                display:'block', width:22, height:2, background:'var(--text-primary)',
-                transition:'all 0.3s',
+                display: 'block', width: 22, height: 2, background: 'var(--text-primary)',
+                transition: 'all 0.3s',
                 transform: menuOpen
-                  ? i===0 ? 'rotate(45deg) translate(5px,5px)' : i===2 ? 'rotate(-45deg) translate(5px,-5px)' : 'scaleX(0)'
+                  ? i === 0 ? 'rotate(45deg) translate(5px,5px)'
+                  : i === 2 ? 'rotate(-45deg) translate(5px,-5px)' : 'scaleX(0)'
                   : 'none',
-                opacity: menuOpen && i===1 ? 0 : 1,
+                opacity: menuOpen && i === 1 ? 0 : 1,
               }} />
             ))}
           </button>
@@ -113,26 +178,38 @@ const Navbar = () => {
         {/* ── MOBILE MENU ── */}
         {menuOpen && (
           <div style={{
-            position:'absolute', top:'100%', left:0, right:0,
-            background:'rgba(6,9,18,0.98)', backdropFilter:'blur(20px)',
-            padding:'2rem', display:'flex', flexDirection:'column', gap:'1.2rem',
-            borderBottom:'1px solid var(--border-subtle)',
+            position: 'absolute', top: '100%', left: 0, right: 0,
+            background: 'rgba(6,9,18,0.98)', backdropFilter: 'blur(20px)',
+            padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.2rem',
+            borderBottom: '1px solid var(--border-subtle)',
           }}>
             {NAV_LINKS.map(l => (
-              <Link key={l.label} to={l.to} onClick={() => setMenuOpen(false)}
-                style={{ fontSize:'1.1rem', fontWeight:600, color:'var(--text-primary)' }}>
+              <Link
+                key={l.label}
+                to={l.to}
+                onClick={() => setMenuOpen(false)}
+                style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)' }}
+              >
                 {l.label}
               </Link>
             ))}
-            <div style={{ display:'flex', gap:'0.5rem', marginTop:'0.5rem' }}>
-              {BADGES.map(({ src, alt }) => (
-                <img key={alt} src={src} alt={alt}
+            <div style={{ display: 'flex', gap: '0.6rem', marginTop: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+              {BADGES.map(({ src, alt, whiteBg }) => (
+                <div
+                  key={alt}
                   style={{
-                    width:44, height:44, objectFit:'contain',
-                    filter: src.includes('makeindia')
-                      ? 'brightness(0) invert(1) opacity(0.85)'
-                      : 'brightness(1.15)',
-                  }} />
+                    ...(whiteBg ? { background: 'rgba(255,255,255,0.92)', borderRadius: 5, padding: '2px 5px' } : {}),
+                  }}
+                >
+                  <img
+                    src={src}
+                    alt={alt}
+                    style={{
+                      width: 44, height: 44, objectFit: 'contain', display: 'block',
+                      filter: whiteBg ? 'none' : 'brightness(1.15)',
+                    }}
+                  />
+                </div>
               ))}
             </div>
           </div>
@@ -141,13 +218,13 @@ const Navbar = () => {
 
       <style>{`
         .nav-link::after {
-          content:''; position:absolute; left:0; bottom:0;
-          width:100%; height:1px; background:var(--sun-orange);
-          transform:scaleX(0); transform-origin:right;
-          transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);
+          content: ''; position: absolute; left: 0; bottom: 0;
+          width: 100%; height: 1px; background: var(--sun-orange);
+          transform: scaleX(0); transform-origin: right;
+          transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
         }
-        .nav-link:hover { color:var(--sun-orange)!important; text-shadow:0 0 20px rgba(224,85,64,0.5); }
-        .nav-link:hover::after { transform:scaleX(1); transform-origin:left; }
+        .nav-link:hover { color: var(--sun-orange)!important; text-shadow: 0 0 20px rgba(224,85,64,0.5); }
+        .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
         @media(max-width:1200px) { .trust-badges { display:none!important; } }
         @media(max-width:900px)  { .nav-desktop { display:none!important; } .mobile-toggle { display:flex!important; } }
       `}</style>
