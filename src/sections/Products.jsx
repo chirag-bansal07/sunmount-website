@@ -112,43 +112,39 @@ function Corner({ pos, active }) {
   )
 }
 
-/* 3D spinning rail viewer */
-function SpinRail({ Component, hover, isClamp }) {
+/* 3D spinning model viewer — works with real GLB models */
+function SpinModel({ Component, hover }) {
   const ref = useRef()
   useFrame((_, dt) => {
     if (!ref.current) return
     if (hover) {
-      // Snap to a nice 3/4 angle showing the cross-section
       ref.current.rotation.y += (-0.65 - ref.current.rotation.y) * 0.10
-      ref.current.rotation.x += (-0.30 - ref.current.rotation.x) * 0.10
+      ref.current.rotation.x += (-0.28 - ref.current.rotation.x) * 0.10
     } else {
-      // Auto-rotate Y; hold a slight upward X tilt to show the profile
-      ref.current.rotation.y += dt * 0.6
-      ref.current.rotation.x += (0.22 - ref.current.rotation.x) * 0.05
+      ref.current.rotation.y += dt * 0.55
+      ref.current.rotation.x += (0.18 - ref.current.rotation.x) * 0.05
     }
   })
   return (
-    <group ref={ref} position={[0, isClamp ? -0.10 : -0.18, 0]}>
-      {isClamp ? <Component /> : <Component length={2.2} />}
+    <group ref={ref}>
+      <Component />
     </group>
   )
 }
 
 function RailCanvas({ Component, hover }) {
-  const isClamp = Component === SeamClamp
   return (
     <Canvas dpr={[1,2]} gl={{ antialias:true, alpha:true }}>
-      {/* Lower camera (y=0.75) so we see the cross-section, not just the top face */}
-      <PerspectiveCamera makeDefault position={isClamp ? [1.6,0.9,2.0] : [1.8,0.75,2.4]} fov={44} />
-      <ambientLight intensity={0.55} />
+      <PerspectiveCamera makeDefault position={[0, 0, 4]} fov={40} />
+      <ambientLight intensity={0.6} />
       <directionalLight position={[4,4,2]} intensity={2.0} color="#FBB034" />
       <directionalLight position={[-3,1,-2]} intensity={0.7} color="#6090d4" />
       <directionalLight position={[0,3,-4]} intensity={0.5} color="#ffffff" />
       <Suspense fallback={null}>
-        <SpinRail Component={Component} hover={hover} isClamp={isClamp} />
+        <SpinModel Component={Component} hover={hover} />
         <Environment preset="sunset" />
       </Suspense>
-      <ContactShadows position={[0, isClamp ? -0.32 : -0.45, 0]} opacity={0.40} scale={4} blur={2.5} far={2} />
+      <ContactShadows position={[0,-0.8,0]} opacity={0.40} scale={6} blur={2.5} far={3} />
     </Canvas>
   )
 }
