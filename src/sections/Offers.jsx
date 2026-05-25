@@ -16,7 +16,7 @@ const OFFERS = [
 const Offers = () => {
   return (
     <section style={{
-      padding: '8rem 0',
+      padding: '4rem 0',
       background: 'var(--bg-deep)',
       position: 'relative',
     }}>
@@ -31,7 +31,7 @@ const Offers = () => {
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
-          style={{ textAlign: 'center', marginBottom: '4.5rem', maxWidth: 700, margin: '0 auto 4.5rem' }}>
+          style={{ textAlign: 'center', marginBottom: '2.5rem', maxWidth: 700, margin: '0 auto 2.5rem' }}>
           <div className="section-label" style={{ display: 'inline-flex' }}>WHAT SUNMOUNT OFFERS</div>
           <h2 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.6rem)', marginBottom: '1.2rem' }}>
             Quality with <span className="gradient-text">Stability</span>,<br />
@@ -50,7 +50,7 @@ const Offers = () => {
             gap: '1.2rem',
           }}>
           {OFFERS.map((offer, i) => (
-            <motion.div key={i} variants={fadeUp}>
+            <motion.div key={i} variants={fadeUp} style={{ height:'100%', display:'flex', flexDirection:'column' }}>
               <OfferCard {...offer} index={i} />
             </motion.div>
           ))}
@@ -65,13 +65,15 @@ const OfferCard = ({ Icon, title, sub, index }) => {
     <div
       className="offer-card"
       style={{
-        padding: '2.2rem 1.8rem',
+        padding: '2rem 1.6rem',
         background: 'linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg-surface) 100%)',
         border: '1px solid var(--border-subtle)',
         position: 'relative',
         overflow: 'hidden',
         transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
         cursor: 'default',
+        height: '100%',
+        display: 'flex', flexDirection: 'column',
       }}
     >
       {/* Number indicator */}

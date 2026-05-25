@@ -38,7 +38,7 @@ const Testimonials = () => {
   }, [next, paused])
 
   return (
-    <section style={{ padding:'8rem 0', background:'var(--bg-base)', position:'relative' }}>
+    <section style={{ padding:'4rem 0', background:'var(--bg-base)', position:'relative' }}>
       <div className="container">
         <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
           style={{ textAlign:'center', marginBottom:'4rem' }}>
@@ -148,7 +148,7 @@ const Testimonials = () => {
         {/* CTA */}
         <motion.div
           variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-40px'}}
-          style={{ marginTop:'5rem', padding:'3.5rem 2rem', textAlign:'center', background:'linear-gradient(135deg,rgba(224,85,64,0.07) 0%,rgba(224,85,64,0) 70%)', border:'1px solid var(--border-subtle)', position:'relative' }}>
+          style={{ marginTop:'2rem', padding:'2.5rem 2rem', textAlign:'center', background:'linear-gradient(135deg,rgba(224,85,64,0.07) 0%,rgba(224,85,64,0) 70%)', border:'1px solid var(--border-subtle)', position:'relative' }}>
           <div style={{ position:'absolute', top:0, left:0, height:2, width:'100%', background:'var(--gradient-sun)' }} />
           <h3 style={{ fontSize:'clamp(1.6rem,3vw,2.4rem)', marginBottom:'0.6rem' }}>
             Looking for Professional <span className="gradient-text">High Quality Products?</span>

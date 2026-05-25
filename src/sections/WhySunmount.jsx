@@ -33,7 +33,7 @@ const WhySunmount = () => {
 
   return (
     <section id="why" style={{
-      padding:'8rem 0', position:'relative',
+      padding:'4.5rem 0', position:'relative',
       background:'linear-gradient(180deg,var(--bg-base) 0%,var(--bg-deep) 100%)',
       overflow:'hidden',
     }}>
@@ -46,7 +46,7 @@ const WhySunmount = () => {
       <div className="container" style={{ position:'relative', zIndex:1 }}>
         <motion.div
           variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
-          style={{ textAlign:'center', marginBottom:'5rem', maxWidth:720, margin:'0 auto 5rem' }}
+          style={{ textAlign:'center', marginBottom:'3rem', maxWidth:720, margin:'0 auto 3rem' }}
         >
           <div className="section-label" style={{ display:'inline-flex' }}>WHY SUNMOUNT®</div>
           <h2 style={{ fontSize:'clamp(2.2rem,4.5vw,3.6rem)', marginBottom:'1.2rem' }}>
@@ -55,13 +55,13 @@ const WhySunmount = () => {
           </h2>
         </motion.div>
 
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'4rem', alignItems:'center' }} className="why-grid">
+        <div style={{ display:'grid', gridTemplateColumns:'1.3fr 1fr', gap:'3rem', alignItems:'center' }} className="why-grid">
 
           {/* Interactive orbital wheel */}
           <motion.div
             initial={{opacity:0,scale:0.88}} whileInView={{opacity:1,scale:1}}
             viewport={{once:true,margin:'-80px'}} transition={{duration:0.8,ease:[0.16,1,0.3,1]}}
-            style={{ position:'relative', width:'100%', aspectRatio:'1', maxWidth:560, margin:'0 auto' }}
+            style={{ position:'relative', width:'100%', aspectRatio:'1', maxWidth:560, marginLeft:0 }}
           >
             {/* Orbit rings */}
             {[210, 330, 450].map((size, i) => (
@@ -105,7 +105,7 @@ const WhySunmount = () => {
                     position:'absolute',
                     top:`calc(50% + ${y}px)`, left:`calc(50% + ${x}px)`,
                     transform:'translate(-50%,-50%)',
-                    width: isActive ? 88 : 68, height: isActive ? 88 : 68,
+                    width: isActive ? 104 : 80, height: isActive ? 104 : 80,
                     borderRadius:'50%',
                     background: isActive ? 'radial-gradient(circle,rgba(232,146,58,0.25) 0%,transparent 70%)' : 'transparent',
                     border:'none', cursor:'pointer',
@@ -114,13 +114,13 @@ const WhySunmount = () => {
                   }}
                 >
                   <div style={{
-                    width: isActive ? 56 : 44, height: isActive ? 56 : 44,
+                    width: isActive ? 68 : 52, height: isActive ? 68 : 52,
                     borderRadius:'50%',
                     background: isActive ? 'var(--gradient-sun)' : 'var(--bg-elevated)',
                     border:`1.5px solid ${isActive ? 'var(--sun-orange)' : 'var(--aluminum-dark)'}`,
                     display:'flex', alignItems:'center', justifyContent:'center',
                     color: isActive ? 'var(--bg-deep)' : 'var(--aluminum-mid)',
-                    fontFamily:'JetBrains Mono', fontSize:'0.52rem',
+                    fontFamily:'JetBrains Mono', fontSize:'0.6rem',
                     fontWeight:700, letterSpacing:'0.08em', textAlign:'center',
                     transition:'all 0.4s',
                     boxShadow: isActive ? '0 0 28px rgba(232,146,58,0.5)' : 'none',

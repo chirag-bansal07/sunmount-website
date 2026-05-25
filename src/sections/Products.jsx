@@ -196,7 +196,7 @@ const ProductCard = ({ product, index }) => {
         borderRadius:4, overflow:'hidden',
         transition:'border-color 0.45s, transform 0.45s cubic-bezier(0.16,1,0.3,1)',
         transform: hover ? 'translateY(-6px)' : 'translateY(0)',
-        display:'flex', flexDirection:'column',
+        display:'flex', flexDirection:'column', height:'100%',
       }}
     >
       {['tl','tr','bl','br'].map(p => <Corner key={p} pos={p} active={hover} />)}
@@ -220,7 +220,7 @@ const ProductCard = ({ product, index }) => {
 
       {/* 3D / Visual viewport */}
       <div style={{
-        height:240, position:'relative',
+        height:200, position:'relative',
         background:'radial-gradient(ellipse at 50% 70%, rgba(224,85,64,0.07) 0%, transparent 70%)',
         margin:'0.5rem 0',
       }}>
@@ -241,7 +241,7 @@ const ProductCard = ({ product, index }) => {
       </div>
 
       {/* Name */}
-      <div style={{ padding:'0 1.4rem' }}>
+      <div style={{ padding:'0 1.4rem', display:'flex', flexDirection:'column', flex:1 }}>
         <h3 style={{ fontSize:'1.35rem', fontWeight:800, marginBottom:'0.5rem', color:'var(--text-primary)' }}>
           {product.name}
         </h3>
@@ -287,7 +287,7 @@ const ProductCard = ({ product, index }) => {
 
         <Link to={`/products#${product.id}`} style={{
           display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%',
-          padding:'0.8rem 1rem', marginBottom:'1.4rem',
+          padding:'0.8rem 1rem', marginBottom:'1.2rem', marginTop:'auto',
           background: hover ? 'var(--gradient-sun)' : 'transparent',
           border:`1px solid ${hover ? 'transparent' : 'var(--aluminum-edge)'}`,
           color: hover ? 'var(--bg-deep)' : 'var(--text-primary)',
@@ -303,10 +303,10 @@ const ProductCard = ({ product, index }) => {
 }
 
 const Products = () => (
-  <section id="products" style={{ padding:'8rem 0 6rem', background:'var(--bg-base)', position:'relative' }}>
+  <section id="products" style={{ padding:'4rem 0 3rem', background:'var(--bg-base)', position:'relative' }}>
     <div className="container">
       <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
-        style={{ textAlign:'center', marginBottom:'4rem', maxWidth:680, margin:'0 auto 4rem' }}>
+        style={{ textAlign:'center', marginBottom:'2.5rem', maxWidth:680, margin:'0 auto 2.5rem' }}>
         <div className="section-label" style={{ display:'inline-flex' }}>OUR PRODUCT RANGE</div>
         <h2 style={{ fontSize:'clamp(2.2rem,4.5vw,3.4rem)', marginBottom:'1.1rem' }}>
           Engineered for <span className="gradient-text">Every Roof.</span>
@@ -319,9 +319,9 @@ const Products = () => (
 
       <motion.div
         variants={stagger} initial="hidden" whileInView="show" viewport={{once:true,margin:'-60px'}}
-        style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'1.4rem', marginBottom:'4rem' }}>
+        style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'1.2rem', marginBottom:'2.5rem', alignItems:'stretch' }}>
         {PRODUCTS.map((p, i) => (
-          <motion.div key={p.id} variants={fadeUp}>
+          <motion.div key={p.id} variants={fadeUp} style={{ height:'100%', display:'flex', flexDirection:'column' }}>
             <ProductCard product={p} index={i} />
           </motion.div>
         ))}

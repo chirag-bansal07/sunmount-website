@@ -72,25 +72,23 @@ const Navbar = () => {
             })}
           </div>
 
-          {/* ── TRUST BADGES ── no background, direct images ── */}
-          <div className="trust-badges" style={{ display:'flex', gap:'0.9rem', alignItems:'center', flexShrink:0 }}>
+          {/* ── TRUST BADGES ── uniform container, no heavy bg ── */}
+          <div className="trust-badges" style={{ display:'flex', gap:'0.8rem', alignItems:'center', flexShrink:0 }}>
             {BADGES.map(({ src, alt, title }) => (
-              <img
-                key={alt}
-                src={src}
-                alt={alt}
-                title={title}
-                style={{
-                  height: badgeS,
-                  width: 'auto',
-                  objectFit: 'contain',
-                  filter: 'brightness(1.15) contrast(1.05)',
-                  transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
-                  cursor: 'help',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.transform='translateY(-3px) scale(1.08)' }}
-                onMouseLeave={e => { e.currentTarget.style.transform='translateY(0) scale(1)' }}
-              />
+              <div key={alt} title={title} style={{
+                display:'flex', alignItems:'center', justifyContent:'center',
+                height: badgeS + 6, padding:'4px 5px',
+                background:'rgba(255,255,255,0.07)', borderRadius:5,
+                transition:'all 0.35s cubic-bezier(0.16,1,0.3,1)', cursor:'help',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.transform='translateY(-2px) scale(1.06)'; e.currentTarget.style.background='rgba(255,255,255,0.14)' }}
+                onMouseLeave={e => { e.currentTarget.style.transform='translateY(0) scale(1)';     e.currentTarget.style.background='rgba(255,255,255,0.07)' }}
+              >
+                <img src={src} alt={alt} style={{
+                  height: badgeS, width:'auto', objectFit:'contain',
+                  filter:'brightness(1.1) contrast(1.05)',
+                }} />
+              </div>
             ))}
           </div>
 
