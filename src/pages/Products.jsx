@@ -17,7 +17,7 @@ const PRODUCTS = [
     short: 'Portrait · Trapezoidal Roofs',
     tag: 'PORTRAIT',
     badge: 'Best Seller',
-    systemDesc: 'T-slot aluminium rail for portrait-orientation panels on trapezoidal metal roofs. Available in two clearance heights to match project requirements.',
+    systemDesc: 'T-slot aluminium rail for portrait-orientation panels on trapezoidal metal roofs. Four variants — 100 mm, 70 mm, 65 mm and 100 mm Pro — to match any project clearance or wind-load requirement.',
     variants: [
       {
         id: 'mono-100',
@@ -73,6 +73,60 @@ const PRODUCTS = [
         ],
         applications: ['Coastal installation', 'High wind zone', 'Commercial rooftop', 'Industrial shed'],
       },
+      {
+        id: 'mono-65',
+        name: 'MonoRail 65mm',
+        subtitle: '65 mm Roof Clearance',
+        Component: MonoRail,
+        tagline: 'Ultra-low 65 mm clearance — minimum profile for sites with the strictest height or wind constraints.',
+        desc: 'The MonoRail 65mm is the lowest-clearance variant in the Mono Rail range, bringing panels within 65 mm of the roof surface. This ultra-low profile delivers the smallest wind-exposed area of any mono-rail configuration, minimising uplift forces in severe wind environments. Ideal for coastal industrial rooftops and any site where height restrictions apply.',
+        specs: [
+          { label: 'Profile Height',     value: '70 mm' },
+          { label: 'Roof Clearance',     value: '65 mm' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Orientation',        value: 'Portrait' },
+          { label: 'Attachment',         value: 'Rivet + EPDM tape / Structural adhesive' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          '65 mm clearance — minimum wind-exposed profile',
+          'Lowest uplift force in the Mono Rail range',
+          'Portrait orientation — high module capacity',
+          'Ideal for height-restricted & coastal sites',
+          'U-clamp & mid-clamp panel attachment',
+          'Compatible with all PV module brands',
+        ],
+        applications: ['Coastal installation', 'High wind zone', 'Height-restricted site', 'Industrial shed'],
+      },
+      {
+        id: 'mono-100-pro',
+        name: 'MonoRail 100mm Pro',
+        subtitle: '100 mm Clearance · Heavy Duty',
+        Component: MonoRail,
+        tagline: 'Heavy-duty 100 mm Pro — reinforced profile for large-span purlins and premium commercial projects.',
+        desc: 'The MonoRail 100mm Pro shares the 100 mm clearance of the standard variant but uses a heavier-gauge aluminium extrusion with greater wall thickness for improved bending stiffness. This allows wider fixing spacings along the roof purlin, reducing the number of penetrations on large commercial or industrial rooftops. The Pro grade also supports heavier bifacial panel modules.',
+        specs: [
+          { label: 'Profile Height',     value: '70 mm (heavy-gauge wall)' },
+          { label: 'Roof Clearance',     value: '100 mm' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Orientation',        value: 'Portrait' },
+          { label: 'Attachment',         value: 'Rivet + EPDM tape / Structural adhesive' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          'Heavy-gauge extrusion — wider purlin spacing',
+          '100 mm clearance for maximum ventilation',
+          'Supports heavier bifacial panel modules',
+          'Fewer roof penetrations on large-span roofs',
+          'Portrait orientation — high module capacity',
+          'Compatible with all PV module brands',
+        ],
+        applications: ['Large commercial rooftop', 'Premium project', 'Bifacial module installation', 'Industrial shed'],
+      },
     ],
   },
 
@@ -83,7 +137,7 @@ const PRODUCTS = [
     short: 'Landscape · Residential',
     tag: 'LANDSCAPE',
     badge: 'Cost Effective',
-    systemDesc: 'Low-profile compact extrusion for landscape-orientation panels on trapezoidal roofs. Two clearance variants; the most cost-effective solution in the SunMount range.',
+    systemDesc: 'Low-profile compact extrusion for landscape-orientation panels on trapezoidal roofs. Three variants — 100 mm, 70 mm and Short Rail — covering all clearance needs from standard to compact-bay installations.',
     variants: [
       {
         id: 'mini-100',
@@ -139,6 +193,33 @@ const PRODUCTS = [
         ],
         applications: ['Residential rooftop', 'Aesthetics-sensitive site', 'High wind zone', 'Light commercial'],
       },
+      {
+        id: 'mini-short',
+        name: 'Short Rail',
+        subtitle: 'Compact Span · Portrait',
+        Component: ShortRail,
+        tagline: 'Compact short-span rail for narrow bays, canopies and retrofits — same T-slot, all SunMount clamps compatible.',
+        desc: 'The Short Rail is a compact aluminium extrusion for rooftops where a full-length rail is impractical due to narrow bay widths, limited purlin spans or modular roof layouts. Its reduced length minimises material usage and simplifies logistics while keeping the same T-slot profile that accepts every SunMount U-clamp, Z-clamp and mid-clamp. Ideal for canopies, carports and residential retrofits.',
+        specs: [
+          { label: 'Profile Length',     value: 'Short-span (custom cut)' },
+          { label: 'Profile Height',     value: '68 mm' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Orientation',        value: 'Portrait' },
+          { label: 'Attachment',         value: 'Rivet + EPDM tape' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          'Short span — designed for narrow-bay rooftops',
+          'Reduced material & logistics cost',
+          'Same T-slot — all SunMount clamps compatible',
+          'Modular — cut to exact bay width on site',
+          'Fast installation on compact or retrofit projects',
+          'Compatible with all PV module brands',
+        ],
+        applications: ['Compact residential', 'Canopy / carport', 'Narrow-bay industrial', 'Retrofit installation'],
+      },
     ],
   },
 
@@ -149,7 +230,7 @@ const PRODUCTS = [
     short: 'Portrait & Landscape · Industrial',
     tag: 'PORTRAIT / LANDSCAPE',
     badge: 'High Strength',
-    systemDesc: 'Heavy-duty purlin-mounted aluminium rail for industrial buildings, asbestos cement roofs and high wind-load zones. Two strength variants for portrait and landscape orientation.',
+    systemDesc: 'Heavy-duty purlin-mounted aluminium rail for industrial buildings, asbestos cement roofs and high wind-load zones. Three variants — Ultra, Light and Pro — spanning every load and orientation requirement.',
     variants: [
       {
         id: 'long-ultra',
@@ -205,6 +286,33 @@ const PRODUCTS = [
         ],
         applications: ['Industrial shed', 'Warehouse', 'Asbestos roof', 'Light commercial'],
       },
+      {
+        id: 'long-pro',
+        name: 'Long Rail Pro',
+        subtitle: 'Premium · Dual Orientation',
+        Component: LongRail,
+        tagline: 'Premium grade with the highest load capacity — engineered for both portrait and landscape on the most demanding structures.',
+        desc: 'The Long Rail Pro is the flagship of the Long Rail range, combining the greatest cross-section wall thickness with a universal profile that accommodates both portrait and landscape panel orientations. It is designed for premium commercial and industrial projects where structural engineers require the highest certified load ratings, the widest allowable purlin spacings, and a single-rail solution across mixed-orientation arrays.',
+        specs: [
+          { label: 'Grade',              value: 'PRO (maximum wall thickness)' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Mounting',           value: 'Purlin-mounted' },
+          { label: 'Orientation',        value: 'Portrait & Landscape' },
+          { label: 'Roof Types',         value: 'Metal sheet · Asbestos cement' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          'Highest load rating in the Long Rail range',
+          'Supports portrait AND landscape orientation',
+          'Maximum permitted purlin spacing',
+          'FEA-certified for extreme wind zones',
+          'Single-rail solution for mixed-orientation arrays',
+          'Compatible with all PV module brands',
+        ],
+        applications: ['Premium commercial', 'Mixed-orientation array', 'Extreme wind zone', 'Large-span industrial'],
+      },
     ],
   },
 
@@ -218,12 +326,12 @@ const PRODUCTS = [
     systemDesc: 'Clamp-based system that grips the standing seam profile without any drilling. Four clamp variants cover every seam geometry used in India.',
     variants: [
       {
-        id: 'seam-t1-55',
-        name: 'Seam T1 · 55mm',
+        id: 'seam-55',
+        name: 'Standing Seam 55mm',
         subtitle: 'T1 Profile · 55 mm Seam',
         Component: SeamClamp,
-        tagline: 'The standard T1 seam clamp — covers the most common 55 mm standing seam profile in India.',
-        desc: 'The T1 55mm seam clamp is designed for the most widely installed standing seam roofing profile in India. Grub screws fix the aluminium clamp onto the 55 mm seam without drilling, preserving the roof membrane and warranty. Landscape-orientation panels attach via U-clamp or mid-clamp directly to the clamp\'s T-slot.',
+        tagline: 'The standard 55 mm seam clamp — covers the most common standing seam profile in India.',
+        desc: 'Standing Seam 55mm is designed for the most widely installed standing seam roofing profile in India. Grub screws fix the aluminium clamp onto the 55 mm seam without drilling, preserving the roof membrane and warranty. Landscape-orientation panels attach via U-clamp or mid-clamp directly to the clamp\'s T-slot.',
         specs: [
           { label: 'Seam Profile',       value: 'T1' },
           { label: 'Seam Height',        value: '55 mm' },
@@ -237,7 +345,7 @@ const PRODUCTS = [
         highlights: [
           'Zero roof penetration — preserves manufacturer warranty',
           'Grub-screw clamping, no drilling required',
-          'Designed for 55 mm T1 seam geometry',
+          'Designed for 55 mm standing seam geometry',
           'Fastest installation in the SunMount range',
           'Landscape panel orientation',
           'Compatible with all PV module brands',
@@ -245,14 +353,14 @@ const PRODUCTS = [
         applications: ['Standing seam factory', 'Premium commercial', 'Architectural warehouse', 'High-end residential'],
       },
       {
-        id: 'seam-t2-100',
-        name: 'Seam T2 · 100mm',
-        subtitle: 'T2 Profile · 100 mm Seam',
+        id: 'seam-100-pro',
+        name: 'Standing Seam 100mm Pro',
+        subtitle: 'T2 Profile · 100 mm Seam · Pro',
         Component: SeamClamp,
-        tagline: 'Taller T2 clamp for 100 mm seam profiles — designed for industrial-grade standing seam roofing.',
-        desc: 'The T2 100mm seam clamp accommodates taller, 100 mm standing seam profiles typical of large-span industrial roofing. The deeper clamp jaw provides a more secure grip on the wider seam, and grub screws ensure lock-tight retention even under extreme wind loads. Panel attachment via T-slot U-clamp or mid-clamp.',
+        tagline: 'Pro-grade 100 mm clamp for tall T2 seam profiles — maximum grip for industrial-grade standing seam roofing.',
+        desc: 'Standing Seam 100mm Pro accommodates taller, 100 mm T2 standing seam profiles typical of large-span industrial roofing. The deep Pro-grade clamp jaw provides a more secure grip on the wider seam body, and reinforced grub screws ensure lock-tight retention even under extreme wind loads. Panel attachment via T-slot U-clamp or mid-clamp.',
         specs: [
-          { label: 'Seam Profile',       value: 'T2' },
+          { label: 'Seam Profile',       value: 'T2 · Pro grade' },
           { label: 'Seam Height',        value: '100 mm' },
           { label: 'Clamp Material',     value: 'Aluminium 6063 T6 · SS 304' },
           { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
@@ -263,7 +371,7 @@ const PRODUCTS = [
         ],
         highlights: [
           'Zero roof penetration',
-          'Designed for tall 100 mm T2 seam geometry',
+          'Designed for tall 100 mm standing seam geometry',
           'Deeper jaw for positive seam engagement',
           'Grub-screw locking — no drilling',
           'Landscape panel orientation',
@@ -272,12 +380,12 @@ const PRODUCTS = [
         applications: ['Industrial standing seam', 'Large-span factory', 'Commercial warehouse', 'Premium rooftop'],
       },
       {
-        id: 'seam-t2-p1p2',
-        name: 'Seam T2 · P1–P2',
-        subtitle: 'T2 Profile · P1–P2 Clamp',
+        id: 'seam-70-t1',
+        name: 'Standing Seam 70mm Type 1',
+        subtitle: 'T2 Profile · 70 mm · Type 1 Clamp',
         Component: SeamClamp,
-        tagline: 'T2 clamp configured for P1–P2 seam geometry — specific fit for narrow-flange standing seams.',
-        desc: 'The T2 P1–P2 variant is precision-machined to match the P1–P2 seam geometry: a narrow-flange T2 profile commonly found on imported and premium domestic standing seam systems. The clamp jaw conforms to the seam\'s inner radius, and dual grub screws at P1 and P2 contact points distribute clamping force evenly without distorting the seam.',
+        tagline: '70 mm Type 1 clamp — precision fit for narrow-flange standing seam profiles at 70 mm seam height.',
+        desc: 'Standing Seam 70mm Type 1 is precision-machined for 70 mm narrow-flange standing seam profiles commonly found on imported and premium domestic roofing systems. The Type 1 clamp jaw conforms to the seam\'s inner radius, and dual grub screws distribute clamping force evenly without distorting the seam, preserving the roof warranty.',
         specs: [
           { label: 'Seam Profile',       value: 'T2 · P1–P2 geometry' },
           { label: 'Clamp Points',       value: 'P1 & P2 (dual grub screw)' },
@@ -292,19 +400,19 @@ const PRODUCTS = [
           'Zero roof penetration',
           'Dual P1–P2 contact for even clamping force',
           'No seam distortion — warranty safe',
-          'For narrow-flange T2 seam profiles',
+          'For narrow-flange 70 mm seam profiles (Type 1)',
           'Landscape panel orientation',
           'Compatible with all PV module brands',
         ],
         applications: ['Imported standing seam', 'Premium residential', 'Architectural project', 'Commercial rooftop'],
       },
       {
-        id: 'seam-t2-p2p3',
-        name: 'Seam T2 · P2–P3',
-        subtitle: 'T2 Profile · P2–P3 Clamp',
+        id: 'seam-70-t2',
+        name: 'Standing Seam 70mm Type 2',
+        subtitle: 'T2 Profile · 70 mm · Type 2 Clamp',
         Component: SeamClamp,
-        tagline: 'T2 clamp for wide-flange P2–P3 seams — maximum holding strength on large-profile roofing.',
-        desc: 'The T2 P2–P3 variant is engineered for wide-flange T2 seam profiles where the clamping contact points fall at positions P2 and P3. The extended jaw depth accommodates the wider seam body and the dual-point grub screws at P2 and P3 deliver maximum pull-out resistance for heavy panel loads and high wind environments.',
+        tagline: '70 mm Type 2 clamp — wide-flange geometry for maximum pull-out resistance on large-profile seams.',
+        desc: 'Standing Seam 70mm Type 2 is engineered for wide-flange 70 mm standing seam profiles. The Type 2 jaw accommodates the wider seam body and dual-point grub screws deliver maximum pull-out resistance for heavy panel loads and high wind environments. This variant provides the highest holding force among the 70 mm seam clamp range.',
         specs: [
           { label: 'Seam Profile',       value: 'T2 · P2–P3 geometry' },
           { label: 'Clamp Points',       value: 'P2 & P3 (dual grub screw)' },
@@ -318,7 +426,7 @@ const PRODUCTS = [
         highlights: [
           'Zero roof penetration',
           'Dual P2–P3 contact — maximum pull-out resistance',
-          'For wide-flange T2 seam profiles',
+          'For wide-flange 70 mm seam profiles (Type 2)',
           'High wind-load holding capacity',
           'Landscape panel orientation',
           'Compatible with all PV module brands',
@@ -328,46 +436,7 @@ const PRODUCTS = [
     ],
   },
 
-  /* ── 5. SHORT RAIL ───────────────────────────────────────────── */
-  {
-    id: 'short',
-    name: 'Short Rail System',
-    short: 'Portrait · Compact Rooftops',
-    tag: 'PORTRAIT',
-    badge: 'Compact',
-    systemDesc: 'A shorter-span mounting rail for compact trapezoidal rooftops and tight-pitch installations where a full-length rail is impractical.',
-    variants: [
-      {
-        id: 'short-std',
-        name: 'Short Rail',
-        subtitle: 'Compact Profile',
-        Component: ShortRail,
-        tagline: 'Shorter rail solution for compact rooftops and tight spaces — quick to install, versatile in application.',
-        desc: 'The Short Rail System is a compact aluminium extrusion designed for rooftops where full-length rails are impractical due to narrow bay widths or limited purlin spans. Its reduced length minimises material use and simplifies logistics while maintaining the same T-slot profile compatible with all SunMount clamp accessories. Suitable for residential rooftops, canopies, and sites with modular or irregular bay layouts.',
-        specs: [
-          { label: 'Profile Length',     value: 'Short-span (custom cut)' },
-          { label: 'Profile Height',     value: '68 mm' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Orientation',        value: 'Portrait' },
-          { label: 'Attachment',         value: 'Rivet + EPDM tape' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          'Shorter span — ideal for compact rooftops',
-          'Reduced material & logistics cost',
-          'Same T-slot — compatible with all SunMount clamps',
-          'Fast installation on narrow bay roofs',
-          'Modular — cut to exact bay width',
-          'Compatible with all PV module brands',
-        ],
-        applications: ['Compact residential', 'Canopy / carport', 'Narrow-bay industrial', 'Retrofit installation'],
-      },
-    ],
-  },
-
-  /* ── 6. INCLINED SYSTEM ──────────────────────────────────────── */
+  /* ── 5. INCLINED SYSTEM ──────────────────────────────────────── */
   {
     id: 'inclined',
     name: 'Inclined System',
@@ -616,7 +685,7 @@ export default function Products() {
                         color: active ? 'rgba(224,85,64,0.7)' : 'var(--text-muted)',
                         background: active ? 'rgba(224,85,64,0.12)' : 'rgba(255,255,255,0.05)',
                         padding:'0.1rem 0.35rem', borderRadius:2 }}>
-                        {varCount} models
+                        {varCount} systems
                       </div>
                     )}
                   </div>
