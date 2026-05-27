@@ -560,7 +560,7 @@ function VariantSlider({ variants, selectedId, onSelect }) {
                 letterSpacing: '0.15em', color: active ? 'var(--sun-orange)' : 'var(--text-muted)',
                 marginBottom: '0.45rem',
               }}>
-                MODEL {String(i + 1).padStart(2, '0')}
+                SYSTEM {String(i + 1).padStart(2, '0')}
               </div>
 
               {/* Name */}
@@ -675,16 +675,20 @@ export default function Products() {
                   cursor:'pointer',
                   transition:'all 0.3s cubic-bezier(0.16,1,0.3,1)',
                 }}>
-                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'0.22rem' }}>
+                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center',
+                    flexWrap:'nowrap', gap:'0.4rem', marginBottom:'0.22rem' }}>
                     <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.55rem', letterSpacing:'0.18em',
-                      color: active ? 'var(--sun-orange)' : 'var(--text-muted)', textTransform:'uppercase' }}>
+                      color: active ? 'var(--sun-orange)' : 'var(--text-muted)',
+                      textTransform:'uppercase', whiteSpace:'nowrap', overflow:'hidden',
+                      textOverflow:'ellipsis', minWidth:0 }}>
                       0{i + 1} · {p.tag}
                     </div>
                     {varCount > 1 && (
                       <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.52rem', letterSpacing:'0.1em',
                         color: active ? 'rgba(224,85,64,0.7)' : 'var(--text-muted)',
                         background: active ? 'rgba(224,85,64,0.12)' : 'rgba(255,255,255,0.05)',
-                        padding:'0.1rem 0.35rem', borderRadius:2 }}>
+                        padding:'0.1rem 0.35rem', borderRadius:2,
+                        flexShrink:0, whiteSpace:'nowrap' }}>
                         {varCount} systems
                       </div>
                     )}
