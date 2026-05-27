@@ -86,6 +86,12 @@ export function InclinedRail (props) {
   )
 }
 
+/** Short Rail — compact version using mini-rail profile */
+export function ShortRail (props) {
+  const model = useNormalisedModel('/models/mini-rail.glb')
+  return <primitive object={model} {...props} />
+}
+
 /* Pre-warm cache */
 useGLTF.preload('/models/mono-rail.glb')
 useGLTF.preload('/models/mini-rail.glb')

@@ -1,7 +1,7 @@
 import { useState, useRef, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, InclinedRail } from '../three/RailModels'
+import { MiniRail, MonoRail, LongRail, SeamClamp, InclinedRail, ShortRail } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -109,6 +109,26 @@ const PRODUCTS = [
       'Adjustable angle 5° to 20°',
     ],
     Component: InclinedRail,
+  },
+  {
+    id: 'short',
+    name: 'Short Rail System',
+    tag: 'PORTRAIT',
+    badge: 'Compact',
+    summary: 'Compact mounting rail for narrow-bay rooftops, canopies and retrofits where a full-length rail is impractical. Same T-slot — all SunMount clamps compatible.',
+    specs: [
+      'Profile Height: 68 mm | Length: Custom',
+      'Aluminium 6063 T6 | SS 304 | EPDM',
+      'Design wind: Up to 200 km/h',
+      'Anodized / Non-anodized finish',
+    ],
+    highlights: [
+      'Compact span — ideal for narrow-bay roofs',
+      'T-slot compatible with all SunMount clamps',
+      'Modular — cut to exact bay width',
+      'Fast installation',
+    ],
+    Component: ShortRail,
   },
 ]
 

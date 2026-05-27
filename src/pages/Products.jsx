@@ -1,171 +1,415 @@
-import { useState, Suspense, useEffect } from 'react'
+import { useState, Suspense, useEffect, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, InclinedRail } from '../three/RailModels'
+import { MiniRail, MonoRail, LongRail, SeamClamp, InclinedRail, ShortRail } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 
-/* ── PRODUCT DATA (from SunMount catalogue 2024) ──────────────── */
+/* ─────────────────────────────────────────────────────────────────
+   PRODUCT + VARIANT DATA
+───────────────────────────────────────────────────────────────── */
 const PRODUCTS = [
+  /* ── 1. MONO RAIL ─────────────────────────────────────────────── */
   {
     id: 'mono',
     name: 'Mono Rail System',
     short: 'Portrait · Trapezoidal Roofs',
     tag: 'PORTRAIT',
     badge: 'Best Seller',
-    tagline: 'The most popular portrait-mounting rail for trapezoidal metal roofs — high-capacity, wind-certified, easy to install.',
-    desc: 'The Mono Rail System is a precision-extruded T-slot aluminium profile for mounting solar PV panels in portrait orientation on trapezoidal metal sheet roofs. A single-rail design reduces material usage and installation time without compromising structural performance. Roof clearance of 100 mm allows for natural ventilation and panel cooling. Rivet-and-EPDM tape attachment preserves the roof membrane; a structural-adhesive option is available for non-penetrative installation.',
-    Component: MonoRail,
-    specs: [
-      { label: 'Profile Height',         value: '70 mm' },
-      { label: 'Length',                  value: 'Customised per crest-to-crest distance' },
-      { label: 'Roof Clearance',          value: '100 mm' },
-      { label: 'Panel Thickness',         value: '30 mm · 35 mm · 40 mm' },
-      { label: 'Material',                value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-      { label: 'Design Wind Speed',       value: 'Up to 200 km/h' },
-      { label: 'Orientation',             value: 'Portrait' },
-      { label: 'Finish',                  value: 'Anodized / Non-anodized' },
+    systemDesc: 'T-slot aluminium rail for portrait-orientation panels on trapezoidal metal roofs. Available in two clearance heights to match project requirements.',
+    variants: [
+      {
+        id: 'mono-100',
+        name: 'MonoRail 100mm',
+        subtitle: '100 mm Roof Clearance',
+        Component: MonoRail,
+        tagline: 'Standard 100 mm clearance — maximum ventilation, the most popular choice for commercial projects.',
+        desc: 'The MonoRail 100mm provides 100 mm of clearance between the panel underside and the roof surface, ensuring excellent natural ventilation and module cooling. The precision T-slot extrusion accepts U-clamps and mid-clamps for all standard panel thicknesses. Rivet-and-EPDM tape attachment to the roof crest is the standard fixing method; a structural-adhesive option is available for non-penetrative installation.',
+        specs: [
+          { label: 'Profile Height',     value: '70 mm' },
+          { label: 'Roof Clearance',     value: '100 mm' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Orientation',        value: 'Portrait' },
+          { label: 'Attachment',         value: 'Rivet + EPDM tape / Structural adhesive' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          '100 mm clearance for maximum ventilation & cooling',
+          'Lightweight single-rail design',
+          'Optimised for any trapezoidal crest width',
+          'Portrait orientation — high module capacity',
+          'U-clamp & mid-clamp panel attachment',
+          'Compatible with all PV module brands',
+        ],
+        applications: ['Commercial rooftop', 'Industrial shed', 'Large residential', 'Warehouse'],
+      },
+      {
+        id: 'mono-70',
+        name: 'MonoRail 70mm',
+        subtitle: '70 mm Roof Clearance',
+        Component: MonoRail,
+        tagline: 'Low-profile 70 mm variant — reduced wind moment, ideal for high wind-load zones.',
+        desc: 'The MonoRail 70mm uses the same T-slot profile but reduces mounting height to 70 mm above the roof crest. The lower centre of gravity reduces the wind-induced bending moment at the base fixing, making it the preferred choice for coastal or high wind-load sites. Panel attachment and material specifications are identical to the 100 mm variant.',
+        specs: [
+          { label: 'Profile Height',     value: '70 mm' },
+          { label: 'Roof Clearance',     value: '70 mm' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Orientation',        value: 'Portrait' },
+          { label: 'Attachment',         value: 'Rivet + EPDM tape / Structural adhesive' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          '70 mm clearance — reduced wind moment vs 100 mm',
+          'Lower visual profile on roof',
+          'Preferred for coastal & high wind-load zones',
+          'Portrait orientation — high module capacity',
+          'U-clamp & mid-clamp panel attachment',
+          'Compatible with all PV module brands',
+        ],
+        applications: ['Coastal installation', 'High wind zone', 'Commercial rooftop', 'Industrial shed'],
+      },
     ],
-    highlights: [
-      'Lightweight & optimised single-rail design',
-      'Portrait orientation — maximum module capacity per row',
-      'Works with any trapezoidal sheet crest width',
-      'Roof clearance of 100 mm for ventilation & cooling',
-      'Rivet + EPDM tape or non-penetrative structural adhesive',
-      'U-clamp / mid-clamp panel attachment',
-      'Compatible with all PV module brands',
-      'Easy installation & long-term maintenance',
-    ],
-    applications: ['Commercial rooftop', 'Industrial shed', 'Large residential', 'Warehouse'],
   },
+
+  /* ── 2. MINI RAIL ────────────────────────────────────────────── */
   {
     id: 'mini',
     name: 'Mini Rail System',
     short: 'Landscape · Residential',
     tag: 'LANDSCAPE',
     badge: 'Cost Effective',
-    tagline: 'Low-profile, compact and cost-effective — the first choice for residential & light commercial projects.',
-    desc: 'The Mini Rail System is a low-profile aluminium extrusion engineered for landscape-orientation solar PV panels on trapezoidal metal sheet roofs. Its compact 68 mm height and lightweight construction minimise raw material usage, keeping project costs down. The 100 mm roof clearance ensures natural ventilation. Z-clamp or end-clamp attachment accommodates 30–40 mm panel frames without additional tools.',
-    Component: MiniRail,
-    specs: [
-      { label: 'Profile Height',    value: '68 mm' },
-      { label: 'Length',            value: '100 mm (standard)' },
-      { label: 'Roof Clearance',    value: '100 mm' },
-      { label: 'Panel Thickness',   value: '30 mm · 35 mm · 40 mm' },
-      { label: 'Material',          value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-      { label: 'Design Wind Speed', value: 'Up to 200 km/h' },
-      { label: 'Orientation',       value: 'Landscape' },
-      { label: 'Finish',            value: 'Anodized / Non-anodized' },
+    systemDesc: 'Low-profile compact extrusion for landscape-orientation panels on trapezoidal roofs. Two clearance variants; the most cost-effective solution in the SunMount range.',
+    variants: [
+      {
+        id: 'mini-100',
+        name: 'MiniRail 100mm',
+        subtitle: '100 mm Roof Clearance',
+        Component: MiniRail,
+        tagline: 'Standard 100 mm clearance — optimal ventilation for residential & light commercial projects.',
+        desc: 'The MiniRail 100mm delivers 100 mm of roof clearance in a compact 68 mm profile height. Landscape panel orientation maximises row width on narrower roofs. Z-clamp and end-clamp attachment accommodates all standard panel frame thicknesses without additional tooling. Rivet-and-EPDM tape base fixing preserves the roof membrane.',
+        specs: [
+          { label: 'Profile Height',     value: '68 mm' },
+          { label: 'Roof Clearance',     value: '100 mm' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Orientation',        value: 'Landscape' },
+          { label: 'Attachment',         value: 'Rivet + EPDM tape' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          '100 mm clearance — excellent ventilation',
+          'Compact 68 mm profile — minimal visual impact',
+          'Landscape orientation for wider rows',
+          'Z-clamp & end-clamp panel attachment',
+          'Minimal raw material usage — cost-effective',
+          'Compatible with all PV module brands',
+        ],
+        applications: ['Residential rooftop', 'Light commercial', 'Warehouse', 'Industrial shed'],
+      },
+      {
+        id: 'mini-70',
+        name: 'MiniRail 70mm',
+        subtitle: '70 mm Roof Clearance',
+        Component: MiniRail,
+        tagline: 'Compact 70 mm clearance — lower profile for wind-sensitive or aesthetically driven projects.',
+        desc: 'The MiniRail 70mm reduces the mounting height to 70 mm, creating an even lower profile that blends with the roof line. Ideal for sites with strict visual guidelines or higher wind-load requirements. Panel attachment and material specifications are identical to the 100 mm variant. Its cost-efficiency makes it a frequent choice for residential developments.',
+        specs: [
+          { label: 'Profile Height',     value: '68 mm' },
+          { label: 'Roof Clearance',     value: '70 mm' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Orientation',        value: 'Landscape' },
+          { label: 'Attachment',         value: 'Rivet + EPDM tape' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          '70 mm clearance — near-flush roof profile',
+          'Low visual impact — aesthetics-driven projects',
+          'Reduced wind moment vs 100 mm variant',
+          'Landscape orientation — wider row coverage',
+          'Most cost-effective in the Mini Rail range',
+          'Compatible with all PV module brands',
+        ],
+        applications: ['Residential rooftop', 'Aesthetics-sensitive site', 'High wind zone', 'Light commercial'],
+      },
     ],
-    highlights: [
-      'Low-profile 68 mm height — minimal visual impact',
-      'Landscape panel orientation',
-      'Roof clearance of 100 mm for ventilation',
-      'Minimal raw material usage',
-      'Z-clamp or end-clamp panel attachment',
-      'Rivet + EPDM tape or non-penetrative option',
-      'Compatible with all PV module brands',
-      'Fastest installation time in the rail range',
-    ],
-    applications: ['Residential rooftop', 'Light commercial', 'Warehouse', 'Industrial shed'],
   },
+
+  /* ── 3. LONG RAIL ────────────────────────────────────────────── */
   {
     id: 'long',
     name: 'Long Rail System',
     short: 'Portrait & Landscape · Industrial',
     tag: 'PORTRAIT / LANDSCAPE',
     badge: 'High Strength',
-    tagline: 'Heavy-duty purlin-mounted rail for high wind loads, industrial buildings and asbestos cement roofs.',
-    desc: 'The Long Rail System is a robust, purlin-mounted aluminium extrusion available in two heights — Long Rail PRO (50 mm) for portrait orientation and Long Rail LITE (30 mm) for landscape. Both variants mount directly on purlins, requiring far fewer roof penetrations than Mini or Mono Rail systems. Existing self-drilling screw holes on asbestos sheets can be reused. Universal rail profiles accept any roof crest width, and the structure is rated for high wind-load environments.',
-    Component: LongRail,
-    specs: [
-      { label: 'Long Rail PRO Height', value: '50 mm (Portrait)' },
-      { label: 'Long Rail LITE Height',value: '30 mm (Landscape)' },
-      { label: 'Length',               value: 'Customised' },
-      { label: 'Panel Thickness',      value: '30 mm · 35 mm · 40 mm' },
-      { label: 'Material',             value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-      { label: 'Design Wind Speed',    value: 'Up to 200 km/h' },
-      { label: 'Mounting',             value: 'Purlin-mounted' },
-      { label: 'Finish',               value: 'Anodized / Non-anodized' },
+    systemDesc: 'Heavy-duty purlin-mounted aluminium rail for industrial buildings, asbestos cement roofs and high wind-load zones. Two strength variants for portrait and landscape orientation.',
+    variants: [
+      {
+        id: 'long-ultra',
+        name: 'Long Rail Ultra',
+        subtitle: 'Heavy-Duty · Portrait',
+        Component: LongRail,
+        tagline: 'Maximum load-bearing capacity — the go-to solution for extreme wind environments and industrial structures.',
+        desc: 'The Long Rail Ultra is SunMount\'s heaviest-duty purlin-mounted rail. Its increased cross-section and wall thickness deliver higher bending stiffness, enabling wider purlin spacings without additional support. The system is certified for wind speeds up to 200 km/h and is ideal for large-span industrial sheds and coastal environments where load-to-weight ratio is critical.',
+        specs: [
+          { label: 'Profile Height',     value: '50 mm (PRO grade)' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Mounting',           value: 'Purlin-mounted' },
+          { label: 'Orientation',        value: 'Portrait' },
+          { label: 'Roof Types',         value: 'Metal sheet · Asbestos cement' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          'Maximum bending stiffness — widest purlin spacing',
+          'Rated up to 200 km/h wind speed',
+          'Fewer roof penetrations vs Mini/Mono Rail',
+          'Reuses existing J-bolt holes on asbestos sheets',
+          'Universal for any trapezoidal crest profile',
+          'FEA & wind load analysis certified',
+        ],
+        applications: ['Industrial shed', 'Large-span factory', 'Coastal installation', 'Asbestos cement roof'],
+      },
+      {
+        id: 'long-lite',
+        name: 'Long Rail Light',
+        subtitle: 'Standard · Landscape',
+        Component: LongRail,
+        tagline: 'Economical purlin-mounted rail for landscape orientation — fewer penetrations, faster installation.',
+        desc: 'The Long Rail Light is a lighter, more economical variant of the purlin-mounted system, optimised for landscape-orientation panels. Its reduced material cross-section keeps project costs lower while still delivering far fewer roof penetrations than Mini or Mono Rail installations. Compatible with existing self-drilling screw holes on asbestos sheets, making retrofits simple.',
+        specs: [
+          { label: 'Profile Height',     value: '30 mm (LITE grade)' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Mounting',           value: 'Purlin-mounted' },
+          { label: 'Orientation',        value: 'Landscape' },
+          { label: 'Roof Types',         value: 'Metal sheet · Asbestos cement' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          'Cost-effective purlin-mounted solution',
+          'Landscape orientation — wide row coverage',
+          'Fewer roof penetrations vs Mini/Mono Rail',
+          'Uses existing self-drilling screw holes',
+          'Compatible with asbestos cement roofs',
+          'Easy installation & maintenance',
+        ],
+        applications: ['Industrial shed', 'Warehouse', 'Asbestos roof', 'Light commercial'],
+      },
     ],
-    highlights: [
-      'Two variants: PRO (50 mm portrait) & LITE (30 mm landscape)',
-      'Purlin-mounted — far fewer roof penetrations',
-      'Reuses existing self-drilling screw holes',
-      'Compatible with asbestos cement sheet roofs (J-bolts)',
-      'Universal rails for any roof crest profile',
-      'High wind-load capacity — FEA certified',
-      'Easy installation & maintenance',
-      'Compatible with all PV module brands',
-    ],
-    applications: ['Industrial shed', 'Asbestos roof', 'Heavy commercial', 'Purlin-frame buildings'],
   },
+
+  /* ── 4. STANDING SEAM ────────────────────────────────────────── */
   {
     id: 'seam',
     name: 'Standing Seam System',
     short: 'Landscape · Zero Penetration',
     tag: 'LANDSCAPE',
     badge: 'No Puncture',
-    tagline: 'Clamp-based system for standing seam roofs — zero roof penetration, full warranty preservation.',
-    desc: 'The Standing Seam System uses precision-engineered seam clamps that grip the standing seam roof profile without any drilling or puncturing. Grub screws lock the clamp firmly onto the seam, and U-clamps or mid-clamps then fix the solar panel frames. Zero roof penetration preserves the roofing manufacturer\'s warranty, eliminates leak risk entirely, and makes this the fastest-installing system in the SunMount range.',
-    Component: SeamClamp,
-    specs: [
-      { label: 'Clamp Height',      value: '55 mm' },
-      { label: 'Clamp Length',      value: '60 mm' },
-      { label: 'Panel Thickness',   value: '30 mm · 35 mm · 40 mm' },
-      { label: 'Material',          value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-      { label: 'Design Wind Speed', value: 'Up to 200 km/h' },
-      { label: 'Roof Penetration',  value: 'Zero — clamp-based only' },
-      { label: 'Orientation',       value: 'Landscape' },
-      { label: 'Finish',            value: 'Anodized / Non-anodized' },
+    systemDesc: 'Clamp-based system that grips the standing seam profile without any drilling. Four clamp variants cover every seam geometry used in India.',
+    variants: [
+      {
+        id: 'seam-t1-55',
+        name: 'Seam T1 · 55mm',
+        subtitle: 'T1 Profile · 55 mm Seam',
+        Component: SeamClamp,
+        tagline: 'The standard T1 seam clamp — covers the most common 55 mm standing seam profile in India.',
+        desc: 'The T1 55mm seam clamp is designed for the most widely installed standing seam roofing profile in India. Grub screws fix the aluminium clamp onto the 55 mm seam without drilling, preserving the roof membrane and warranty. Landscape-orientation panels attach via U-clamp or mid-clamp directly to the clamp\'s T-slot.',
+        specs: [
+          { label: 'Seam Profile',       value: 'T1' },
+          { label: 'Seam Height',        value: '55 mm' },
+          { label: 'Clamp Material',     value: 'Aluminium 6063 T6 · SS 304' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Roof Penetration',   value: 'Zero' },
+          { label: 'Orientation',        value: 'Landscape' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          'Zero roof penetration — preserves manufacturer warranty',
+          'Grub-screw clamping, no drilling required',
+          'Designed for 55 mm T1 seam geometry',
+          'Fastest installation in the SunMount range',
+          'Landscape panel orientation',
+          'Compatible with all PV module brands',
+        ],
+        applications: ['Standing seam factory', 'Premium commercial', 'Architectural warehouse', 'High-end residential'],
+      },
+      {
+        id: 'seam-t2-100',
+        name: 'Seam T2 · 100mm',
+        subtitle: 'T2 Profile · 100 mm Seam',
+        Component: SeamClamp,
+        tagline: 'Taller T2 clamp for 100 mm seam profiles — designed for industrial-grade standing seam roofing.',
+        desc: 'The T2 100mm seam clamp accommodates taller, 100 mm standing seam profiles typical of large-span industrial roofing. The deeper clamp jaw provides a more secure grip on the wider seam, and grub screws ensure lock-tight retention even under extreme wind loads. Panel attachment via T-slot U-clamp or mid-clamp.',
+        specs: [
+          { label: 'Seam Profile',       value: 'T2' },
+          { label: 'Seam Height',        value: '100 mm' },
+          { label: 'Clamp Material',     value: 'Aluminium 6063 T6 · SS 304' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Roof Penetration',   value: 'Zero' },
+          { label: 'Orientation',        value: 'Landscape' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          'Zero roof penetration',
+          'Designed for tall 100 mm T2 seam geometry',
+          'Deeper jaw for positive seam engagement',
+          'Grub-screw locking — no drilling',
+          'Landscape panel orientation',
+          'Compatible with all PV module brands',
+        ],
+        applications: ['Industrial standing seam', 'Large-span factory', 'Commercial warehouse', 'Premium rooftop'],
+      },
+      {
+        id: 'seam-t2-p1p2',
+        name: 'Seam T2 · P1–P2',
+        subtitle: 'T2 Profile · P1–P2 Clamp',
+        Component: SeamClamp,
+        tagline: 'T2 clamp configured for P1–P2 seam geometry — specific fit for narrow-flange standing seams.',
+        desc: 'The T2 P1–P2 variant is precision-machined to match the P1–P2 seam geometry: a narrow-flange T2 profile commonly found on imported and premium domestic standing seam systems. The clamp jaw conforms to the seam\'s inner radius, and dual grub screws at P1 and P2 contact points distribute clamping force evenly without distorting the seam.',
+        specs: [
+          { label: 'Seam Profile',       value: 'T2 · P1–P2 geometry' },
+          { label: 'Clamp Points',       value: 'P1 & P2 (dual grub screw)' },
+          { label: 'Clamp Material',     value: 'Aluminium 6063 T6 · SS 304' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Roof Penetration',   value: 'Zero' },
+          { label: 'Orientation',        value: 'Landscape' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          'Zero roof penetration',
+          'Dual P1–P2 contact for even clamping force',
+          'No seam distortion — warranty safe',
+          'For narrow-flange T2 seam profiles',
+          'Landscape panel orientation',
+          'Compatible with all PV module brands',
+        ],
+        applications: ['Imported standing seam', 'Premium residential', 'Architectural project', 'Commercial rooftop'],
+      },
+      {
+        id: 'seam-t2-p2p3',
+        name: 'Seam T2 · P2–P3',
+        subtitle: 'T2 Profile · P2–P3 Clamp',
+        Component: SeamClamp,
+        tagline: 'T2 clamp for wide-flange P2–P3 seams — maximum holding strength on large-profile roofing.',
+        desc: 'The T2 P2–P3 variant is engineered for wide-flange T2 seam profiles where the clamping contact points fall at positions P2 and P3. The extended jaw depth accommodates the wider seam body and the dual-point grub screws at P2 and P3 deliver maximum pull-out resistance for heavy panel loads and high wind environments.',
+        specs: [
+          { label: 'Seam Profile',       value: 'T2 · P2–P3 geometry' },
+          { label: 'Clamp Points',       value: 'P2 & P3 (dual grub screw)' },
+          { label: 'Clamp Material',     value: 'Aluminium 6063 T6 · SS 304' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Roof Penetration',   value: 'Zero' },
+          { label: 'Orientation',        value: 'Landscape' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          'Zero roof penetration',
+          'Dual P2–P3 contact — maximum pull-out resistance',
+          'For wide-flange T2 seam profiles',
+          'High wind-load holding capacity',
+          'Landscape panel orientation',
+          'Compatible with all PV module brands',
+        ],
+        applications: ['Large-span industrial', 'Wide-seam standing seam roof', 'Premium commercial', 'High wind zone'],
+      },
     ],
-    highlights: [
-      'Zero roof penetration — preserves manufacturer warranty',
-      'Seam clamp fixed with grub screws, no drilling',
-      'Landscape panel orientation',
-      'Compatible with all standing seam roof profiles',
-      'U-clamp or mid-clamp panel attachment',
-      'Fastest installation in the SunMount range',
-      'No leak risk — clamp-only fixing',
-      'Compatible with all PV module brands',
-    ],
-    applications: ['Standing seam factory', 'Architectural warehouse', 'Premium commercial', 'High-end residential'],
   },
+
+  /* ── 5. SHORT RAIL ───────────────────────────────────────────── */
+  {
+    id: 'short',
+    name: 'Short Rail System',
+    short: 'Portrait · Compact Rooftops',
+    tag: 'PORTRAIT',
+    badge: 'Compact',
+    systemDesc: 'A shorter-span mounting rail for compact trapezoidal rooftops and tight-pitch installations where a full-length rail is impractical.',
+    variants: [
+      {
+        id: 'short-std',
+        name: 'Short Rail',
+        subtitle: 'Compact Profile',
+        Component: ShortRail,
+        tagline: 'Shorter rail solution for compact rooftops and tight spaces — quick to install, versatile in application.',
+        desc: 'The Short Rail System is a compact aluminium extrusion designed for rooftops where full-length rails are impractical due to narrow bay widths or limited purlin spans. Its reduced length minimises material use and simplifies logistics while maintaining the same T-slot profile compatible with all SunMount clamp accessories. Suitable for residential rooftops, canopies, and sites with modular or irregular bay layouts.',
+        specs: [
+          { label: 'Profile Length',     value: 'Short-span (custom cut)' },
+          { label: 'Profile Height',     value: '68 mm' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
+          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
+          { label: 'Orientation',        value: 'Portrait' },
+          { label: 'Attachment',         value: 'Rivet + EPDM tape' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          'Shorter span — ideal for compact rooftops',
+          'Reduced material & logistics cost',
+          'Same T-slot — compatible with all SunMount clamps',
+          'Fast installation on narrow bay roofs',
+          'Modular — cut to exact bay width',
+          'Compatible with all PV module brands',
+        ],
+        applications: ['Compact residential', 'Canopy / carport', 'Narrow-bay industrial', 'Retrofit installation'],
+      },
+    ],
+  },
+
+  /* ── 6. INCLINED SYSTEM ──────────────────────────────────────── */
   {
     id: 'inclined',
     name: 'Inclined System',
     short: 'Portrait · Adjustable Tilt',
     tag: 'PORTRAIT',
     badge: 'Adjustable Tilt',
-    tagline: 'Tilted mounting structure for flat or low-pitch roofs — optimises south-facing generation up to 20° tilt.',
-    desc: 'The Inclined System uses specially designed L-channel and C-channel aluminium structures to tilt solar PV panels at an angle on flat or low-pitch trapezoidal metal and asbestos roofs. Panels face south regardless of roof orientation, maximising energy yield. The inclination is adjustable from 5° to 20° depending on site latitude and requirements. The system is purlin-mounted and compatible with existing J-bolt holes on asbestos roofs.',
-    Component: InclinedRail,
-    specs: [
-      { label: 'C-Channel Height',  value: '50 mm' },
-      { label: 'Length',            value: 'Customised' },
-      { label: 'Tilt Angle',        value: '5° to 20° (adjustable)' },
-      { label: 'Panel Thickness',   value: '30 mm · 35 mm · 40 mm' },
-      { label: 'Material',          value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-      { label: 'Design Wind Speed', value: 'Up to 170 km/h' },
-      { label: 'Orientation',       value: 'Portrait · South-facing' },
-      { label: 'Finish',            value: 'Anodized / Non-anodized' },
+    systemDesc: 'Tilted mounting structure for flat or low-pitch roofs. Adjustable inclination from 5° to 20° for maximum south-facing generation regardless of roof aspect.',
+    variants: [
+      {
+        id: 'inclined-std',
+        name: 'Inclined System',
+        subtitle: '5° – 20° Adjustable Tilt',
+        Component: InclinedRail,
+        tagline: 'Adjustable tilt from 5° to 20° — optimises energy yield on north-, east- or west-facing roofs.',
+        desc: 'The Inclined System uses precision-extruded L-channel and C-channel aluminium to tilt solar PV panels at an adjustable angle on flat or low-pitch trapezoidal metal and asbestos roofs. Panels face south regardless of roof orientation, maximising annual energy yield. The inclination is set at installation from 5° to 20° depending on site latitude. L-channels attach to the roof crest via self-drilling screws (metal) or J-bolts (asbestos).',
+        specs: [
+          { label: 'C-Channel Height',   value: '50 mm' },
+          { label: 'Tilt Angle',         value: '5° – 20° (set at installation)' },
+          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
+          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
+          { label: 'Design Wind Speed',  value: 'Up to 170 km/h' },
+          { label: 'Orientation',        value: 'Portrait · South-facing' },
+          { label: 'Roof Attachment',    value: 'Self-drilling screws / J-bolts' },
+          { label: 'Finish',             value: 'Anodized / Non-anodized' },
+        ],
+        highlights: [
+          'South-facing panels on any roof aspect',
+          'Higher energy yield on flat & low-pitch roofs',
+          'Adjustable tilt 5° – 20° at installation',
+          'Compatible with metal sheet & asbestos cement roofs',
+          'Uses existing J-bolt holes on asbestos roofs',
+          'Portrait orientation — purlin-mounted',
+        ],
+        applications: ['Flat industrial roof', 'Low-pitch residential', 'North/East/West-facing roof', 'Asbestos cement roof'],
+      },
     ],
-    highlights: [
-      'Higher energy yield — panels always face south',
-      'Suitable for north-, east- or west-facing roofs',
-      'Adjustable tilt from 5° to 20°',
-      'Portrait orientation, purlin-mounted',
-      'Works on metal roofs (self-drilling screws)',
-      'Compatible with asbestos roofs via existing J-bolts',
-      'Universal rails for any roof crest profile',
-      'Easy installation & maintenance',
-    ],
-    applications: ['Flat industrial roof', 'Low-pitch residential', 'North/East/West-facing roofs', 'Asbestos cement roof'],
   },
 ]
 
-/* ── ACCESSORIES ──────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────────
+   ACCESSORIES
+───────────────────────────────────────────────────────────────── */
 const ACCESSORIES = [
   { name: 'U-Clamp',        material: 'Aluminium 6063 T6',  image: '/accessories/u-clamp.png',       features: ['Quick & easy installation', 'High strength', 'All PV modules'] },
   { name: 'Z-Clamp',        material: 'Aluminium 6063 T6',  image: '/accessories/z-clamp.png',       features: ['30 / 35 / 40 mm modules', 'Cost-effective', 'Long-lasting'] },
@@ -181,7 +425,9 @@ const ACCESSORIES = [
   { name: 'EPDM Tape',      material: '100% Genuine EPDM',   image: '/accessories/epdm-tape.png',     features: ['ASTM tested', 'Moisture & heat resistant', 'Good electrical resistivity'] },
 ]
 
-/* ── 3D HELPERS ───────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────────
+   3-D CANVAS
+───────────────────────────────────────────────────────────────── */
 function RailCanvas({ Component }) {
   return (
     <Canvas dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
@@ -200,19 +446,115 @@ function RailCanvas({ Component }) {
   )
 }
 
-/* ── MAIN PAGE ─────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────────
+   VARIANT SLIDER
+───────────────────────────────────────────────────────────────── */
+function VariantSlider({ variants, selectedId, onSelect }) {
+  const sliderRef = useRef()
+
+  return (
+    <div style={{ position: 'relative', marginBottom: '2rem' }}>
+      {/* Scroll container */}
+      <div
+        ref={sliderRef}
+        style={{
+          display: 'flex', gap: '0.75rem',
+          overflowX: 'auto', scrollSnapType: 'x mandatory',
+          paddingBottom: '0.25rem',
+          scrollbarWidth: 'none', msOverflowStyle: 'none',
+        }}
+      >
+        {variants.map((v, i) => {
+          const active = v.id === selectedId
+          return (
+            <button
+              key={v.id}
+              onClick={() => onSelect(v.id)}
+              style={{
+                flexShrink: 0,
+                scrollSnapAlign: 'start',
+                minWidth: 170, maxWidth: 210,
+                padding: '1rem 1.1rem',
+                background: active
+                  ? 'linear-gradient(135deg,rgba(224,85,64,0.18) 0%,rgba(232,146,58,0.08) 100%)'
+                  : 'var(--bg-elevated)',
+                border: `1px solid ${active ? 'var(--sun-orange)' : 'var(--border-subtle)'}`,
+                borderTop: active ? '2px solid var(--sun-orange)' : '2px solid transparent',
+                cursor: 'pointer', textAlign: 'left',
+                transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
+                position: 'relative',
+              }}
+            >
+              {/* Index */}
+              <div style={{
+                fontFamily: 'JetBrains Mono', fontSize: '0.55rem',
+                letterSpacing: '0.15em', color: active ? 'var(--sun-orange)' : 'var(--text-muted)',
+                marginBottom: '0.45rem',
+              }}>
+                MODEL {String(i + 1).padStart(2, '0')}
+              </div>
+
+              {/* Name */}
+              <div style={{
+                fontFamily: 'Montserrat', fontSize: '0.88rem', fontWeight: 800,
+                color: active ? 'var(--text-primary)' : 'var(--text-secondary)',
+                marginBottom: '0.2rem', lineHeight: 1.25,
+              }}>
+                {v.name}
+              </div>
+
+              {/* Subtitle */}
+              <div style={{
+                fontFamily: 'JetBrains Mono', fontSize: '0.62rem',
+                letterSpacing: '0.05em',
+                color: active ? 'rgba(224,85,64,0.8)' : 'var(--text-muted)',
+              }}>
+                {v.subtitle}
+              </div>
+
+              {/* Active indicator dot */}
+              {active && (
+                <div style={{
+                  position: 'absolute', bottom: '0.8rem', right: '0.8rem',
+                  width: 6, height: 6, borderRadius: '50%',
+                  background: 'var(--sun-orange)',
+                }} />
+              )}
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   MAIN PAGE
+───────────────────────────────────────────────────────────────── */
 const VALID_IDS = PRODUCTS.map(p => p.id)
 
 export default function Products() {
-  const { hash } = useLocation()
-  const hashId   = hash.replace('#', '')
-  const [selected, setSelected] = useState(VALID_IDS.includes(hashId) ? hashId : 'mono')
+  const { hash }  = useLocation()
+  const hashId    = hash.replace('#', '')
+  const initId    = VALID_IDS.includes(hashId) ? hashId : 'mono'
 
+  const [selected,   setSelected]   = useState(initId)
+  const [variantId,  setVariantId]  = useState(null)
+
+  // Sync selected from URL hash
   useEffect(() => {
     if (VALID_IDS.includes(hashId)) setSelected(hashId)
   }, [hashId])
 
-  const product = PRODUCTS.find(p => p.id === selected)
+  // Reset to first variant whenever main system changes
+  useEffect(() => {
+    const prod = PRODUCTS.find(p => p.id === selected)
+    if (prod) setVariantId(prod.variants[0].id)
+  }, [selected])
+
+  const product       = PRODUCTS.find(p => p.id === selected)
+  const allVariantIds = product ? product.variants.map(v => v.id) : []
+  const activeVariant = product?.variants.find(v => v.id === variantId) ?? product?.variants[0]
 
   return (
     <main style={{ paddingTop: 80, minHeight: '100vh', background: 'var(--bg-base)' }}>
@@ -220,59 +562,69 @@ export default function Products() {
       {/* ── PAGE HEADER ── */}
       <div style={{
         padding: '2.5rem 0 2rem',
-        background: 'linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-base) 100%)',
+        background: 'linear-gradient(180deg,var(--bg-deep) 0%,var(--bg-base) 100%)',
         borderBottom: '1px solid var(--border-subtle)', position: 'relative',
       }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'var(--gradient-sun)' }} />
         <div className="container">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div initial={{ opacity:0, y:24 }} animate={{ opacity:1, y:0 }}
+            transition={{ duration:0.7, ease:[0.16,1,0.3,1] }}>
             <div className="section-label">COMPLETE PRODUCT RANGE</div>
-            <h1 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', maxWidth: 520, lineHeight: 1.15 }}>
+            <h1 style={{ fontSize:'clamp(1.8rem,3vw,2.8rem)', maxWidth:540, lineHeight:1.15 }}>
               Precision Mounting <span className="gradient-text">Systems Catalogue</span>
             </h1>
-            <p style={{ color: 'var(--text-secondary)', marginTop: '0.75rem', maxWidth: 560, fontSize: '0.92rem', lineHeight: 1.7 }}>
-              Five aluminium extrusion systems for every Indian roof type — ISO 9001 &amp; TÜV SÜD certified,
-              rated up to 200 km/h wind speed.
+            <p style={{ color:'var(--text-secondary)', marginTop:'0.75rem', maxWidth:580, fontSize:'0.92rem', lineHeight:1.7 }}>
+              Six aluminium mounting systems — ISO 9001 &amp; TÜV SÜD certified, rated up to 200 km/h.
+              Select a system, then choose the model variant that suits your project.
             </p>
           </motion.div>
         </div>
       </div>
 
-      {/* ── MAIN CONTENT: SIDEBAR + DETAIL ── */}
+      {/* ── LAYOUT: SIDEBAR + DETAIL ── */}
       <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '270px 1fr', gap: '2.5rem', padding: '2.5rem 2rem', alignItems: 'start' }} className="prod-layout">
+        <div style={{ display:'grid', gridTemplateColumns:'270px 1fr', gap:'2.5rem',
+          padding:'2.5rem 2rem', alignItems:'start' }} className="prod-layout">
 
           {/* ── Sidebar ── */}
-          <motion.div
-            initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            style={{ position: 'sticky', top: 108 }}
-          >
+          <motion.div initial={{ opacity:0, x:-24 }} animate={{ opacity:1, x:0 }}
+            transition={{ duration:0.7, ease:[0.16,1,0.3,1], delay:0.1 }}
+            style={{ position:'sticky', top:108 }}>
+
             {PRODUCTS.map((p, i) => {
-              const active = p.id === selected
+              const active    = p.id === selected
+              const varCount  = p.variants.length
               return (
                 <button key={p.id} onClick={() => setSelected(p.id)} style={{
-                  width: '100%', textAlign: 'left',
-                  padding: '1rem 1.2rem', marginBottom: '0.4rem',
+                  width:'100%', textAlign:'left',
+                  padding:'0.95rem 1.1rem', marginBottom:'0.4rem',
                   background: active
                     ? 'linear-gradient(135deg,rgba(224,85,64,0.14) 0%,rgba(232,146,58,0.07) 100%)'
                     : 'var(--bg-elevated)',
-                  border: `1px solid ${active ? 'var(--border-accent)' : 'var(--border-subtle)'}`,
-                  borderLeft: `3px solid ${active ? 'var(--sun-orange)' : 'transparent'}`,
-                  cursor: 'pointer',
-                  transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
+                  border:`1px solid ${active ? 'var(--border-accent)' : 'var(--border-subtle)'}`,
+                  borderLeft:`3px solid ${active ? 'var(--sun-orange)' : 'transparent'}`,
+                  cursor:'pointer',
+                  transition:'all 0.3s cubic-bezier(0.16,1,0.3,1)',
                 }}>
-                  <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.56rem', letterSpacing:'0.18em',
-                    color: active ? 'var(--sun-orange)' : 'var(--text-muted)',
-                    textTransform:'uppercase', marginBottom:'0.25rem' }}>
-                    0{i + 1} · {p.tag}
+                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'0.22rem' }}>
+                    <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.55rem', letterSpacing:'0.18em',
+                      color: active ? 'var(--sun-orange)' : 'var(--text-muted)', textTransform:'uppercase' }}>
+                      0{i + 1} · {p.tag}
+                    </div>
+                    {varCount > 1 && (
+                      <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.52rem', letterSpacing:'0.1em',
+                        color: active ? 'rgba(224,85,64,0.7)' : 'var(--text-muted)',
+                        background: active ? 'rgba(224,85,64,0.12)' : 'rgba(255,255,255,0.05)',
+                        padding:'0.1rem 0.35rem', borderRadius:2 }}>
+                        {varCount} models
+                      </div>
+                    )}
                   </div>
                   <div style={{ fontFamily:'Montserrat', fontSize:'0.86rem', fontWeight:700,
-                    color: active ? 'var(--text-primary)' : 'var(--text-secondary)', marginBottom:'0.12rem' }}>
+                    color: active ? 'var(--text-primary)' : 'var(--text-secondary)', marginBottom:'0.1rem' }}>
                     {p.name}
                   </div>
-                  <div style={{ fontSize:'0.7rem', color:'var(--text-muted)', fontFamily:'JetBrains Mono', letterSpacing:'0.04em' }}>
+                  <div style={{ fontSize:'0.68rem', color:'var(--text-muted)', fontFamily:'JetBrains Mono', letterSpacing:'0.04em' }}>
                     {p.short}
                   </div>
                 </button>
@@ -286,147 +638,179 @@ export default function Products() {
             </a>
           </motion.div>
 
-          {/* ── Detail panel ── */}
+          {/* ── Detail Panel ── */}
           <AnimatePresence mode="wait">
             <motion.div key={selected}
               initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, y:-10 }}
-              transition={{ duration:0.45, ease:[0.16,1,0.3,1] }}>
+              transition={{ duration:0.4, ease:[0.16,1,0.3,1] }}>
 
-              {/* 3D canvas */}
-              <div style={{
-                height: 360, position:'relative', marginBottom:'2.5rem',
-                background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)',
-                border:'1px solid var(--border-subtle)', cursor:'grab',
-              }}>
-                <RailCanvas Component={product.Component} />
-                <div style={{
-                  position:'absolute', bottom:'1rem', right:'1.2rem',
-                  fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.14em',
-                  color:'var(--text-muted)', textTransform:'uppercase', pointerEvents:'none',
-                }}>↻ Drag to rotate</div>
-              </div>
-
-              {/* Product header */}
-              <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between',
-                gap:'1rem', flexWrap:'wrap', marginBottom:'1rem' }}>
-                <div>
-                  <div style={{ display:'flex', gap:'0.5rem', marginBottom:'0.75rem', flexWrap:'wrap' }}>
-                    <span style={{ padding:'0.22rem 0.65rem', background:'rgba(224,85,64,0.12)',
-                      border:'1px solid var(--border-accent)', borderRadius:2,
-                      fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.12em',
-                      color:'var(--sun-orange)', textTransform:'uppercase' }}>{product.tag}</span>
-                    {product.badge && (
-                      <span style={{ padding:'0.22rem 0.65rem', background:'rgba(201,212,224,0.07)',
-                        border:'1px solid var(--border-subtle)', borderRadius:2,
-                        fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.12em',
-                        color:'var(--aluminum-mid)', textTransform:'uppercase' }}>{product.badge}</span>
-                    )}
-                  </div>
-                  <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.6rem)', marginBottom:'0.5rem' }}>{product.name}</h2>
-                  <p style={{ fontSize:'0.95rem', color:'var(--sun-yellow)', fontFamily:'JetBrains Mono', letterSpacing:'0.03em', lineHeight:1.5 }}>
-                    {product.tagline}
-                  </p>
+              {/* System header */}
+              <div style={{ marginBottom:'1.5rem' }}>
+                <div style={{ display:'flex', gap:'0.5rem', marginBottom:'0.7rem', flexWrap:'wrap' }}>
+                  <span style={{ padding:'0.2rem 0.6rem', background:'rgba(224,85,64,0.12)',
+                    border:'1px solid var(--border-accent)', borderRadius:2,
+                    fontFamily:'JetBrains Mono', fontSize:'0.58rem', letterSpacing:'0.12em',
+                    color:'var(--sun-orange)', textTransform:'uppercase' }}>{product?.tag}</span>
+                  {product?.badge && (
+                    <span style={{ padding:'0.2rem 0.6rem', background:'rgba(201,212,224,0.07)',
+                      border:'1px solid var(--border-subtle)', borderRadius:2,
+                      fontFamily:'JetBrains Mono', fontSize:'0.58rem', letterSpacing:'0.12em',
+                      color:'var(--aluminum-mid)', textTransform:'uppercase' }}>{product.badge}</span>
+                  )}
                 </div>
-                <Link to="/contact" className="btn-primary" style={{ flexShrink:0, fontSize:'0.82rem', padding:'0.85rem 1.5rem' }}>
-                  Get a Quote <ArrowRightIcon />
-                </Link>
+                <h2 style={{ fontSize:'clamp(1.6rem,3vw,2.4rem)', marginBottom:'0.5rem' }}>{product?.name}</h2>
+                <p style={{ color:'var(--text-secondary)', fontSize:'0.9rem', lineHeight:1.7 }}>
+                  {product?.systemDesc}
+                </p>
               </div>
 
-              {/* Description */}
-              <p style={{ color:'var(--text-secondary)', fontSize:'0.95rem', lineHeight:1.85,
-                marginBottom:'2.5rem', borderLeft:'2px solid var(--border-accent)', paddingLeft:'1.2rem' }}>
-                {product.desc}
-              </p>
+              {/* ── Variant Slider ── */}
+              {product && product.variants.length > 1 && (
+                <VariantSlider
+                  variants={product.variants}
+                  selectedId={variantId ?? product.variants[0].id}
+                  onSelect={setVariantId}
+                />
+              )}
 
-              {/* Specs + Highlights grid */}
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'2rem' }} className="prod-detail-grid">
+              {/* ── 3D Canvas ── */}
+              {activeVariant && (
+                <AnimatePresence mode="wait">
+                  <motion.div key={activeVariant.id}
+                    initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
+                    transition={{ duration:0.3 }}>
 
-                <div>
-                  <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.2em',
-                    color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'1rem' }}>
-                    // Technical Specifications
-                  </h3>
-                  <div style={{ display:'flex', flexDirection:'column', gap:0 }}>
-                    {product.specs.map((s, i) => (
-                      <div key={i} style={{
-                        display:'flex', justifyContent:'space-between', gap:'1rem',
-                        padding:'0.65rem 0.9rem',
-                        background: i % 2 === 0 ? 'var(--bg-elevated)' : 'transparent',
+                    <div style={{
+                      height:340, position:'relative', marginBottom:'2rem',
+                      background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)',
+                      border:'1px solid var(--border-subtle)', cursor:'grab',
+                    }}>
+                      <RailCanvas Component={activeVariant.Component} />
+                      {/* Model label badge */}
+                      <div style={{
+                        position:'absolute', top:'1rem', left:'1rem',
+                        background:'rgba(10,14,26,0.75)', backdropFilter:'blur(8px)',
                         border:'1px solid var(--border-subtle)',
-                        borderTop: i === 0 ? '1px solid var(--border-subtle)' : 'none',
+                        padding:'0.35rem 0.75rem',
+                        fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.1em',
+                        color:'var(--text-primary)',
                       }}>
-                        <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.06em', color:'var(--text-muted)', whiteSpace:'nowrap' }}>
-                          {s.label}
-                        </span>
-                        <span style={{ fontSize:'0.8rem', color:'var(--text-primary)', fontWeight:600, textAlign:'right' }}>
-                          {s.value}
-                        </span>
+                        {activeVariant.name}
                       </div>
-                    ))}
-                  </div>
-                </div>
+                      <div style={{
+                        position:'absolute', bottom:'0.9rem', right:'1rem',
+                        fontFamily:'JetBrains Mono', fontSize:'0.58rem', letterSpacing:'0.14em',
+                        color:'var(--text-muted)', textTransform:'uppercase', pointerEvents:'none',
+                      }}>↻ Drag to rotate</div>
+                    </div>
 
-                <div>
-                  <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.2em',
-                    color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'1rem' }}>
-                    // Key Highlights
-                  </h3>
-                  <div style={{ display:'flex', flexDirection:'column', gap:'0.5rem', marginBottom:'2rem' }}>
-                    {product.highlights.map((h, i) => (
-                      <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:'0.7rem', fontSize:'0.86rem', color:'var(--text-secondary)' }}>
-                        <div style={{ width:5, height:5, background:'var(--sun-orange)', marginTop:5, flexShrink:0 }} />
-                        {h}
+                    {/* Variant tagline + description */}
+                    <div style={{ marginBottom:'2rem' }}>
+                      <p style={{ fontSize:'0.95rem', color:'var(--sun-yellow)', fontFamily:'JetBrains Mono',
+                        letterSpacing:'0.03em', marginBottom:'0.75rem', lineHeight:1.5 }}>
+                        {activeVariant.tagline}
+                      </p>
+                      <p style={{ color:'var(--text-secondary)', fontSize:'0.9rem', lineHeight:1.85,
+                        borderLeft:'2px solid var(--border-accent)', paddingLeft:'1.1rem' }}>
+                        {activeVariant.desc}
+                      </p>
+                    </div>
+
+                    {/* Specs + Highlights */}
+                    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'2rem' }} className="prod-detail-grid">
+                      <div>
+                        <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.2em',
+                          color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.9rem' }}>
+                          // Technical Specifications
+                        </h3>
+                        <div>
+                          {activeVariant.specs.map((s, i) => (
+                            <div key={i} style={{
+                              display:'flex', justifyContent:'space-between', gap:'1rem',
+                              padding:'0.6rem 0.85rem',
+                              background: i % 2 === 0 ? 'var(--bg-elevated)' : 'transparent',
+                              border:'1px solid var(--border-subtle)',
+                              borderTop: i === 0 ? '1px solid var(--border-subtle)' : 'none',
+                            }}>
+                              <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.66rem', letterSpacing:'0.06em',
+                                color:'var(--text-muted)', whiteSpace:'nowrap' }}>{s.label}</span>
+                              <span style={{ fontSize:'0.78rem', color:'var(--text-primary)', fontWeight:600, textAlign:'right' }}>
+                                {s.value}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    ))}
-                  </div>
 
-                  <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.2em',
-                    color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.75rem' }}>
-                    // Ideal Applications
-                  </h3>
-                  <div style={{ display:'flex', gap:'0.5rem', flexWrap:'wrap' }}>
-                    {product.applications.map(app => (
-                      <span key={app} style={{
-                        padding:'0.3rem 0.75rem',
-                        background:'rgba(201,212,224,0.06)', border:'1px solid var(--border-subtle)',
-                        fontFamily:'JetBrains Mono', fontSize:'0.63rem', letterSpacing:'0.08em',
-                        color:'var(--aluminum-mid)', textTransform:'uppercase',
-                      }}>{app}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
+                      <div>
+                        <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.2em',
+                          color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.9rem' }}>
+                          // Key Highlights
+                        </h3>
+                        <div style={{ display:'flex', flexDirection:'column', gap:'0.48rem', marginBottom:'1.8rem' }}>
+                          {activeVariant.highlights.map((h, i) => (
+                            <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:'0.65rem',
+                              fontSize:'0.84rem', color:'var(--text-secondary)' }}>
+                              <div style={{ width:5, height:5, background:'var(--sun-orange)', marginTop:5, flexShrink:0 }} />
+                              {h}
+                            </div>
+                          ))}
+                        </div>
 
-              {/* CTAs */}
-              <div style={{ display:'flex', gap:'1rem', marginTop:'2.5rem', paddingTop:'2rem',
-                borderTop:'1px solid var(--border-subtle)', flexWrap:'wrap' }}>
-                <Link to="/contact" className="btn-primary" style={{ fontSize:'0.88rem' }}>
-                  Request a Quote <ArrowRightIcon />
-                </Link>
-                <a href="https://www.sunmount.in/wp-content/uploads/2024/09/Catalogue-2024-rev-2.pdf"
-                  target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ fontSize:'0.88rem' }}>
-                  <DownloadIcon /> Download Full Catalogue
-                </a>
-              </div>
+                        <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.2em',
+                          color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.65rem' }}>
+                          // Ideal Applications
+                        </h3>
+                        <div style={{ display:'flex', gap:'0.45rem', flexWrap:'wrap' }}>
+                          {activeVariant.applications.map(app => (
+                            <span key={app} style={{
+                              padding:'0.28rem 0.7rem',
+                              background:'rgba(201,212,224,0.06)', border:'1px solid var(--border-subtle)',
+                              fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.08em',
+                              color:'var(--aluminum-mid)', textTransform:'uppercase',
+                            }}>{app}</span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* CTAs */}
+                    <div style={{ display:'flex', gap:'1rem', marginTop:'2.5rem', paddingTop:'2rem',
+                      borderTop:'1px solid var(--border-subtle)', flexWrap:'wrap' }}>
+                      <Link to="/contact" className="btn-primary" style={{ fontSize:'0.88rem' }}>
+                        Request a Quote <ArrowRightIcon />
+                      </Link>
+                      <a href="https://www.sunmount.in/wp-content/uploads/2024/09/Catalogue-2024-rev-2.pdf"
+                        target="_blank" rel="noopener noreferrer"
+                        className="btn-secondary" style={{ fontSize:'0.88rem' }}>
+                        <DownloadIcon /> Download Full Catalogue
+                      </a>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
       </div>
 
+      {/* ── Responsive overrides ── */}
       <style>{`
-        @media(max-width:960px) {
+        @media(max-width:980px) {
           .prod-layout { grid-template-columns:1fr !important; padding:2rem 1.25rem !important; }
-          .prod-layout > div:first-child { position:static !important; display:flex; flex-wrap:wrap; gap:0.5rem; }
-          .prod-layout > div:first-child button { width:auto !important; flex:1 1 130px; }
+          .prod-layout > div:first-child { position:static !important; display:flex; flex-wrap:wrap; gap:0.4rem; }
+          .prod-layout > div:first-child button { width:auto !important; flex:1 1 120px; }
           .prod-detail-grid { grid-template-columns:1fr !important; }
           .acc-grid { grid-template-columns:repeat(2,1fr) !important; }
         }
         @media(max-width:560px) {
           .acc-grid { grid-template-columns:1fr !important; }
         }
+        div[ref] { scrollbar-width:none; }
+        div::-webkit-scrollbar { display:none; }
       `}</style>
 
-      {/* ── ACCESSORIES ── */}
+      {/* ── ACCESSORIES SECTION ── */}
       <section style={{ background:'var(--bg-deep)', borderTop:'1px solid var(--border-subtle)', padding:'4rem 0 5rem' }}>
         <div className="container">
           <motion.div
@@ -460,27 +844,23 @@ export default function Products() {
                   transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)',
                   display:'flex', flexDirection:'column',
                 }}>
-                <div className="acc-line" style={{ position:'absolute', top:0, left:0, height:2, width:0, background:'var(--gradient-sun)', transition:'width 0.5s cubic-bezier(0.16,1,0.3,1)' }} />
-
-                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.56rem', letterSpacing:'0.15em', color:'var(--text-muted)', marginBottom:'0.75rem' }}>
+                <div className="acc-line" style={{ position:'absolute', top:0, left:0, height:2, width:0,
+                  background:'var(--gradient-sun)', transition:'width 0.5s cubic-bezier(0.16,1,0.3,1)' }} />
+                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.56rem', letterSpacing:'0.15em',
+                  color:'var(--text-muted)', marginBottom:'0.75rem' }}>
                   / {String(i + 1).padStart(2, '0')}
                 </div>
-
-                {/* Product image — transparent bg PNG shown directly on card */}
                 <div style={{ width:72, height:72, marginBottom:'0.9rem', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                  <img
-                    src={acc.image} alt={acc.name}
-                    style={{ width:68, height:68, objectFit:'contain', filter:'drop-shadow(0 2px 8px rgba(0,0,0,0.45))' }}
-                  />
+                  <img src={acc.image} alt={acc.name}
+                    style={{ width:68, height:68, objectFit:'contain', filter:'drop-shadow(0 2px 8px rgba(0,0,0,0.45))' }} />
                 </div>
-
                 <h3 style={{ fontSize:'0.93rem', fontWeight:800, letterSpacing:'0.02em', marginBottom:'0.3rem', color:'var(--text-primary)' }}>
                   {acc.name}
                 </h3>
-                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.08em', color:'var(--sun-orange)', marginBottom:'0.85rem' }}>
+                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.08em',
+                  color:'var(--sun-orange)', marginBottom:'0.85rem' }}>
                   {acc.material}
                 </div>
-
                 <div style={{ display:'flex', flexDirection:'column', gap:'0.28rem', marginTop:'auto' }}>
                   {acc.features.map((f, fi) => (
                     <div key={fi} style={{ display:'flex', alignItems:'flex-start', gap:'0.45rem', fontSize:'0.74rem', color:'var(--text-muted)' }}>
@@ -493,7 +873,6 @@ export default function Products() {
             ))}
           </motion.div>
         </div>
-
         <style>{`
           .acc-card:hover { border-color:var(--border-accent) !important; transform:translateY(-4px); }
           .acc-card:hover .acc-line { width:100% !important; }
