@@ -1,5 +1,5 @@
 import { useState, Suspense, useEffect, useRef } from 'react'
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useThree } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
 import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp55, SeamClamp70T1, SeamClamp70T2, InclinedRail, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
@@ -497,10 +497,21 @@ const ACCESSORIES = [
 /* ─────────────────────────────────────────────────────────────────
    3-D CANVAS
 ───────────────────────────────────────────────────────────────── */
-function RailCanvas({ Component }) {
+
+/** Syncs the camera distance to the zoom slider value, preserving current orbit angle */
+function ZoomController({ zoom }) {
+  const { camera } = useThree()
+  useEffect(() => {
+    const len = camera.position.length()
+    if (len > 0) camera.position.multiplyScalar(zoom / len)
+  }, [zoom, camera])
+  return null
+}
+
+function RailCanvas({ Component, zoom }) {
   return (
     <Canvas dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
-      <PerspectiveCamera makeDefault position={[0, 0, 4]} fov={38} />
+      <PerspectiveCamera makeDefault position={[0, 0, zoom]} fov={38} />
       <ambientLight intensity={0.6} />
       <directionalLight position={[4, 4, 2]} intensity={2.0} color="#FBB034" />
       <directionalLight position={[-3, 1, -2]} intensity={0.7} color="#6090d4" />
@@ -511,6 +522,7 @@ function RailCanvas({ Component }) {
       </Suspense>
       <ContactShadows position={[0, -0.8, 0]} opacity={0.40} scale={6} blur={2.5} far={3} />
       <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={1.2} makeDefault />
+      <ZoomController zoom={zoom} />
     </Canvas>
   )
 }
@@ -609,6 +621,7 @@ export default function Products() {
 
   const [selected,   setSelected]   = useState(initId)
   const [variantId,  setVariantId]  = useState(null)
+  const [zoom,       setZoom]       = useState(4)
 
   // Sync selected from URL hash
   useEffect(() => {
@@ -620,6 +633,9 @@ export default function Products() {
     const prod = PRODUCTS.find(p => p.id === selected)
     if (prod) setVariantId(prod.variants[0].id)
   }, [selected])
+
+  // Reset zoom when variant changes
+  useEffect(() => { setZoom(4) }, [variantId])
 
   const product       = PRODUCTS.find(p => p.id === selected)
   const allVariantIds = product ? product.variants.map(v => v.id) : []
@@ -753,28 +769,51 @@ export default function Products() {
                     initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
                     transition={{ duration:0.3 }}>
 
-                    <div style={{
-                      height:340, position:'relative', marginBottom:'2rem',
-                      background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)',
-                      border:'1px solid var(--border-subtle)', cursor:'grab',
-                    }}>
-                      <RailCanvas Component={activeVariant.Component} />
-                      {/* Model label badge */}
+                    <div style={{ display:'flex', gap:'0.75rem', marginBottom:'2rem', alignItems:'stretch' }}>
+                      {/* ── 3D Viewport ── */}
                       <div style={{
-                        position:'absolute', top:'1rem', left:'1rem',
-                        background:'rgba(10,14,26,0.75)', backdropFilter:'blur(8px)',
-                        border:'1px solid var(--border-subtle)',
-                        padding:'0.35rem 0.75rem',
-                        fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.1em',
-                        color:'var(--text-primary)',
+                        flex:1, height:340, position:'relative',
+                        background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)',
+                        border:'1px solid var(--border-subtle)', cursor:'grab',
                       }}>
-                        {activeVariant.name}
+                        <RailCanvas Component={activeVariant.Component} zoom={zoom} />
+                        {/* Model label badge */}
+                        <div style={{
+                          position:'absolute', top:'1rem', left:'1rem',
+                          background:'rgba(10,14,26,0.75)', backdropFilter:'blur(8px)',
+                          border:'1px solid var(--border-subtle)',
+                          padding:'0.35rem 0.75rem',
+                          fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.1em',
+                          color:'var(--text-primary)',
+                        }}>
+                          {activeVariant.name}
+                        </div>
+                        <div style={{
+                          position:'absolute', bottom:'0.9rem', left:'1rem',
+                          fontFamily:'JetBrains Mono', fontSize:'0.58rem', letterSpacing:'0.14em',
+                          color:'var(--text-muted)', textTransform:'uppercase', pointerEvents:'none',
+                        }}>↻ Drag to rotate</div>
                       </div>
+
+                      {/* ── Zoom Slider ── */}
                       <div style={{
-                        position:'absolute', bottom:'0.9rem', right:'1rem',
-                        fontFamily:'JetBrains Mono', fontSize:'0.58rem', letterSpacing:'0.14em',
-                        color:'var(--text-muted)', textTransform:'uppercase', pointerEvents:'none',
-                      }}>↻ Drag to rotate</div>
+                        display:'flex', flexDirection:'column', alignItems:'center',
+                        justifyContent:'center', gap:'0.5rem',
+                        background:'rgba(10,14,26,0.6)', backdropFilter:'blur(8px)',
+                        border:'1px solid var(--border-subtle)',
+                        padding:'0.9rem 0.55rem', borderRadius:4, flexShrink:0, width:36,
+                      }}>
+                        <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.75rem', color:'var(--sun-orange)', lineHeight:1, userSelect:'none' }}>+</span>
+                        <div style={{ height:140, display:'flex', alignItems:'center', justifyContent:'center', width:20 }}>
+                          <input
+                            type="range" min={2} max={7} step={0.05}
+                            value={zoom}
+                            onChange={e => setZoom(parseFloat(e.target.value))}
+                            style={{ transform:'rotate(-90deg)', width:140, cursor:'pointer', accentColor:'#E05540', margin:0 }}
+                          />
+                        </div>
+                        <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.75rem', color:'var(--text-muted)', lineHeight:1, userSelect:'none' }}>−</span>
+                      </div>
                     </div>
 
                     {/* Variant tagline + description */}
