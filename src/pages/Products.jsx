@@ -1,7 +1,7 @@
 import { useState, Suspense, useEffect, useRef } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp55, SeamClamp70T1, SeamClamp70T2, InclinedRail, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro } from '../three/RailModels'
+import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp55, SeamClamp100Pro, SeamClamp70T1, SeamClamp70T2, InclinedRail, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -356,7 +356,7 @@ const PRODUCTS = [
         id: 'seam-100-pro',
         name: 'Standing Seam 100mm Pro',
         subtitle: 'T2 Profile · 100 mm Seam · Pro',
-        Component: SeamClamp,
+        Component: SeamClamp100Pro,
         tagline: 'Pro-grade 100 mm clamp for tall T2 seam profiles — maximum grip for industrial-grade standing seam roofing.',
         desc: 'Standing Seam 100mm Pro accommodates taller, 100 mm T2 standing seam profiles typical of large-span industrial roofing. The deep Pro-grade clamp jaw provides a more secure grip on the wider seam body, and reinforced grub screws ensure lock-tight retention even under extreme wind loads. Panel attachment via T-slot U-clamp or mid-clamp.',
         specs: [
@@ -807,8 +807,8 @@ export default function Products() {
                         <div style={{ height:140, display:'flex', alignItems:'center', justifyContent:'center', width:20 }}>
                           <input
                             type="range" min={2} max={7} step={0.05}
-                            value={zoom}
-                            onChange={e => setZoom(parseFloat(e.target.value))}
+                            value={9 - zoom}
+                            onChange={e => setZoom(9 - parseFloat(e.target.value))}
                             style={{ transform:'rotate(-90deg)', width:140, cursor:'pointer', accentColor:'#E05540', margin:0 }}
                           />
                         </div>

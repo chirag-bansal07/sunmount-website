@@ -76,6 +76,11 @@ export function SeamClamp (props) {
   return <primitive object={model} {...props} />
 }
 
+export function SeamClamp100Pro (props) {
+  const model = useNormalisedModel('/models/seam-clamp-100pro.glb')
+  return <primitive object={model} {...props} />
+}
+
 export function SeamClamp55 (props) {
   const model = useNormalisedModel('/models/seam-clamp-55.glb')
   return <primitive object={model} {...props} />
@@ -160,6 +165,7 @@ export function LongRailPro (props) {
 }
 
 /* Pre-warm cache */
+useGLTF.preload('/models/seam-clamp-100pro.glb')
 useGLTF.preload('/models/seam-clamp-55.glb')
 useGLTF.preload('/models/seam-clamp-70t1.glb')
 useGLTF.preload('/models/seam-clamp-70t2.glb')
