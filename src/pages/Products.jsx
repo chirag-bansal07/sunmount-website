@@ -1,7 +1,7 @@
 import { useState, Suspense, useEffect, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, InclinedRail, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro } from '../three/RailModels'
+import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp55, SeamClamp70T1, SeamClamp70T2, InclinedRail, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -329,7 +329,7 @@ const PRODUCTS = [
         id: 'seam-55',
         name: 'Standing Seam 55mm',
         subtitle: 'T1 Profile · 55 mm Seam',
-        Component: SeamClamp,
+        Component: SeamClamp55,
         tagline: 'The standard 55 mm seam clamp — covers the most common standing seam profile in India.',
         desc: 'Standing Seam 55mm is designed for the most widely installed standing seam roofing profile in India. Grub screws fix the aluminium clamp onto the 55 mm seam without drilling, preserving the roof membrane and warranty. Landscape-orientation panels attach via U-clamp or mid-clamp directly to the clamp\'s T-slot.',
         specs: [
@@ -383,7 +383,7 @@ const PRODUCTS = [
         id: 'seam-70-t1',
         name: 'Standing Seam 70mm Type 1',
         subtitle: 'T2 Profile · 70 mm · Type 1 Clamp',
-        Component: SeamClamp,
+        Component: SeamClamp70T1,
         tagline: '70 mm Type 1 clamp — precision fit for narrow-flange standing seam profiles at 70 mm seam height.',
         desc: 'Standing Seam 70mm Type 1 is precision-machined for 70 mm narrow-flange standing seam profiles commonly found on imported and premium domestic roofing systems. The Type 1 clamp jaw conforms to the seam\'s inner radius, and dual grub screws distribute clamping force evenly without distorting the seam, preserving the roof warranty.',
         specs: [
@@ -410,7 +410,7 @@ const PRODUCTS = [
         id: 'seam-70-t2',
         name: 'Standing Seam 70mm Type 2',
         subtitle: 'T2 Profile · 70 mm · Type 2 Clamp',
-        Component: SeamClamp,
+        Component: SeamClamp70T2,
         tagline: '70 mm Type 2 clamp — wide-flange geometry for maximum pull-out resistance on large-profile seams.',
         desc: 'Standing Seam 70mm Type 2 is engineered for wide-flange 70 mm standing seam profiles. The Type 2 jaw accommodates the wider seam body and dual-point grub screws deliver maximum pull-out resistance for heavy panel loads and high wind environments. This variant provides the highest holding force among the 70 mm seam clamp range.',
         specs: [

@@ -76,6 +76,21 @@ export function SeamClamp (props) {
   return <primitive object={model} {...props} />
 }
 
+export function SeamClamp55 (props) {
+  const model = useNormalisedModel('/models/seam-clamp-55.glb')
+  return <primitive object={model} {...props} />
+}
+
+export function SeamClamp70T1 (props) {
+  const model = useNormalisedModel('/models/seam-clamp-70t1.glb')
+  return <primitive object={model} {...props} />
+}
+
+export function SeamClamp70T2 (props) {
+  const model = useNormalisedModel('/models/seam-clamp-70t2.glb')
+  return <primitive object={model} {...props} />
+}
+
 /** Inclined System — reuses the mono-rail profile with a visible tilt */
 export function InclinedRail (props) {
   const model = useNormalisedModel('/models/mono-rail.glb')
@@ -145,6 +160,9 @@ export function LongRailPro (props) {
 }
 
 /* Pre-warm cache */
+useGLTF.preload('/models/seam-clamp-55.glb')
+useGLTF.preload('/models/seam-clamp-70t1.glb')
+useGLTF.preload('/models/seam-clamp-70t2.glb')
 useGLTF.preload('/models/mono-rail.glb')
 useGLTF.preload('/models/mini-rail.glb')
 useGLTF.preload('/models/long-rail.glb')
