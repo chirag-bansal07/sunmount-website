@@ -28,7 +28,7 @@ const Navbar = () => {
   }, [])
 
   const logoH  = scrolled ? 40 : 60
-  const badgeH = scrolled ? 32 : 40
+  const badgeH = scrolled ? 44 : 56
 
   return (
     <>

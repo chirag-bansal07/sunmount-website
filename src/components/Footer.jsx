@@ -23,7 +23,7 @@ const Footer = () => (
               { src:'/badge-msme.png',      alt:'MSME' },
             ].map(({ src, alt }) => (
               <img key={alt} src={src} alt={alt}
-                style={{ height:52, width:'auto', objectFit:'contain', display:'block' }} />
+                style={{ height:80, width:'auto', objectFit:'contain', display:'block' }} />
             ))}
           </div>
         </div>
