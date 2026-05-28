@@ -1,7 +1,7 @@
 import { useState, useRef, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, InclinedRail } from '../three/RailModels'
+import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp70T1, InclinedRail } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -88,7 +88,7 @@ const PRODUCTS = [
       'Suitable for all standing seam profiles',
       'Compatible with all PV modules',
     ],
-    Component: SeamClamp,
+    Component: SeamClamp70T1,
   },
   {
     id: 'inclined',
