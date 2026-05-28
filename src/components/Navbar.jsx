@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const BADGES = [
-  { src: '/badge-makeindia.png', alt: 'Make in India',      title: 'Made in India',      extraH: 15 },
+  { src: '/badge-makeindia.png', alt: 'Make in India',      title: 'Made in India',      extraH: 10 },
   { src: '/badge-iso.png',       alt: 'ISO 9001 Certified', title: 'ISO 9001 Certified', extraH: 0  },
   { src: '/badge-tuv.png',       alt: 'TÜV SÜD Certified', title: 'TÜV SÜD Certified',  extraH: 0  },
   { src: '/badge-msme.png',      alt: 'MSME Registered',    title: 'MSME Registered',    extraH: 30 },
