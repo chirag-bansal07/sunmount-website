@@ -1,7 +1,7 @@
 import { useState, Suspense, useEffect, useRef } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp55, SeamClamp100Pro, SeamClamp70T1, SeamClamp70T2, InclinedRail, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro } from '../three/RailModels'
+import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp55, SeamClamp100Pro, SeamClamp70T1, SeamClamp70T2, InclinedRail, InclinedSystem, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -449,7 +449,7 @@ const PRODUCTS = [
         id: 'inclined-std',
         name: 'Inclined System',
         subtitle: '5° – 20° Adjustable Tilt',
-        Component: InclinedRail,
+        Component: InclinedSystem,
         tagline: 'Adjustable tilt from 5° to 20° — optimises energy yield on north-, east- or west-facing roofs.',
         desc: 'The Inclined System uses precision-extruded L-channel and C-channel aluminium to tilt solar PV panels at an adjustable angle on flat or low-pitch trapezoidal metal and asbestos roofs. Panels face south regardless of roof orientation, maximising annual energy yield. The inclination is set at installation from 5° to 20° depending on site latitude. L-channels attach to the roof crest via self-drilling screws (metal) or J-bolts (asbestos).',
         specs: [

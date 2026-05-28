@@ -106,6 +106,16 @@ export function InclinedRail (props) {
   )
 }
 
+/** Inclined System — full assembly model */
+export function InclinedSystem (props) {
+  const model = useNormalisedModel('/models/inclined-system.glb', 2.2)
+  return (
+    <group rotation={[-0.12, 0.3, 0]}>
+      <primitive object={model} {...props} />
+    </group>
+  )
+}
+
 /** Short Rail — compact version using mini-rail profile */
 export function ShortRail (props) {
   const model = useNormalisedModel('/models/mini-rail.glb')
@@ -165,6 +175,7 @@ export function LongRailPro (props) {
 }
 
 /* Pre-warm cache */
+useGLTF.preload('/models/inclined-system.glb')
 useGLTF.preload('/models/seam-clamp-100pro.glb')
 useGLTF.preload('/models/seam-clamp-55.glb')
 useGLTF.preload('/models/seam-clamp-70t1.glb')

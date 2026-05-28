@@ -1,7 +1,7 @@
 import { useState, useRef, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp70T1, InclinedRail } from '../three/RailModels'
+import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp70T1, InclinedRail, InclinedSystem } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -108,7 +108,7 @@ const PRODUCTS = [
       'Works on metal & asbestos roofs',
       'Adjustable angle 5° to 20°',
     ],
-    Component: InclinedRail,
+    Component: InclinedSystem,
   },
 ]
 
