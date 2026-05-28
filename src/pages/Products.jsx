@@ -1,7 +1,7 @@
 import { useState, Suspense, useEffect, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, InclinedRail, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70 } from '../three/RailModels'
+import { MiniRail, MonoRail, LongRail, SeamClamp, InclinedRail, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -197,7 +197,7 @@ const PRODUCTS = [
         id: 'mini-short',
         name: 'Short Rail',
         subtitle: 'Compact Span · Portrait',
-        Component: ShortRail,
+        Component: MiniRailShort,
         tagline: 'Compact short-span rail for narrow bays, canopies and retrofits — same T-slot, all SunMount clamps compatible.',
         desc: 'The Short Rail is a compact aluminium extrusion for rooftops where a full-length rail is impractical due to narrow bay widths, limited purlin spans or modular roof layouts. Its reduced length minimises material usage and simplifies logistics while keeping the same T-slot profile that accepts every SunMount U-clamp, Z-clamp and mid-clamp. Ideal for canopies, carports and residential retrofits.',
         specs: [
@@ -236,7 +236,7 @@ const PRODUCTS = [
         id: 'long-ultra',
         name: 'Long Rail Ultra',
         subtitle: 'Heavy-Duty · Portrait',
-        Component: LongRail,
+        Component: LongRailUltra,
         tagline: 'Maximum load-bearing capacity — the go-to solution for extreme wind environments and industrial structures.',
         desc: 'The Long Rail Ultra is SunMount\'s heaviest-duty purlin-mounted rail. Its increased cross-section and wall thickness deliver higher bending stiffness, enabling wider purlin spacings without additional support. The system is certified for wind speeds up to 200 km/h and is ideal for large-span industrial sheds and coastal environments where load-to-weight ratio is critical.',
         specs: [
@@ -263,7 +263,7 @@ const PRODUCTS = [
         id: 'long-lite',
         name: 'Long Rail Light',
         subtitle: 'Standard · Landscape',
-        Component: LongRail,
+        Component: LongRailLite,
         tagline: 'Economical purlin-mounted rail for landscape orientation — fewer penetrations, faster installation.',
         desc: 'The Long Rail Light is a lighter, more economical variant of the purlin-mounted system, optimised for landscape-orientation panels. Its reduced material cross-section keeps project costs lower while still delivering far fewer roof penetrations than Mini or Mono Rail installations. Compatible with existing self-drilling screw holes on asbestos sheets, making retrofits simple.',
         specs: [
@@ -290,7 +290,7 @@ const PRODUCTS = [
         id: 'long-pro',
         name: 'Long Rail Pro',
         subtitle: 'Premium · Dual Orientation',
-        Component: LongRail,
+        Component: LongRailPro,
         tagline: 'Premium grade with the highest load capacity — engineered for both portrait and landscape on the most demanding structures.',
         desc: 'The Long Rail Pro is the flagship of the Long Rail range, combining the greatest cross-section wall thickness with a universal profile that accommodates both portrait and landscape panel orientations. It is designed for premium commercial and industrial projects where structural engineers require the highest certified load ratings, the widest allowable purlin spacings, and a single-rail solution across mixed-orientation arrays.',
         specs: [

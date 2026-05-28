@@ -124,6 +124,26 @@ export function MiniRail70 (props) {
   return <primitive object={model} {...props} />
 }
 
+export function MiniRailShort (props) {
+  const model = useNormalisedModel('/models/mini-rail-short.glb')
+  return <primitive object={model} {...props} />
+}
+
+export function LongRailUltra (props) {
+  const model = useNormalisedModel('/models/long-rail-ultra.glb')
+  return <primitive object={model} {...props} />
+}
+
+export function LongRailLite (props) {
+  const model = useNormalisedModel('/models/long-rail-lite.glb')
+  return <primitive object={model} {...props} />
+}
+
+export function LongRailPro (props) {
+  const model = useNormalisedModel('/models/long-rail-pro.glb')
+  return <primitive object={model} {...props} />
+}
+
 /* Pre-warm cache */
 useGLTF.preload('/models/mono-rail.glb')
 useGLTF.preload('/models/mini-rail.glb')
@@ -135,3 +155,7 @@ useGLTF.preload('/models/mono-rail-65.glb')
 useGLTF.preload('/models/mono-rail-100-pro.glb')
 useGLTF.preload('/models/mini-rail-100.glb')
 useGLTF.preload('/models/mini-rail-70.glb')
+useGLTF.preload('/models/mini-rail-short.glb')
+useGLTF.preload('/models/long-rail-ultra.glb')
+useGLTF.preload('/models/long-rail-lite.glb')
+useGLTF.preload('/models/long-rail-pro.glb')
