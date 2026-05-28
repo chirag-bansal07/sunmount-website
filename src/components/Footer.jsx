@@ -14,16 +14,18 @@ const Footer = () => (
           <p style={{ fontSize:'0.88rem', color:'var(--text-muted)', lineHeight:1.7, maxWidth:280, marginBottom:'1.5rem' }}>
             India's indigenous solar PV mounting manufacturer. ISO 9001 & MSME registered. TÜV SÜD certified. Supplying across the globe.
           </p>
-          {/* Badge strip */}
-          <div style={{ display:'flex', gap:'1.2rem', flexWrap:'wrap', alignItems:'center', marginTop:'0.5rem' }}>
+          {/* Badge grid — 2 × 2 */}
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem', alignItems:'center', marginTop:'0.5rem', maxWidth:220 }}>
             {[
               { src:'/badge-makeindia.png', alt:'Make in India', h: 90 },
               { src:'/badge-iso.png',       alt:'ISO 9001',      h: 80 },
               { src:'/badge-tuv.png',       alt:'TÜV SÜD',      h: 80 },
               { src:'/badge-msme.png',      alt:'MSME',          h: 90 },
             ].map(({ src, alt, h }) => (
-              <img key={alt} src={src} alt={alt}
-                style={{ height: h, width:'auto', objectFit:'contain', display:'block' }} />
+              <div key={alt} style={{ display:'flex', justifyContent:'center', alignItems:'center' }}>
+                <img src={src} alt={alt}
+                  style={{ height: h, width:'auto', objectFit:'contain', display:'block' }} />
+              </div>
             ))}
           </div>
         </div>
