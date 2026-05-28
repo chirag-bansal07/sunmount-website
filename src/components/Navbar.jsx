@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
+const BADGES = [
+  { src: '/badge-makeindia.png', alt: 'Make in India',      title: 'Made in India'      },
+  { src: '/badge-iso.png',       alt: 'ISO 9001 Certified', title: 'ISO 9001 Certified' },
+  { src: '/badge-tuv.png',       alt: 'TÜV SÜD Certified', title: 'TÜV SÜD Certified'  },
+  { src: '/badge-msme.png',      alt: 'MSME Registered',    title: 'MSME Registered'    },
+]
+
 const NAV_LINKS = [
   { to: '/',         label: 'Home'          },
   { to: '/products', label: 'Products'      },
@@ -20,7 +27,8 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const logoH = scrolled ? 40 : 60
+  const logoH  = scrolled ? 40 : 60
+  const badgeH = scrolled ? 32 : 40
 
   return (
     <>
@@ -95,6 +103,31 @@ const Navbar = () => {
             })}
           </div>
 
+          {/* ── TRUST BADGES — far right ── */}
+          <div
+            className="trust-badges"
+            style={{ display:'flex', gap:'1.4rem', alignItems:'center', flexShrink:0 }}
+          >
+            {BADGES.map(({ src, alt, title }) => (
+              <img
+                key={alt}
+                src={src}
+                alt={alt}
+                title={title}
+                style={{
+                  height: badgeH,
+                  width: 'auto',
+                  objectFit: 'contain',
+                  display: 'block',
+                  cursor: 'help',
+                  transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1)',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.1)' }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'none' }}
+              />
+            ))}
+          </div>
+
           {/* ── MOBILE TOGGLE ── */}
           <button
             className="mobile-toggle"
@@ -150,7 +183,8 @@ const Navbar = () => {
         }
         .nav-link:hover { color: var(--sun-orange)!important; text-shadow: 0 0 20px rgba(224,85,64,0.5); }
         .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
-        @media(max-width:900px) { .nav-desktop { display:none!important; } .mobile-toggle { display:flex!important; } }
+        @media(max-width:1100px) { .trust-badges { display:none!important; } }
+        @media(max-width:900px)  { .nav-desktop  { display:none!important; } .mobile-toggle { display:flex!important; } }
       `}</style>
     </>
   )

@@ -15,16 +15,15 @@ const Footer = () => (
             India's indigenous solar PV mounting manufacturer. ISO 9001 & MSME registered. TÜV SÜD certified. Supplying across the globe.
           </p>
           {/* Badge strip */}
-          <div style={{ display:'flex', gap:'0.5rem', flexWrap:'wrap' }}>
+          <div style={{ display:'flex', gap:'1.2rem', flexWrap:'wrap', alignItems:'center', marginTop:'0.5rem' }}>
             {[
               { src:'/badge-makeindia.png', alt:'Make in India' },
               { src:'/badge-iso.png',       alt:'ISO 9001' },
               { src:'/badge-tuv.png',       alt:'TÜV SÜD' },
               { src:'/badge-msme.png',      alt:'MSME' },
             ].map(({ src, alt }) => (
-              <div key={alt} style={{ width:36, height:36, background:'rgba(255,255,255,0.07)', borderRadius:4, padding:'3px', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                <img src={src} alt={alt} style={{ width:'100%', height:'100%', objectFit:'contain', filter:'brightness(1.1)' }} />
-              </div>
+              <img key={alt} src={src} alt={alt}
+                style={{ height:52, width:'auto', objectFit:'contain', display:'block' }} />
             ))}
           </div>
         </div>
