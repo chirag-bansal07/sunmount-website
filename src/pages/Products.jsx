@@ -1,7 +1,7 @@
 import { useState, Suspense, useEffect, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, InclinedRail, ShortRail } from '../three/RailModels'
+import { MiniRail, MonoRail, LongRail, SeamClamp, InclinedRail, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70 } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -23,7 +23,7 @@ const PRODUCTS = [
         id: 'mono-100',
         name: 'MonoRail 100mm',
         subtitle: '100 mm Roof Clearance',
-        Component: MonoRail,
+        Component: MonoRail100,
         tagline: 'Standard 100 mm clearance — maximum ventilation, the most popular choice for commercial projects.',
         desc: 'The MonoRail 100mm provides 100 mm of clearance between the panel underside and the roof surface, ensuring excellent natural ventilation and module cooling. The precision T-slot extrusion accepts U-clamps and mid-clamps for all standard panel thicknesses. Rivet-and-EPDM tape attachment to the roof crest is the standard fixing method; a structural-adhesive option is available for non-penetrative installation.',
         specs: [
@@ -50,7 +50,7 @@ const PRODUCTS = [
         id: 'mono-70',
         name: 'MonoRail 70mm',
         subtitle: '70 mm Roof Clearance',
-        Component: MonoRail,
+        Component: MonoRail70,
         tagline: 'Low-profile 70 mm variant — reduced wind moment, ideal for high wind-load zones.',
         desc: 'The MonoRail 70mm uses the same T-slot profile but reduces mounting height to 70 mm above the roof crest. The lower centre of gravity reduces the wind-induced bending moment at the base fixing, making it the preferred choice for coastal or high wind-load sites. Panel attachment and material specifications are identical to the 100 mm variant.',
         specs: [
@@ -77,7 +77,7 @@ const PRODUCTS = [
         id: 'mono-65',
         name: 'MonoRail 65mm',
         subtitle: '65 mm Roof Clearance',
-        Component: MonoRail,
+        Component: MonoRail65,
         tagline: 'Ultra-low 65 mm clearance — minimum profile for sites with the strictest height or wind constraints.',
         desc: 'The MonoRail 65mm is the lowest-clearance variant in the Mono Rail range, bringing panels within 65 mm of the roof surface. This ultra-low profile delivers the smallest wind-exposed area of any mono-rail configuration, minimising uplift forces in severe wind environments. Ideal for coastal industrial rooftops and any site where height restrictions apply.',
         specs: [
@@ -104,7 +104,7 @@ const PRODUCTS = [
         id: 'mono-100-pro',
         name: 'MonoRail 100mm Pro',
         subtitle: '100 mm Clearance · Heavy Duty',
-        Component: MonoRail,
+        Component: MonoRail100Pro,
         tagline: 'Heavy-duty 100 mm Pro — reinforced profile for large-span purlins and premium commercial projects.',
         desc: 'The MonoRail 100mm Pro shares the 100 mm clearance of the standard variant but uses a heavier-gauge aluminium extrusion with greater wall thickness for improved bending stiffness. This allows wider fixing spacings along the roof purlin, reducing the number of penetrations on large commercial or industrial rooftops. The Pro grade also supports heavier bifacial panel modules.',
         specs: [
@@ -143,7 +143,7 @@ const PRODUCTS = [
         id: 'mini-100',
         name: 'MiniRail 100mm',
         subtitle: '100 mm Roof Clearance',
-        Component: MiniRail,
+        Component: MiniRail100,
         tagline: 'Standard 100 mm clearance — optimal ventilation for residential & light commercial projects.',
         desc: 'The MiniRail 100mm delivers 100 mm of roof clearance in a compact 68 mm profile height. Landscape panel orientation maximises row width on narrower roofs. Z-clamp and end-clamp attachment accommodates all standard panel frame thicknesses without additional tooling. Rivet-and-EPDM tape base fixing preserves the roof membrane.',
         specs: [
@@ -170,7 +170,7 @@ const PRODUCTS = [
         id: 'mini-70',
         name: 'MiniRail 70mm',
         subtitle: '70 mm Roof Clearance',
-        Component: MiniRail,
+        Component: MiniRail70,
         tagline: 'Compact 70 mm clearance — lower profile for wind-sensitive or aesthetically driven projects.',
         desc: 'The MiniRail 70mm reduces the mounting height to 70 mm, creating an even lower profile that blends with the roof line. Ideal for sites with strict visual guidelines or higher wind-load requirements. Panel attachment and material specifications are identical to the 100 mm variant. Its cost-efficiency makes it a frequent choice for residential developments.',
         specs: [

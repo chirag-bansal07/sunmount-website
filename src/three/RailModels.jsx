@@ -92,8 +92,46 @@ export function ShortRail (props) {
   return <primitive object={model} {...props} />
 }
 
+/* ── Variant-specific components ──────────────────────────────── */
+
+export function MonoRail100 (props) {
+  const model = useNormalisedModel('/models/mono-rail-100.glb')
+  return <primitive object={model} {...props} />
+}
+
+export function MonoRail70 (props) {
+  const model = useNormalisedModel('/models/mono-rail-70.glb')
+  return <primitive object={model} {...props} />
+}
+
+export function MonoRail65 (props) {
+  const model = useNormalisedModel('/models/mono-rail-65.glb')
+  return <primitive object={model} {...props} />
+}
+
+export function MonoRail100Pro (props) {
+  const model = useNormalisedModel('/models/mono-rail-100-pro.glb')
+  return <primitive object={model} {...props} />
+}
+
+export function MiniRail100 (props) {
+  const model = useNormalisedModel('/models/mini-rail-100.glb')
+  return <primitive object={model} {...props} />
+}
+
+export function MiniRail70 (props) {
+  const model = useNormalisedModel('/models/mini-rail-70.glb')
+  return <primitive object={model} {...props} />
+}
+
 /* Pre-warm cache */
 useGLTF.preload('/models/mono-rail.glb')
 useGLTF.preload('/models/mini-rail.glb')
 useGLTF.preload('/models/long-rail.glb')
 useGLTF.preload('/models/seam-clamp.glb')
+useGLTF.preload('/models/mono-rail-100.glb')
+useGLTF.preload('/models/mono-rail-70.glb')
+useGLTF.preload('/models/mono-rail-65.glb')
+useGLTF.preload('/models/mono-rail-100-pro.glb')
+useGLTF.preload('/models/mini-rail-100.glb')
+useGLTF.preload('/models/mini-rail-70.glb')
