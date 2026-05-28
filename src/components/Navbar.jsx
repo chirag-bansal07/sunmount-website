@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const BADGES = [
-  { src: '/badge-makeindia.png', alt: 'Make in India',      title: 'Made in India'      },
-  { src: '/badge-iso.png',       alt: 'ISO 9001 Certified', title: 'ISO 9001 Certified' },
-  { src: '/badge-tuv.png',       alt: 'TÜV SÜD Certified', title: 'TÜV SÜD Certified'  },
-  { src: '/badge-msme.png',      alt: 'MSME Registered',    title: 'MSME Registered'    },
+  { src: '/badge-makeindia.png', alt: 'Make in India',      title: 'Made in India',      extraH: 10 },
+  { src: '/badge-iso.png',       alt: 'ISO 9001 Certified', title: 'ISO 9001 Certified', extraH: 0  },
+  { src: '/badge-tuv.png',       alt: 'TÜV SÜD Certified', title: 'TÜV SÜD Certified',  extraH: 0  },
+  { src: '/badge-msme.png',      alt: 'MSME Registered',    title: 'MSME Registered',    extraH: 10 },
 ]
 
 const NAV_LINKS = [
@@ -108,14 +108,14 @@ const Navbar = () => {
             className="trust-badges"
             style={{ display:'flex', gap:'1.4rem', alignItems:'center', flexShrink:0 }}
           >
-            {BADGES.map(({ src, alt, title }) => (
+            {BADGES.map(({ src, alt, title, extraH }) => (
               <img
                 key={alt}
                 src={src}
                 alt={alt}
                 title={title}
                 style={{
-                  height: badgeH,
+                  height: badgeH + extraH,
                   width: 'auto',
                   objectFit: 'contain',
                   display: 'block',

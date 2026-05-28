@@ -17,13 +17,13 @@ const Footer = () => (
           {/* Badge strip */}
           <div style={{ display:'flex', gap:'1.2rem', flexWrap:'wrap', alignItems:'center', marginTop:'0.5rem' }}>
             {[
-              { src:'/badge-makeindia.png', alt:'Make in India' },
-              { src:'/badge-iso.png',       alt:'ISO 9001' },
-              { src:'/badge-tuv.png',       alt:'TÜV SÜD' },
-              { src:'/badge-msme.png',      alt:'MSME' },
-            ].map(({ src, alt }) => (
+              { src:'/badge-makeindia.png', alt:'Make in India', h: 90 },
+              { src:'/badge-iso.png',       alt:'ISO 9001',      h: 80 },
+              { src:'/badge-tuv.png',       alt:'TÜV SÜD',      h: 80 },
+              { src:'/badge-msme.png',      alt:'MSME',          h: 90 },
+            ].map(({ src, alt, h }) => (
               <img key={alt} src={src} alt={alt}
-                style={{ height:80, width:'auto', objectFit:'contain', display:'block' }} />
+                style={{ height: h, width:'auto', objectFit:'contain', display:'block' }} />
             ))}
           </div>
         </div>
