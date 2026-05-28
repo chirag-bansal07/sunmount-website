@@ -1,13 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-const BADGES = [
-  { src: '/badge-makeindia.png', alt: 'Make in India',     title: 'Made in India',     whiteBg: true  },
-  { src: '/badge-iso.png',       alt: 'ISO 9001 Certified', title: 'ISO 9001 Certified', whiteBg: false },
-  { src: '/badge-tuv.png',       alt: 'TÜV SÜD Certified', title: 'TÜV SÜD Certified', whiteBg: false },
-  { src: '/badge-msme.png',      alt: 'MSME Registered',   title: 'MSME Registered',   whiteBg: false },
-]
-
 const NAV_LINKS = [
   { to: '/',         label: 'Home'          },
   { to: '/products', label: 'Products'      },
@@ -27,8 +20,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const logoH  = scrolled ? 40 : 60
-  const badgeH = scrolled ? 40 : 56   // image height inside each badge slot
+  const logoH = scrolled ? 40 : 60
 
   return (
     <>
@@ -41,7 +33,7 @@ const Navbar = () => {
         transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',
       }}>
 
-        {/* ── Full-width inner row — logo far left, badges far right ── */}
+        {/* ── Full-width inner row ── */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -66,7 +58,7 @@ const Navbar = () => {
             />
           </Link>
 
-          {/* ── DESKTOP NAV — centred, no wrapping ── */}
+          {/* ── DESKTOP NAV — centred ── */}
           <div
             className="nav-desktop"
             style={{
@@ -101,54 +93,6 @@ const Navbar = () => {
                 </Link>
               )
             })}
-          </div>
-
-          {/* ── TRUST BADGES — far right ── */}
-          <div
-            className="trust-badges"
-            style={{
-              display: 'flex',
-              gap: '1rem',
-              alignItems: 'center',
-              flexShrink: 0,
-            }}
-          >
-            {BADGES.map(({ src, alt, title, whiteBg }) => (
-              <div
-                key={alt}
-                title={title}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'transform 0.3s cubic-bezier(0.16,1,0.3,1)',
-                  cursor: 'help',
-                  /*
-                   * Make in India has a dark gear-lion on white bg.
-                   * invert(1) flips it → white lion on black bg.
-                   * mix-blend-mode: screen over the dark nav makes
-                   * the black bg disappear and the white lion pop.
-                   */
-                  ...(whiteBg ? { mixBlendMode: 'screen' } : {}),
-                }}
-                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.08)' }}
-                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0) scale(1)' }}
-              >
-                <img
-                  src={src}
-                  alt={alt}
-                  style={{
-                    height: badgeH,
-                    width: 'auto',
-                    objectFit: 'contain',
-                    display: 'block',
-                    filter: whiteBg
-                      ? 'invert(1) brightness(1.1)'
-                      : 'brightness(1.15) contrast(1.08) drop-shadow(0 1px 5px rgba(0,0,0,0.5))',
-                  }}
-                />
-              </div>
-            ))}
           </div>
 
           {/* ── MOBILE TOGGLE ── */}
@@ -193,23 +137,6 @@ const Navbar = () => {
                 {l.label}
               </Link>
             ))}
-            <div style={{ display: 'flex', gap: '0.6rem', marginTop: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-              {BADGES.map(({ src, alt, whiteBg }) => (
-                <div
-                  key={alt}
-                  style={{ ...(whiteBg ? { mixBlendMode: 'screen' } : {}) }}
-                >
-                  <img
-                    src={src}
-                    alt={alt}
-                    style={{
-                      width: 44, height: 44, objectFit: 'contain', display: 'block',
-                      filter: whiteBg ? 'invert(1) brightness(1.1)' : 'brightness(1.15)',
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
           </div>
         )}
       </nav>
@@ -223,8 +150,7 @@ const Navbar = () => {
         }
         .nav-link:hover { color: var(--sun-orange)!important; text-shadow: 0 0 20px rgba(224,85,64,0.5); }
         .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
-        @media(max-width:1200px) { .trust-badges { display:none!important; } }
-        @media(max-width:900px)  { .nav-desktop { display:none!important; } .mobile-toggle { display:flex!important; } }
+        @media(max-width:900px) { .nav-desktop { display:none!important; } .mobile-toggle { display:flex!important; } }
       `}</style>
     </>
   )
