@@ -915,7 +915,7 @@ export default function Products() {
           .prod-detail-grid { grid-template-columns:1fr !important; }
           .acc-grid { grid-template-columns:repeat(2,1fr) !important; }
         }
-        @media(max-width:560px) {
+        @media(max-width:600px) {
           .acc-grid { grid-template-columns:1fr !important; }
         }
         div[ref] { scrollbar-width:none; }
@@ -943,13 +943,13 @@ export default function Products() {
             initial="hidden" whileInView="show" viewport={{ once:true, margin:'-60px' }}
             variants={{ hidden:{}, show:{ transition:{ staggerChildren:0.06 } } }}
             className="acc-grid"
-            style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'1rem' }}>
+            style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'1.4rem' }}>
             {ACCESSORIES.map((acc, i) => (
               <motion.div key={acc.name}
                 variants={{ hidden:{opacity:0,y:24}, show:{opacity:1,y:0,transition:{duration:0.55,ease:[0.16,1,0.3,1]}} }}
                 className="acc-card"
                 style={{
-                  padding:'1.4rem 1.2rem',
+                  padding:'1.8rem 1.6rem',
                   background:'linear-gradient(180deg,var(--bg-elevated) 0%,var(--bg-surface) 100%)',
                   border:'1px solid var(--border-subtle)',
                   position:'relative', overflow:'hidden',
@@ -958,25 +958,25 @@ export default function Products() {
                 }}>
                 <div className="acc-line" style={{ position:'absolute', top:0, left:0, height:2, width:0,
                   background:'var(--gradient-sun)', transition:'width 0.5s cubic-bezier(0.16,1,0.3,1)' }} />
-                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.56rem', letterSpacing:'0.15em',
-                  color:'var(--text-muted)', marginBottom:'0.75rem' }}>
+                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.15em',
+                  color:'var(--text-muted)', marginBottom:'1rem' }}>
                   / {String(i + 1).padStart(2, '0')}
                 </div>
-                <div style={{ width:72, height:72, marginBottom:'0.9rem', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                <div style={{ width:110, height:110, marginBottom:'1.2rem', display:'flex', alignItems:'center', justifyContent:'center' }}>
                   <img src={acc.image} alt={acc.name}
-                    style={{ width:68, height:68, objectFit:'contain', filter:'drop-shadow(0 2px 8px rgba(0,0,0,0.45))' }} />
+                    style={{ width:100, height:100, objectFit:'contain', filter:'drop-shadow(0 3px 10px rgba(0,0,0,0.5))' }} />
                 </div>
-                <h3 style={{ fontSize:'0.93rem', fontWeight:800, letterSpacing:'0.02em', marginBottom:'0.3rem', color:'var(--text-primary)' }}>
+                <h3 style={{ fontSize:'1.05rem', fontWeight:800, letterSpacing:'0.02em', marginBottom:'0.4rem', color:'var(--text-primary)' }}>
                   {acc.name}
                 </h3>
-                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.08em',
-                  color:'var(--sun-orange)', marginBottom:'0.85rem' }}>
+                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.65rem', letterSpacing:'0.08em',
+                  color:'var(--sun-orange)', marginBottom:'1rem' }}>
                   {acc.material}
                 </div>
-                <div style={{ display:'flex', flexDirection:'column', gap:'0.28rem', marginTop:'auto' }}>
+                <div style={{ display:'flex', flexDirection:'column', gap:'0.4rem', marginTop:'auto' }}>
                   {acc.features.map((f, fi) => (
-                    <div key={fi} style={{ display:'flex', alignItems:'flex-start', gap:'0.45rem', fontSize:'0.74rem', color:'var(--text-muted)' }}>
-                      <div style={{ width:3, height:3, background:'var(--aluminum-dark)', marginTop:5, flexShrink:0 }} />
+                    <div key={fi} style={{ display:'flex', alignItems:'flex-start', gap:'0.5rem', fontSize:'0.82rem', color:'var(--text-muted)' }}>
+                      <div style={{ width:4, height:4, background:'var(--aluminum-dark)', marginTop:6, flexShrink:0 }} />
                       {f}
                     </div>
                   ))}

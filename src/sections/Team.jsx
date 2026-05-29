@@ -91,21 +91,16 @@ const Team = () => {
               <div style={{ height:3, background:'var(--gradient-sun)' }} />
 
               {/* Portrait */}
-              <div style={{ height:280, position:'relative', overflow:'hidden', background:'var(--bg-deep)' }}>
+              <div style={{ height:320, position:'relative', overflow:'hidden', background:'#a8c4d8', display:'flex', alignItems:'flex-start', justifyContent:'center' }}>
                 <img
                   src="/director.jpg"
                   alt="Vikas Bansal — Founder & Managing Director"
                   style={{
-                    width:'100%', height:'100%', objectFit:'cover', objectPosition:'center top',
+                    width:'100%', height:'100%',
+                    objectFit:'cover', objectPosition:'center top',
                     display:'block',
-                    maskImage:'linear-gradient(to bottom, black 55%, transparent 100%)',
-                    WebkitMaskImage:'linear-gradient(to bottom, black 55%, transparent 100%)',
                   }}
                 />
-                <div style={{
-                  position:'absolute', inset:0,
-                  background:'linear-gradient(to bottom, rgba(6,9,18,0) 50%, var(--bg-elevated) 100%)',
-                }} />
               </div>
 
               <div style={{ padding:'1.6rem 1.8rem 1.8rem', textAlign:'center' }}>
