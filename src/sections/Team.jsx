@@ -91,11 +91,11 @@ const Team = () => {
               <div style={{ height:3, background:'var(--gradient-sun)' }} />
 
               {/* Portrait */}
-              <div style={{ height:240, overflow:'hidden', background:'#a8c4d8' }}>
+              <div style={{ height:340, overflow:'hidden', background:'#a8c4d8' }}>
                 <img
                   src="/director.jpg"
                   alt="Vikas Bansal — Founder & Managing Director"
-                  style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 8%', display:'block' }}
+                  style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center top', display:'block' }}
                 />
               </div>
 
