@@ -98,6 +98,8 @@ const Team = () => {
                   margin:'0 auto 1rem',
                   overflow:'hidden',
                   boxShadow:'0 0 0 3px var(--sun-orange), 0 0 0 6px rgba(255,107,26,0.2)',
+                  transform:'translateZ(0)',
+                  willChange:'transform',
                 }}>
                   <img
                     src="/director.jpg"
