@@ -91,24 +91,24 @@ const Team = () => {
               <div style={{ height:3, background:'var(--gradient-sun)' }} />
 
               {/* Portrait */}
-              <div style={{ height:240, background:'linear-gradient(180deg,rgba(224,85,64,0.14) 0%,var(--bg-elevated) 100%)', display:'flex', alignItems:'flex-end', justifyContent:'center', position:'relative', overflow:'hidden' }}>
+              <div style={{ height:280, position:'relative', overflow:'hidden', background:'var(--bg-deep)' }}>
+                <img
+                  src="/director.jpg"
+                  alt="Vikas Bansal — Founder & Managing Director"
+                  style={{
+                    width:'100%', height:'100%', objectFit:'cover', objectPosition:'center top',
+                    display:'block',
+                    maskImage:'linear-gradient(to bottom, black 55%, transparent 100%)',
+                    WebkitMaskImage:'linear-gradient(to bottom, black 55%, transparent 100%)',
+                  }}
+                />
                 <div style={{
                   position:'absolute', inset:0,
-                  backgroundImage:'linear-gradient(rgba(143,160,187,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(143,160,187,0.05) 1px,transparent 1px)',
-                  backgroundSize:'20px 20px',
+                  background:'linear-gradient(to bottom, rgba(6,9,18,0) 50%, var(--bg-elevated) 100%)',
                 }} />
-                <div style={{
-                  width:160, height:160, borderRadius:'50%',
-                  background:'linear-gradient(135deg,var(--aluminum-mid) 0%,var(--aluminum-dark) 100%)',
-                  border:'3px solid var(--bg-deep)',
-                  boxShadow:'0 0 0 1px var(--sun-orange), 0 18px 50px rgba(0,0,0,0.4)',
-                  display:'flex', alignItems:'center', justifyContent:'center',
-                  marginBottom:'-80px', position:'relative', zIndex:2,
-                  fontFamily:'Montserrat', fontSize:'2.8rem', fontWeight:900, color:'rgba(6,9,18,0.6)',
-                }}>VB</div>
               </div>
 
-              <div style={{ padding:'4.5rem 1.8rem 1.8rem', textAlign:'center' }}>
+              <div style={{ padding:'1.6rem 1.8rem 1.8rem', textAlign:'center' }}>
                 <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.5rem' }}>— DIRECTOR</div>
                 <h3 style={{ fontSize:'1.5rem', marginBottom:'0.3rem' }}>Vikas Bansal</h3>
                 <p style={{ fontSize:'0.82rem', color:'var(--text-muted)', marginBottom:'1.4rem', fontFamily:'JetBrains Mono', letterSpacing:'0.05em' }}>

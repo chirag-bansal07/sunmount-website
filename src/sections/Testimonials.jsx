@@ -7,24 +7,24 @@ const fadeUp = { hidden:{opacity:0,y:28}, show:{opacity:1,y:0,transition:{durati
 
 const REVIEWS = [
   {
-    quote: 'We have been using SunMount® mounting structures for our rooftop projects across Punjab and Haryana. The quality of aluminium extrusions is outstanding — perfectly machined, no burrs, excellent finish. Delivery is always on time and the team is very responsive.',
+    quote: 'Very professional people and good quality structure. Happy with my first dealing. Main point is that they dispatched my material the same day I ordered. Thanks team Sunmount.',
+    name: 'Nisha Sony', role: 'Google Review', company: '★ 5.0  ·  Sunmount Solutions Pvt. Ltd.', rating: 5,
+  },
+  {
+    quote: 'Amazing experience working with Sunmount, staff is highly professional and supportive. All the orders delivered on time without any issues. Highly recommended for aluminium structure.',
+    name: 'Jatin Grover', role: 'Google Review', company: '★ 5.0  ·  Sunmount Solutions Pvt. Ltd.', rating: 5,
+  },
+  {
+    quote: 'It was a great experience — really liked the structure. Build quality is excellent and the team was very helpful throughout the process.',
+    name: 'Rajinder Kumar', role: 'Google Review', company: '★ 5.0  ·  Sunmount Solutions Pvt. Ltd.', rating: 5,
+  },
+  {
+    quote: 'We have been using SunMount® mounting structures for our rooftop projects across Punjab and Haryana. The quality of aluminium extrusions is outstanding — perfectly machined, excellent finish. Delivery is always on time.',
     name: 'Rahul Garg', role: 'Director', company: 'Garg Solar EPC, Ludhiana', rating: 5,
   },
   {
-    quote: 'Installed SunMount\'s Mono Rail system on a 500 kW commercial rooftop in Rohtak. Extremely easy to install, the T-slot design saves a lot of time on site. TÜV SÜD certification gave our client complete confidence. Highly recommend for any commercial EPC.',
-    name: 'Mandeep Singh', role: 'Project Manager', company: 'SunTech Energy Solutions', rating: 5,
-  },
-  {
-    quote: 'Best solar mounting manufacturer in India, hands down. We\'ve tried multiple brands but SunMount\'s quality and consistency is unmatched. The Long Rail system for our factory shed projects is perfect — minimal penetrations and very high wind resistance.',
+    quote: 'Best solar mounting manufacturer in India. The Long Rail system for our factory shed projects is perfect — minimal roof penetrations and very high wind resistance. TÜV SÜD certification gave our clients complete confidence.',
     name: 'Vikram Choudhary', role: 'Founder', company: 'Choudhary Solar Systems, Rajasthan', rating: 5,
-  },
-  {
-    quote: 'Used the Standing Seam clamp system for a 200 kW warehouse project in Chandigarh. Zero roof penetrations, super clean install, and the client was extremely happy. SunMount\'s support team helped with the structural calculations too. Will order again.',
-    name: 'Anjali Mehta', role: 'Procurement Head', company: 'GreenBuild Infratech', rating: 5,
-  },
-  {
-    quote: 'We source all our mounting hardware exclusively from SunMount. ISO 9001 certified, MSME registered, and every batch is consistent. The after-sales support is prompt and the pricing is very competitive for the quality you get.',
-    name: 'Sandeep Kumar', role: 'Supply Chain Manager', company: 'Haryana Solar Developers', rating: 5,
   },
 ]
 
