@@ -52,15 +52,17 @@ const Navbar = () => {
           boxSizing: 'border-box',
         }}>
 
-          {/* ── SUNMOUNT WORDMARK — far left ── */}
-          <Link to="/" style={{ display:'flex', alignItems:'center', flexShrink:0, textDecoration:'none' }}>
-            <span style={{
-              fontFamily:'Montserrat', fontWeight:800, fontSize: scrolled ? '1.2rem' : '1.5rem',
-              letterSpacing:'0.05em', color:'var(--text-primary)',
-              transition:'font-size 0.4s cubic-bezier(0.16,1,0.3,1)',
-            }}>
-              SUN<span style={{ color:'var(--sun-orange)' }}>MOUNT</span>
-            </span>
+          {/* ── SUNMOUNT LOGO — far left ── */}
+          <Link to="/" style={{ display:'flex', alignItems:'center', flexShrink:0 }}>
+            <img
+              src="/logo.png"
+              alt="SunMount Solar Mounting Solutions"
+              style={{
+                height: logoH,
+                width: 'auto',
+                transition: 'height 0.4s cubic-bezier(0.16,1,0.3,1)',
+              }}
+            />
           </Link>
 
           {/* ── DESKTOP NAV — centred ── */}
