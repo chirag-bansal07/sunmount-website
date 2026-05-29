@@ -60,6 +60,9 @@ const Footer = () => (
             <div style={{ marginTop:'0.6rem' }}>
               <a href="tel:+917837999222" style={{ color:'var(--sun-orange)' }}>+91 7837 999 222</a>
             </div>
+            <div>
+              <a href="tel:+918531999222" style={{ color:'var(--sun-orange)' }}>+91 8531 999 222</a>
+            </div>
             <div><a href="mailto:info@sunmount.in" style={{ color:'var(--sun-orange)' }}>info@sunmount.in</a></div>
             <div style={{ marginTop:'0.6rem' }}>
               <a href="https://www.sunmount.in" target="_blank" rel="noopener noreferrer"
