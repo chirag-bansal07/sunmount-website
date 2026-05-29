@@ -96,21 +96,14 @@ const Team = () => {
                   width:165, height:165,
                   borderRadius:'50%',
                   margin:'0 auto 1rem',
-                  padding:3,
-                  background:'var(--gradient-sun)',
+                  overflow:'hidden',
+                  boxShadow:'0 0 0 3px var(--sun-orange), 0 0 0 6px rgba(255,107,26,0.2)',
                 }}>
-                  <div style={{
-                    width:'100%', height:'100%',
-                    borderRadius:'50%',
-                    overflow:'hidden',
-                    background:'#fff',
-                  }}>
-                    <img
-                      src="/director.jpg"
-                      alt="Vikas Bansal"
-                      style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 10%', display:'block' }}
-                    />
-                  </div>
+                  <img
+                    src="/director.jpg"
+                    alt="Vikas Bansal"
+                    style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 10%', display:'block' }}
+                  />
                 </div>
                 <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.63rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.3rem' }}>— DIRECTOR</div>
                 <h3 style={{ fontSize:'1.15rem', marginBottom:'0.15rem' }}>Vikas Bansal</h3>
