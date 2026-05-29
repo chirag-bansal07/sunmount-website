@@ -29,18 +29,28 @@ const Contact = () => {
     e.preventDefault()
     setStatus('loading')
     try {
-      // Replace YOUR_FORM_ID with your Formspree form ID after creating one at formspree.io
-      const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      const requirementLabel = REQUIREMENTS.find(r => r.value === form.requirement)?.label || form.requirement || 'Not specified'
+      const payload = {
+        access_key: import.meta.env.VITE_WEB3FORMS_KEY,
+        subject: `New Enquiry from ${form.name} — ${requirementLabel}`,
+        from_name: 'SunMount Website',
+        replyto: form.email,
+        name: form.name,
+        company: form.company || '—',
+        email: form.email,
+        phone: form.phone || '—',
+        requirement: requirementLabel,
+        message: form.message || '—',
+      }
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       })
-      setStatus(res.ok ? 'sent' : 'error')
+      const data = await res.json()
+      setStatus(data.success ? 'sent' : 'error')
     } catch {
-      // Fallback: open mail client if fetch fails
-      const body = `Name: ${form.name}\nCompany: ${form.company}\nPhone: ${form.phone}\nRequirement: ${form.requirement}\n\n${form.message}`
-      window.location.href = `mailto:info@sunmount.in?subject=Enquiry from ${encodeURIComponent(form.name)}&body=${encodeURIComponent(body)}`
-      setStatus('sent')
+      setStatus('error')
     }
   }
 
@@ -114,7 +124,7 @@ const Contact = () => {
 
                 {status === 'error' && (
                   <div style={{ padding:'0.75rem 1rem', background:'rgba(224,85,64,0.08)', border:'1px solid var(--border-accent)', color:'var(--sun-orange)', fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.05em' }}>
-                    Something went wrong. Please try again or email us at info@sunmount.in
+                    Something went wrong. Please try again or email us directly at sales@sunmount.in
                   </div>
                 )}
 
