@@ -104,7 +104,7 @@ const Team = () => {
                   <img
                     src="/director.jpg"
                     alt="Vikas Bansal"
-                    style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 10%', display:'block' }}
+                    style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 10%', display:'block', transform:'scale(1.08)', transformOrigin:'center 10%' }}
                   />
                 </div>
                 <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.63rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.3rem' }}>— DIRECTOR</div>
