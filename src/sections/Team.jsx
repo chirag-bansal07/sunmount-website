@@ -93,7 +93,7 @@ const Team = () => {
               <div style={{ padding:'1.4rem 1.2rem 1.2rem', textAlign:'center' }}>
                 {/* Circular portrait */}
                 <div style={{
-                  width:110, height:110,
+                  width:165, height:165,
                   borderRadius:'50%',
                   margin:'0 auto 1rem',
                   padding:3,
