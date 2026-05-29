@@ -91,7 +91,7 @@ const Team = () => {
               <div style={{ height:3, background:'var(--gradient-sun)' }} />
 
               {/* Portrait */}
-              <div style={{ height:400, overflow:'hidden', background:'#a8c4d8' }}>
+              <div style={{ height:500, overflow:'hidden', background:'#a8c4d8' }}>
                 <img
                   src="/director.jpg"
                   alt="Vikas Bansal — Founder & Managing Director"
