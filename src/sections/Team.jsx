@@ -90,15 +90,6 @@ const Team = () => {
             <div style={{ background:'linear-gradient(180deg,var(--bg-elevated) 0%,var(--bg-surface) 100%)', border:'1px solid var(--border-subtle)', overflow:'hidden' }}>
               <div style={{ height:3, background:'var(--gradient-sun)' }} />
 
-              {/* Portrait */}
-              <div style={{ height:200, overflow:'hidden' }}>
-                <img
-                  src="/director.jpg"
-                  alt="Vikas Bansal — Founder & Managing Director"
-                  style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center top', display:'block' }}
-                />
-              </div>
-
               <div style={{ padding:'1rem 1.2rem 1.2rem', textAlign:'center' }}>
                 <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.63rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.3rem' }}>— DIRECTOR</div>
                 <h3 style={{ fontSize:'1.15rem', marginBottom:'0.15rem' }}>Vikas Bansal</h3>
