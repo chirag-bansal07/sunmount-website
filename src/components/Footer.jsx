@@ -55,8 +55,8 @@ const Footer = () => (
           <h4 style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Contact</h4>
           <div style={{ fontSize:'0.88rem', color:'var(--text-muted)', lineHeight:1.9 }}>
             <div>Sunmount Solutions</div>
-            <div>Begu Road, Sirsa 125055</div>
-            <div>Haryana, India</div>
+            <div>Surya Koti, Bajekan-Sirsa Main Road</div>
+            <div>Sirsa, Haryana 125055</div>
             <div style={{ marginTop:'0.6rem' }}>
               <a href="tel:+917837999222" style={{ color:'var(--sun-orange)' }}>+91 7837 999 222</a>
             </div>

@@ -91,7 +91,7 @@ const Team = () => {
               <div style={{ height:3, background:'var(--gradient-sun)' }} />
 
               {/* Portrait */}
-              <div style={{ height:400, overflow:'hidden', background:'#a8c4d8' }}>
+              <div style={{ height:200, overflow:'hidden' }}>
                 <img
                   src="/director.jpg"
                   alt="Vikas Bansal — Founder & Managing Director"
@@ -99,17 +99,17 @@ const Team = () => {
                 />
               </div>
 
-              <div style={{ padding:'1.2rem 1.5rem 1.5rem', textAlign:'center' }}>
-                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.4rem' }}>— DIRECTOR</div>
-                <h3 style={{ fontSize:'1.4rem', marginBottom:'0.2rem' }}>Vikas Bansal</h3>
-                <p style={{ fontSize:'0.78rem', color:'var(--text-muted)', marginBottom:'0.9rem', fontFamily:'JetBrains Mono', letterSpacing:'0.05em' }}>
+              <div style={{ padding:'1rem 1.2rem 1.2rem', textAlign:'center' }}>
+                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.63rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.3rem' }}>— DIRECTOR</div>
+                <h3 style={{ fontSize:'1.15rem', marginBottom:'0.15rem' }}>Vikas Bansal</h3>
+                <p style={{ fontSize:'0.72rem', color:'var(--text-muted)', marginBottom:'0.6rem', fontFamily:'JetBrains Mono', letterSpacing:'0.05em' }}>
                   Founder · Managing Director
                 </p>
-                <p style={{ fontSize:'0.84rem', color:'var(--text-secondary)', lineHeight:1.65, marginBottom:'1.2rem' }}>
+                <p style={{ fontSize:'0.78rem', color:'var(--text-secondary)', lineHeight:1.6, marginBottom:'0.9rem' }}>
                   Driving innovation in solar mounting design with extensive experience across manufacturing,
                   services and consultancy. Available for project consultations.
                 </p>
-                <a href="/contact" className="btn-primary" style={{ width:'100%', justifyContent:'center', fontSize:'0.8rem' }}>
+                <a href="/contact" className="btn-primary" style={{ width:'100%', justifyContent:'center', fontSize:'0.75rem', padding:'0.65rem 1rem' }}>
                   Make an Appointment <ArrowRightIcon />
                 </a>
               </div>

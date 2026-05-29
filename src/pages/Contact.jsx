@@ -3,10 +3,10 @@ import { ArrowRightIcon } from '../components/icons'
 import { motion } from 'framer-motion'
 
 const FIELDS = [
-  { name: 'name',    label: 'Full Name',              type: 'text',  placeholder: 'Raj Sharma' },
+  { name: 'name',    label: 'Full Name',              type: 'text',  placeholder: 'Your Name' },
   { name: 'company', label: 'Company / Organization', type: 'text',  placeholder: 'Solar EPC Ltd.' },
-  { name: 'email',   label: 'Email Address',          type: 'email', placeholder: 'raj@company.com' },
-  { name: 'phone',   label: 'Phone Number',           type: 'tel',   placeholder: '+91 98765 43210' },
+  { name: 'email',   label: 'Email Address',          type: 'email', placeholder: 'sample@gmail.com' },
+  { name: 'phone',   label: 'Phone Number',           type: 'tel',   placeholder: '9999999999' },
 ]
 
 const REQUIREMENTS = [
@@ -149,7 +149,7 @@ const Contact = () => {
           <motion.div variants={fadeUp} initial="hidden" animate="show" transition={{ delay:0.28 }}
             style={{ display:'flex', flexDirection:'column', gap:'1.5rem' }}>
             {[
-              { label:'HEADQUARTERS', lines:['Sunmount Solutions','Begu Road, Sirsa 125055','Haryana, India'] },
+              { label:'HEADQUARTERS', lines:['Sunmount Solutions','Surya Koti, Bajekan-Sirsa Main Road','Sirsa, Haryana 125055'] },
               { label:'PHONE',        lines:['+91 7837 999 222'] },
               { label:'EMAIL',        lines:['sales@sunmount.in'] },
               { label:'SUPPLY COVERAGE', lines:['Pan India','International — All Over World'] },
