@@ -20,8 +20,9 @@ const REQUIREMENTS = [
 const fadeUp = { hidden:{opacity:0,y:28}, show:{opacity:1,y:0,transition:{duration:0.7,ease:[0.16,1,0.3,1]}} }
 
 const Contact = () => {
-  const [form, setForm]     = useState({ name:'', company:'', email:'', phone:'', requirement:'', message:'' })
-  const [status, setStatus] = useState('idle') // idle | loading | sent | error
+  const [form, setForm]       = useState({ name:'', company:'', email:'', phone:'', requirement:'', message:'' })
+  const [status, setStatus]   = useState('idle') // idle | loading | sent | error
+  const [errorMsg, setErrorMsg] = useState('')
 
   const handleChange = e => setForm(p => ({ ...p, [e.target.name]: e.target.value }))
 
@@ -33,12 +34,10 @@ const Contact = () => {
       const payload = {
         access_key: 'ce080276-f9f7-4b7d-a791-f2553f5da3ee',
         subject: `New Enquiry from ${form.name} — ${requirementLabel}`,
-        from_name: 'SunMount Website',
-        replyto: form.email,
-        name: form.name,
-        company: form.company || '—',
+        from_name: form.name,
         email: form.email,
         phone: form.phone || '—',
+        company: form.company || '—',
         requirement: requirementLabel,
         message: form.message || '—',
       }
@@ -48,7 +47,9 @@ const Contact = () => {
         body: JSON.stringify(payload),
       })
       const data = await res.json()
+      console.log('Web3Forms response:', data)
       setStatus(data.success ? 'sent' : 'error')
+      if (!data.success) setErrorMsg(data.message || 'Unknown error')
     } catch {
       setStatus('error')
     }
@@ -124,7 +125,7 @@ const Contact = () => {
 
                 {status === 'error' && (
                   <div style={{ padding:'0.75rem 1rem', background:'rgba(224,85,64,0.08)', border:'1px solid var(--border-accent)', color:'var(--sun-orange)', fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.05em' }}>
-                    Something went wrong. Please try again or email us directly at sales@sunmount.in
+                    {errorMsg || 'Something went wrong.'} Please email us directly at sales@sunmount.in
                   </div>
                 )}
 
