@@ -33,6 +33,7 @@ const Contact = () => {
       const requirementLabel = REQUIREMENTS.find(r => r.value === form.requirement)?.label || form.requirement || 'Not specified'
       const payload = {
         access_key: 'ce080276-f9f7-4b7d-a791-f2553f5da3ee',
+        botcheck: false,
         subject: `New Enquiry from ${form.name} — ${requirementLabel}`,
         from_name: form.name,
         email: form.email,
@@ -48,9 +49,15 @@ const Contact = () => {
       })
       const data = await res.json()
       console.log('Web3Forms response:', data)
-      setStatus(data.success ? 'sent' : 'error')
-      if (!data.success) setErrorMsg(data.message || 'Unknown error')
-    } catch {
+      if (data.success) {
+        setStatus('sent')
+      } else {
+        setErrorMsg(data.message || 'Submission failed')
+        setStatus('error')
+      }
+    } catch (err) {
+      console.error('Contact form error:', err)
+      setErrorMsg(err.message || 'Network error')
       setStatus('error')
     }
   }
@@ -144,7 +151,7 @@ const Contact = () => {
             {[
               { label:'HEADQUARTERS', lines:['Sunmount Solutions','Begu Road, Sirsa 125055','Haryana, India'] },
               { label:'PHONE',        lines:['+91 7837 999 222'] },
-              { label:'EMAIL',        lines:['info@sunmount.in'] },
+              { label:'EMAIL',        lines:['sales@sunmount.in'] },
               { label:'SUPPLY COVERAGE', lines:['Pan India','International — All Over World'] },
             ].map((item, i) => (
               <div key={i} style={{ padding:'1.8rem', background:'var(--bg-elevated)', border:'1px solid var(--border-subtle)', borderLeft:'2px solid var(--sun-orange)' }}>
