@@ -91,21 +91,21 @@ const Team = () => {
               <div style={{ height:3, background:'var(--gradient-sun)' }} />
 
               {/* Portrait */}
-              <div style={{ background:'#a8c4d8', display:'flex', justifyContent:'center', alignItems:'center' }}>
+              <div style={{ height:240, overflow:'hidden', background:'#a8c4d8' }}>
                 <img
                   src="/director.jpg"
                   alt="Vikas Bansal — Founder & Managing Director"
-                  style={{ width:'100%', height:'auto', display:'block' }}
+                  style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 8%', display:'block' }}
                 />
               </div>
 
-              <div style={{ padding:'1.6rem 1.8rem 1.8rem', textAlign:'center' }}>
-                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.5rem' }}>— DIRECTOR</div>
-                <h3 style={{ fontSize:'1.5rem', marginBottom:'0.3rem' }}>Vikas Bansal</h3>
-                <p style={{ fontSize:'0.82rem', color:'var(--text-muted)', marginBottom:'1.4rem', fontFamily:'JetBrains Mono', letterSpacing:'0.05em' }}>
+              <div style={{ padding:'1.2rem 1.5rem 1.5rem', textAlign:'center' }}>
+                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.4rem' }}>— DIRECTOR</div>
+                <h3 style={{ fontSize:'1.4rem', marginBottom:'0.2rem' }}>Vikas Bansal</h3>
+                <p style={{ fontSize:'0.78rem', color:'var(--text-muted)', marginBottom:'0.9rem', fontFamily:'JetBrains Mono', letterSpacing:'0.05em' }}>
                   Founder · Managing Director
                 </p>
-                <p style={{ fontSize:'0.88rem', color:'var(--text-secondary)', lineHeight:1.7, marginBottom:'1.8rem' }}>
+                <p style={{ fontSize:'0.84rem', color:'var(--text-secondary)', lineHeight:1.65, marginBottom:'1.2rem' }}>
                   Driving innovation in solar mounting design with extensive experience across manufacturing,
                   services and consultancy. Available for project consultations.
                 </p>
