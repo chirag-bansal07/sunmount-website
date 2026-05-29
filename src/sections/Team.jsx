@@ -90,7 +90,28 @@ const Team = () => {
             <div style={{ background:'linear-gradient(180deg,var(--bg-elevated) 0%,var(--bg-surface) 100%)', border:'1px solid var(--border-subtle)', overflow:'hidden' }}>
               <div style={{ height:3, background:'var(--gradient-sun)' }} />
 
-              <div style={{ padding:'1rem 1.2rem 1.2rem', textAlign:'center' }}>
+              <div style={{ padding:'1.4rem 1.2rem 1.2rem', textAlign:'center' }}>
+                {/* Circular portrait */}
+                <div style={{
+                  width:110, height:110,
+                  borderRadius:'50%',
+                  margin:'0 auto 1rem',
+                  padding:3,
+                  background:'var(--gradient-sun)',
+                }}>
+                  <div style={{
+                    width:'100%', height:'100%',
+                    borderRadius:'50%',
+                    overflow:'hidden',
+                    background:'#fff',
+                  }}>
+                    <img
+                      src="/director.jpg"
+                      alt="Vikas Bansal"
+                      style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 10%', display:'block' }}
+                    />
+                  </div>
+                </div>
                 <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.63rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.3rem' }}>— DIRECTOR</div>
                 <h3 style={{ fontSize:'1.15rem', marginBottom:'0.15rem' }}>Vikas Bansal</h3>
                 <p style={{ fontSize:'0.72rem', color:'var(--text-muted)', marginBottom:'0.6rem', fontFamily:'JetBrains Mono', letterSpacing:'0.05em' }}>
