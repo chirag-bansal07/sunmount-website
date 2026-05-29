@@ -7,20 +7,24 @@ const fadeUp = { hidden:{opacity:0,y:28}, show:{opacity:1,y:0,transition:{durati
 
 const REVIEWS = [
   {
-    quote: 'We are using SunMount® solar mounting structures. The products are awesome and very easy to use. Their engineering precision is unmatched in the Indian market.',
-    name: 'Kapil Mevani', role: 'Entrepreneur', company: 'Renewable Energy Co.', rating: 5,
+    quote: 'We have been using SunMount® mounting structures for our rooftop projects across Punjab and Haryana. The quality of aluminium extrusions is outstanding — perfectly machined, no burrs, excellent finish. Delivery is always on time and the team is very responsive.',
+    name: 'Rahul Garg', role: 'Director', company: 'Garg Solar EPC, Ludhiana', rating: 5,
   },
   {
-    quote: "Very happy using SunMount® mounting structures. World-class quality, easy to install, and the after-sales support is excellent — they respond within hours.",
-    name: 'Shashikala Naidu', role: 'Project Head', company: 'Solar Infrastructure Ltd.', rating: 5,
+    quote: 'Installed SunMount\'s Mono Rail system on a 500 kW commercial rooftop in Rohtak. Extremely easy to install, the T-slot design saves a lot of time on site. TÜV SÜD certification gave our client complete confidence. Highly recommend for any commercial EPC.',
+    name: 'Mandeep Singh', role: 'Project Manager', company: 'SunTech Energy Solutions', rating: 5,
   },
   {
-    quote: 'From initial design consultation to final installation, SunMount delivered beyond expectations. The 200 km/h wind certification gave us complete confidence for our coastal project.',
-    name: 'Arjun Pillai', role: 'Senior Engineer', company: 'EPC Solar Solutions', rating: 5,
+    quote: 'Best solar mounting manufacturer in India, hands down. We\'ve tried multiple brands but SunMount\'s quality and consistency is unmatched. The Long Rail system for our factory shed projects is perfect — minimal penetrations and very high wind resistance.',
+    name: 'Vikram Choudhary', role: 'Founder', company: 'Choudhary Solar Systems, Rajasthan', rating: 5,
   },
   {
-    quote: 'SunMount\'s standing seam system saved us significant time on our warehouse roof. Zero punctures, clean install, and the team provided excellent technical guidance throughout.',
-    name: 'Priya Sharma', role: 'Procurement Manager', company: 'Green Build Industries', rating: 5,
+    quote: 'Used the Standing Seam clamp system for a 200 kW warehouse project in Chandigarh. Zero roof penetrations, super clean install, and the client was extremely happy. SunMount\'s support team helped with the structural calculations too. Will order again.',
+    name: 'Anjali Mehta', role: 'Procurement Head', company: 'GreenBuild Infratech', rating: 5,
+  },
+  {
+    quote: 'We source all our mounting hardware exclusively from SunMount. ISO 9001 certified, MSME registered, and every batch is consistent. The after-sales support is prompt and the pricing is very competitive for the quality you get.',
+    name: 'Sandeep Kumar', role: 'Supply Chain Manager', company: 'Haryana Solar Developers', rating: 5,
   },
 ]
 
