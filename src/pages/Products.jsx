@@ -655,10 +655,10 @@ export default function Products() {
           <motion.div initial={{ opacity:0, y:24 }} animate={{ opacity:1, y:0 }}
             transition={{ duration:0.7, ease:[0.16,1,0.3,1] }}>
             <div className="section-label">COMPLETE PRODUCT RANGE</div>
-            <h1 style={{ fontSize:'clamp(1.8rem,3vw,2.8rem)', maxWidth:540, lineHeight:1.15 }}>
+            <h1 className="prod-h1" style={{ fontSize:'clamp(1.8rem,3vw,2.8rem)', maxWidth:540, lineHeight:1.15 }}>
               Precision Mounting <span className="gradient-text">Systems Catalogue</span>
             </h1>
-            <p style={{ color:'var(--text-secondary)', marginTop:'0.75rem', maxWidth:580, fontSize:'0.92rem', lineHeight:1.7 }}>
+            <p className="prod-subp" style={{ color:'var(--text-secondary)', marginTop:'0.75rem', maxWidth:580, fontSize:'0.92rem', lineHeight:1.7 }}>
               Six aluminium mounting systems — ISO 9001 &amp; TÜV SÜD certified, rated up to 200 km/h.
               Select a system, then choose the model variant that suits your project.
             </p>
@@ -937,8 +937,8 @@ export default function Products() {
             <span style={{ padding:'0.2rem 0.6rem', background:'rgba(224,85,64,0.12)', border:'1px solid var(--border-accent)', fontFamily:'JetBrains Mono', fontSize:'0.58rem', letterSpacing:'0.12em', color:'var(--sun-orange)', textTransform:'uppercase' }}>{product?.tag}</span>
             {product?.badge && <span style={{ padding:'0.2rem 0.6rem', background:'rgba(201,212,224,0.07)', border:'1px solid var(--border-subtle)', fontFamily:'JetBrains Mono', fontSize:'0.58rem', letterSpacing:'0.12em', color:'var(--aluminum-mid)', textTransform:'uppercase' }}>{product.badge}</span>}
           </div>
-          <h2 style={{ fontSize:'1.6rem', marginBottom:'0.5rem' }}>{product?.name}</h2>
-          <p style={{ color:'var(--text-secondary)', fontSize:'0.86rem', lineHeight:1.7 }}>{product?.systemDesc}</p>
+          <h2 style={{ fontSize:'1.8rem', marginBottom:'0.6rem' }}>{product?.name}</h2>
+          <p style={{ color:'var(--text-secondary)', fontSize:'0.95rem', lineHeight:1.75 }}>{product?.systemDesc}</p>
         </div>
 
         {/* Variant Pills */}
@@ -977,33 +977,33 @@ export default function Products() {
 
               {/* Detail */}
               <div style={{ padding:'1.2rem 1rem 2rem' }}>
-                <p style={{ fontSize:'0.88rem', color:'var(--sun-yellow)', fontFamily:'JetBrains Mono', letterSpacing:'0.03em', marginBottom:'0.8rem', lineHeight:1.55 }}>{activeVariant.tagline}</p>
-                <p style={{ color:'var(--text-secondary)', fontSize:'0.85rem', lineHeight:1.8, borderLeft:'2px solid var(--border-accent)', paddingLeft:'1rem', marginBottom:'1.8rem' }}>{activeVariant.desc}</p>
+                <p style={{ fontSize:'0.96rem', color:'var(--sun-yellow)', fontFamily:'JetBrains Mono', letterSpacing:'0.03em', marginBottom:'0.9rem', lineHeight:1.6 }}>{activeVariant.tagline}</p>
+                <p style={{ color:'var(--text-secondary)', fontSize:'0.93rem', lineHeight:1.85, borderLeft:'2px solid var(--border-accent)', paddingLeft:'1rem', marginBottom:'1.8rem' }}>{activeVariant.desc}</p>
 
-                <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.63rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.75rem' }}>// Technical Specifications</h3>
+                <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.75rem' }}>// Technical Specifications</h3>
                 <div style={{ marginBottom:'1.8rem' }}>
                   {activeVariant.specs.map((s, i) => (
-                    <div key={i} style={{ display:'flex', justifyContent:'space-between', gap:'1rem', padding:'0.55rem 0.75rem', background:i%2===0?'var(--bg-elevated)':'transparent', border:'1px solid var(--border-subtle)', borderTop:i===0?'1px solid var(--border-subtle)':'none' }}>
-                      <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.06em', color:'var(--text-muted)', whiteSpace:'nowrap' }}>{s.label}</span>
-                      <span style={{ fontSize:'0.75rem', color:'var(--text-primary)', fontWeight:600, textAlign:'right' }}>{s.value}</span>
+                    <div key={i} style={{ display:'flex', justifyContent:'space-between', gap:'1rem', padding:'0.65rem 0.85rem', background:i%2===0?'var(--bg-elevated)':'transparent', border:'1px solid var(--border-subtle)', borderTop:i===0?'1px solid var(--border-subtle)':'none' }}>
+                      <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.06em', color:'var(--text-muted)', whiteSpace:'nowrap' }}>{s.label}</span>
+                      <span style={{ fontSize:'0.82rem', color:'var(--text-primary)', fontWeight:600, textAlign:'right' }}>{s.value}</span>
                     </div>
                   ))}
                 </div>
 
-                <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.63rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.65rem' }}>// Key Highlights</h3>
-                <div style={{ display:'flex', flexDirection:'column', gap:'0.45rem', marginBottom:'1.8rem' }}>
+                <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.65rem' }}>// Key Highlights</h3>
+                <div style={{ display:'flex', flexDirection:'column', gap:'0.5rem', marginBottom:'1.8rem' }}>
                   {activeVariant.highlights.map((h, i) => (
-                    <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:'0.6rem', fontSize:'0.84rem', color:'var(--text-secondary)' }}>
-                      <div style={{ width:5, height:5, background:'var(--sun-orange)', marginTop:5, flexShrink:0 }} />
+                    <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:'0.6rem', fontSize:'0.92rem', color:'var(--text-secondary)' }}>
+                      <div style={{ width:5, height:5, background:'var(--sun-orange)', marginTop:6, flexShrink:0 }} />
                       {h}
                     </div>
                   ))}
                 </div>
 
-                <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.63rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.6rem' }}>// Ideal Applications</h3>
+                <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.6rem' }}>// Ideal Applications</h3>
                 <div style={{ display:'flex', gap:'0.4rem', flexWrap:'wrap', marginBottom:'2rem' }}>
                   {activeVariant.applications.map(app => (
-                    <span key={app} style={{ padding:'0.25rem 0.65rem', background:'rgba(201,212,224,0.06)', border:'1px solid var(--border-subtle)', fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.08em', color:'var(--aluminum-mid)', textTransform:'uppercase' }}>{app}</span>
+                    <span key={app} style={{ padding:'0.3rem 0.75rem', background:'rgba(201,212,224,0.06)', border:'1px solid var(--border-subtle)', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.08em', color:'var(--aluminum-mid)', textTransform:'uppercase' }}>{app}</span>
                   ))}
                 </div>
 
@@ -1038,10 +1038,15 @@ export default function Products() {
         @media(max-width:768px) {
           .desktop-products-layout { display:none !important; }
           .mobile-products-layout  { display:block !important; }
-          .prod-header { padding:1.5rem 1rem 1.2rem !important; }
-          .prod-header h1 { max-width:100% !important; }
-          .prod-header p  { max-width:100% !important; font-size:0.86rem !important; }
-          .acc-grid { gap:0.85rem !important; }
+          /* Header */
+          .prod-header { padding:1.5rem 0 1.2rem !important; }
+          .prod-h1  { max-width:100% !important; font-size:clamp(1.7rem,5vw,2.2rem) !important; }
+          .prod-subp{ max-width:100% !important; font-size:0.93rem !important; }
+          /* Accessories full-width */
+          .acc-section .container { padding:0 !important; }
+          .acc-section h2 { padding:0 1rem; font-size:1.6rem !important; }
+          .acc-section > div > div:first-child { padding:0 1rem; }
+          .acc-grid { padding:0 1rem 0 !important; gap:0.85rem !important; }
           .acc-card { padding:1.2rem 1rem !important; }
         }
         @media(max-width:480px) {
