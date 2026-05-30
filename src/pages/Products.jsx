@@ -721,7 +721,7 @@ export default function Products() {
             })}
 
             <a href="https://www.sunmount.in/wp-content/uploads/2024/09/Catalogue-2024-rev-2.pdf"
-              target="_blank" rel="noopener noreferrer" className="btn-primary"
+              target="_blank" rel="noopener noreferrer" className="btn-primary prod-sidebar-dl"
               style={{ width:'100%', justifyContent:'center', fontSize:'0.78rem', marginTop:'1.2rem', padding:'0.85rem 1rem' }}>
               <DownloadIcon /> Download Catalogue
             </a>
@@ -771,7 +771,7 @@ export default function Products() {
 
                     <div style={{ display:'flex', gap:'0.75rem', marginBottom:'2rem', alignItems:'stretch' }}>
                       {/* ── 3D Viewport ── */}
-                      <div style={{
+                      <div className="canvas-3d" style={{
                         flex:1, height:340, position:'relative',
                         background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)',
                         border:'1px solid var(--border-subtle)', cursor:'grab',
@@ -796,7 +796,7 @@ export default function Products() {
                       </div>
 
                       {/* ── Zoom Slider ── */}
-                      <div style={{
+                      <div className="zoom-slider" style={{
                         display:'flex', flexDirection:'column', alignItems:'center',
                         justifyContent:'center', gap:'0.5rem',
                         background:'rgba(10,14,26,0.6)', backdropFilter:'blur(8px)',
@@ -909,13 +909,20 @@ export default function Products() {
       {/* ── Responsive overrides ── */}
       <style>{`
         @media(max-width:980px) {
-          .prod-layout { grid-template-columns:1fr !important; padding:2rem 1.25rem !important; }
-          .prod-layout > div:first-child { position:static !important; display:flex; flex-wrap:wrap; gap:0.4rem; }
-          .prod-layout > div:first-child button { width:auto !important; flex:1 1 120px; }
+          .prod-layout { grid-template-columns:1fr !important; padding:1.5rem 1rem !important; }
+          .prod-layout > div:first-child { position:static !important; display:flex !important; flex-wrap:nowrap !important; overflow-x:auto; gap:0.5rem; padding-bottom:0.5rem; scrollbar-width:none; }
+          .prod-layout > div:first-child::-webkit-scrollbar { display:none; }
+          .prod-layout > div:first-child button { width:auto !important; flex-shrink:0 !important; min-width:148px !important; max-width:180px !important; }
+          .prod-sidebar-dl { display:none !important; }
           .prod-detail-grid { grid-template-columns:1fr !important; }
           .acc-grid { grid-template-columns:repeat(2,1fr) !important; }
         }
-        @media(max-width:600px) {
+        @media(max-width:768px) {
+          .zoom-slider { display:none !important; }
+          .canvas-3d { height:270px !important; }
+          .prod-layout { padding:1.2rem 0.85rem !important; }
+        }
+        @media(max-width:500px) {
           .acc-grid { grid-template-columns:1fr !important; }
         }
         div[ref] { scrollbar-width:none; }
