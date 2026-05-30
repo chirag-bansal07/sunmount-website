@@ -667,6 +667,7 @@ export default function Products() {
       </div>
 
       {/* ── LAYOUT: SIDEBAR + DETAIL ── */}
+      <div className="desktop-products-layout">
       <div className="container">
         <div style={{ display:'grid', gridTemplateColumns:'270px 1fr', gap:'2.5rem',
           padding:'2.5rem 2rem', alignItems:'start' }} className="prod-layout">
@@ -906,35 +907,147 @@ export default function Products() {
         </div>
       </div>
 
+      </div>{/* end desktop-products-layout */}
+
+      {/* ── MOBILE LAYOUT ── */}
+      <div className="mobile-products-layout">
+
+        {/* System Pills */}
+        <div style={{ overflowX:'auto', scrollbarWidth:'none', WebkitOverflowScrolling:'touch' }}>
+          <div style={{ display:'flex', gap:'0.5rem', padding:'1.2rem 1rem 0.5rem', width:'max-content' }}>
+            {PRODUCTS.map((p) => {
+              const active = p.id === selected
+              return (
+                <button key={p.id} onClick={() => setSelected(p.id)} style={{
+                  padding:'0.55rem 1.1rem', borderRadius:'2rem',
+                  border:`1px solid ${active ? 'var(--sun-orange)' : 'var(--border-subtle)'}`,
+                  background: active ? 'var(--gradient-sun)' : 'var(--bg-elevated)',
+                  color: active ? 'var(--bg-deep)' : 'var(--text-secondary)',
+                  fontFamily:'Montserrat', fontSize:'0.75rem', fontWeight:700,
+                  whiteSpace:'nowrap', cursor:'pointer', transition:'all 0.25s',
+                }}>{p.name}</button>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* System Info */}
+        <div style={{ padding:'1.2rem 1rem 0' }}>
+          <div style={{ display:'flex', gap:'0.4rem', marginBottom:'0.6rem', flexWrap:'wrap' }}>
+            <span style={{ padding:'0.2rem 0.6rem', background:'rgba(224,85,64,0.12)', border:'1px solid var(--border-accent)', fontFamily:'JetBrains Mono', fontSize:'0.58rem', letterSpacing:'0.12em', color:'var(--sun-orange)', textTransform:'uppercase' }}>{product?.tag}</span>
+            {product?.badge && <span style={{ padding:'0.2rem 0.6rem', background:'rgba(201,212,224,0.07)', border:'1px solid var(--border-subtle)', fontFamily:'JetBrains Mono', fontSize:'0.58rem', letterSpacing:'0.12em', color:'var(--aluminum-mid)', textTransform:'uppercase' }}>{product.badge}</span>}
+          </div>
+          <h2 style={{ fontSize:'1.6rem', marginBottom:'0.5rem' }}>{product?.name}</h2>
+          <p style={{ color:'var(--text-secondary)', fontSize:'0.86rem', lineHeight:1.7 }}>{product?.systemDesc}</p>
+        </div>
+
+        {/* Variant Pills */}
+        {product && product.variants.length > 1 && (
+          <div style={{ overflowX:'auto', scrollbarWidth:'none', WebkitOverflowScrolling:'touch', marginTop:'1.2rem' }}>
+            <div style={{ display:'flex', gap:'0.45rem', padding:'0 1rem', width:'max-content' }}>
+              {product.variants.map((v) => {
+                const active = v.id === (variantId ?? product.variants[0].id)
+                return (
+                  <button key={v.id} onClick={() => setVariantId(v.id)} style={{
+                    padding:'0.5rem 0.9rem',
+                    border:`1px solid ${active ? 'var(--sun-orange)' : 'var(--border-subtle)'}`,
+                    borderTop:`2px solid ${active ? 'var(--sun-orange)' : 'transparent'}`,
+                    background: active ? 'rgba(224,85,64,0.13)' : 'var(--bg-elevated)',
+                    color: active ? 'var(--sun-orange)' : 'var(--text-muted)',
+                    fontFamily:'Montserrat', fontSize:'0.72rem', fontWeight:700,
+                    whiteSpace:'nowrap', cursor:'pointer', transition:'all 0.25s',
+                  }}>{v.name}</button>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* 3D Canvas — full width with margins */}
+        {activeVariant && (
+          <AnimatePresence mode="wait">
+            <motion.div key={activeVariant.id} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.3}}>
+              <div style={{ margin:'1.2rem 1rem 0', position:'relative', height:300, border:'1px solid var(--border-subtle)', background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)', overflow:'hidden' }}>
+                <RailCanvas Component={activeVariant.Component} zoom={zoom} />
+                <div style={{ position:'absolute', top:'0.75rem', left:'0.75rem', background:'rgba(10,14,26,0.8)', backdropFilter:'blur(8px)', border:'1px solid var(--border-subtle)', padding:'0.3rem 0.65rem', fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.1em', color:'var(--text-primary)' }}>
+                  {activeVariant.name}
+                </div>
+                <div style={{ position:'absolute', bottom:'0.7rem', left:'0.75rem', fontFamily:'JetBrains Mono', fontSize:'0.55rem', letterSpacing:'0.14em', color:'var(--text-muted)', pointerEvents:'none', textTransform:'uppercase' }}>↻ Drag to rotate</div>
+              </div>
+
+              {/* Detail */}
+              <div style={{ padding:'1.2rem 1rem 2rem' }}>
+                <p style={{ fontSize:'0.88rem', color:'var(--sun-yellow)', fontFamily:'JetBrains Mono', letterSpacing:'0.03em', marginBottom:'0.8rem', lineHeight:1.55 }}>{activeVariant.tagline}</p>
+                <p style={{ color:'var(--text-secondary)', fontSize:'0.85rem', lineHeight:1.8, borderLeft:'2px solid var(--border-accent)', paddingLeft:'1rem', marginBottom:'1.8rem' }}>{activeVariant.desc}</p>
+
+                <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.63rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.75rem' }}>// Technical Specifications</h3>
+                <div style={{ marginBottom:'1.8rem' }}>
+                  {activeVariant.specs.map((s, i) => (
+                    <div key={i} style={{ display:'flex', justifyContent:'space-between', gap:'1rem', padding:'0.55rem 0.75rem', background:i%2===0?'var(--bg-elevated)':'transparent', border:'1px solid var(--border-subtle)', borderTop:i===0?'1px solid var(--border-subtle)':'none' }}>
+                      <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.06em', color:'var(--text-muted)', whiteSpace:'nowrap' }}>{s.label}</span>
+                      <span style={{ fontSize:'0.75rem', color:'var(--text-primary)', fontWeight:600, textAlign:'right' }}>{s.value}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.63rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.65rem' }}>// Key Highlights</h3>
+                <div style={{ display:'flex', flexDirection:'column', gap:'0.45rem', marginBottom:'1.8rem' }}>
+                  {activeVariant.highlights.map((h, i) => (
+                    <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:'0.6rem', fontSize:'0.84rem', color:'var(--text-secondary)' }}>
+                      <div style={{ width:5, height:5, background:'var(--sun-orange)', marginTop:5, flexShrink:0 }} />
+                      {h}
+                    </div>
+                  ))}
+                </div>
+
+                <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.63rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.6rem' }}>// Ideal Applications</h3>
+                <div style={{ display:'flex', gap:'0.4rem', flexWrap:'wrap', marginBottom:'2rem' }}>
+                  {activeVariant.applications.map(app => (
+                    <span key={app} style={{ padding:'0.25rem 0.65rem', background:'rgba(201,212,224,0.06)', border:'1px solid var(--border-subtle)', fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.08em', color:'var(--aluminum-mid)', textTransform:'uppercase' }}>{app}</span>
+                  ))}
+                </div>
+
+                <div style={{ display:'flex', flexDirection:'column', gap:'0.75rem', paddingTop:'1.5rem', borderTop:'1px solid var(--border-subtle)' }}>
+                  <Link to="/contact" className="btn-primary" style={{ justifyContent:'center', fontSize:'0.85rem' }}>Request a Quote <ArrowRightIcon /></Link>
+                  <a href="https://www.sunmount.in/wp-content/uploads/2024/09/Catalogue-2024-rev-2.pdf" target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ justifyContent:'center', fontSize:'0.85rem' }}><DownloadIcon /> Download Catalogue</a>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        )}
+      </div>{/* end mobile-products-layout */}
+
       {/* ── Responsive overrides ── */}
       <style>{`
-        /* ── Tablet ── */
+        /* Desktop shows desktop, hides mobile */
+        .desktop-products-layout { display:block; }
+        .mobile-products-layout  { display:none; }
+
+        /* Tablet: collapse sidebar to horizontal scroll */
         @media(max-width:980px) {
-          .prod-layout { grid-template-columns:1fr !important; padding:1.2rem 0 !important; gap:1.5rem !important; }
-          .prod-layout > div:first-child { position:static !important; display:flex !important; flex-wrap:nowrap !important; overflow-x:auto; gap:0.45rem; padding:0 0.75rem 0.5rem; scrollbar-width:none; }
+          .prod-layout { grid-template-columns:1fr !important; padding:1.5rem 1rem !important; }
+          .prod-layout > div:first-child { position:static !important; display:flex !important; flex-wrap:nowrap !important; overflow-x:auto; gap:0.5rem; padding-bottom:0.5rem; scrollbar-width:none; }
           .prod-layout > div:first-child::-webkit-scrollbar { display:none; }
-          .prod-layout > div:first-child button { width:auto !important; flex-shrink:0 !important; min-width:130px !important; max-width:160px !important; padding:0.75rem 0.85rem !important; }
+          .prod-layout > div:first-child button { width:auto !important; flex-shrink:0 !important; min-width:138px !important; max-width:170px !important; }
           .prod-sidebar-dl { display:none !important; }
           .prod-detail-grid { grid-template-columns:1fr !important; }
           .acc-grid { grid-template-columns:repeat(2,1fr) !important; }
-          .prod-detail-wrap { padding:0 0.75rem !important; }
         }
-        /* ── Phone ── */
+
+        /* Phone: swap to mobile layout entirely */
         @media(max-width:768px) {
-          .zoom-slider { display:none !important; }
-          .canvas-3d { height:260px !important; width:100% !important; }
-          .prod-header { padding:1.5rem 0.75rem 1.2rem !important; }
-          .prod-header h1 { max-width:100% !important; font-size:1.7rem !important; }
-          .prod-header p { max-width:100% !important; font-size:0.85rem !important; }
-          .acc-section { padding:3rem 0 4rem !important; }
+          .desktop-products-layout { display:none !important; }
+          .mobile-products-layout  { display:block !important; }
+          .prod-header { padding:1.5rem 1rem 1.2rem !important; }
+          .prod-header h1 { max-width:100% !important; }
+          .prod-header p  { max-width:100% !important; font-size:0.86rem !important; }
           .acc-grid { gap:0.85rem !important; }
           .acc-card { padding:1.2rem 1rem !important; }
         }
         @media(max-width:480px) {
           .acc-grid { grid-template-columns:1fr !important; }
         }
-        div[ref] { scrollbar-width:none; }
-        div::-webkit-scrollbar { display:none; }
+        ::-webkit-scrollbar { display:none; }
       `}</style>
 
       {/* ── ACCESSORIES SECTION ── */}
