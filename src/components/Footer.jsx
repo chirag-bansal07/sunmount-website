@@ -45,8 +45,19 @@ const Footer = () => (
         {/* Products */}
         <div>
           <h4 style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Products</h4>
-          {['Mono Rail System','Mini Rail System','Long Rail System','Standing Seam System','L-Foot Clamps','Mid / End Clamps'].map(p => (
-            <div key={p} style={{ marginBottom:'0.7rem', fontSize:'0.88rem', color:'var(--text-muted)' }}>{p}</div>
+          {[
+            { label:'Mono Rail System',      to:'/products#mono'     },
+            { label:'Mini Rail System',      to:'/products#mini'     },
+            { label:'Long Rail System',      to:'/products#long'     },
+            { label:'Standing Seam System',  to:'/products#seam'     },
+            { label:'Inclined System',       to:'/products#inclined' },
+            { label:'Accessories & Hardware',to:'/products'          },
+          ].map(p => (
+            <div key={p.label} style={{ marginBottom:'0.7rem' }}>
+              <Link to={p.to} style={{ fontSize:'0.88rem', color:'var(--text-muted)', transition:'color 0.2s' }}
+                onMouseEnter={e => e.target.style.color='var(--sun-orange)'}
+                onMouseLeave={e => e.target.style.color='var(--text-muted)'}>{p.label}</Link>
+            </div>
           ))}
         </div>
 
