@@ -53,7 +53,7 @@ const PRODUCTS = [
   {
     id: 'long',
     name: 'Long Rail System',
-    tag: 'PORTRAIT',
+    tag: 'LANDSCAPE',
     badge: 'High Strength',
     summary: 'Purlin-mounted heavy-duty rail for high wind loads. Requires fewer roof punctures than Mini/Mono Rail — ideal for industrial & asbestos roofs.',
     specs: [

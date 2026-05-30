@@ -227,8 +227,8 @@ const PRODUCTS = [
   {
     id: 'long',
     name: 'Long Rail System',
-    short: 'Portrait & Landscape · Industrial',
-    tag: 'PORTRAIT / LANDSCAPE',
+    short: 'Landscape · Industrial',
+    tag: 'LANDSCAPE',
     badge: 'High Strength',
     systemDesc: 'Heavy-duty purlin-mounted aluminium rail for industrial buildings, asbestos cement roofs and high wind-load zones. Three variants — Ultra, Light and Pro — spanning every load and orientation requirement.',
     variants: [
@@ -299,7 +299,7 @@ const PRODUCTS = [
           { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
           { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
           { label: 'Mounting',           value: 'Purlin-mounted' },
-          { label: 'Orientation',        value: 'Portrait & Landscape' },
+          { label: 'Orientation',        value: 'Landscape' },
           { label: 'Roof Types',         value: 'Metal sheet · Asbestos cement' },
           { label: 'Finish',             value: 'Anodized / Non-anodized' },
         ],

@@ -50,7 +50,7 @@ function LongRailModel({ hovered }) {
 const PRODUCTS = [
   { id:'mini', name:'MiniRail System', orient:'Landscape', Model:MiniRailModel, desc:'Lightweight & efficient rail system for landscape orientation. Ideal for residential and light commercial rooftop applications with streamlined installation.', specs:['6063-T6 Aluminum','TUV Certified','Landscape Mount'] },
   { id:'mono', name:'MonoRail System', orient:'Portrait', Model:MonoRailModel, desc:'Single rail system for portrait orientation. Reduces material usage while maintaining structural integrity. Most popular for commercial installations.', specs:['SS-304 Option','Wind Certified','Portrait Mount'] },
-  { id:'long', name:'Long Rail System', orient:'Portrait', Model:LongRailModel, desc:'Heavy-duty rail system for large-scale industrial and commercial projects requiring superior load-bearing capacity and FEA certification.', specs:['IE-07 Grade','FEA Analyzed','Industrial Grade'] },
+  { id:'long', name:'Long Rail System', orient:'Landscape', Model:LongRailModel, desc:'Heavy-duty rail system for large-scale industrial and commercial projects requiring superior load-bearing capacity and FEA certification.', specs:['IE-07 Grade','FEA Analyzed','Industrial Grade'] },
 ]
 
 function ProductCard({ product }) {
