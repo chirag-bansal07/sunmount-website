@@ -554,7 +554,7 @@ function VariantSlider({ variants, selectedId, onSelect }) {
               style={{
                 flexShrink: 0,
                 scrollSnapAlign: 'start',
-                minWidth: 170, maxWidth: 210,
+                minWidth: 'clamp(130px, 38vw, 210px)', maxWidth: 210,
                 padding: '1rem 1.1rem',
                 background: active
                   ? 'linear-gradient(135deg,rgba(224,85,64,0.18) 0%,rgba(232,146,58,0.08) 100%)'
@@ -645,7 +645,7 @@ export default function Products() {
     <main style={{ paddingTop: 80, minHeight: '100vh', background: 'var(--bg-base)' }}>
 
       {/* ── PAGE HEADER ── */}
-      <div style={{
+      <div className="prod-header" style={{
         padding: '2.5rem 0 2rem',
         background: 'linear-gradient(180deg,var(--bg-deep) 0%,var(--bg-base) 100%)',
         borderBottom: '1px solid var(--border-subtle)', position: 'relative',
@@ -729,7 +729,7 @@ export default function Products() {
 
           {/* ── Detail Panel ── */}
           <AnimatePresence mode="wait">
-            <motion.div key={selected}
+            <motion.div key={selected} className="prod-detail-wrap"
               initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, y:-10 }}
               transition={{ duration:0.4, ease:[0.16,1,0.3,1] }}>
 
@@ -908,21 +908,29 @@ export default function Products() {
 
       {/* ── Responsive overrides ── */}
       <style>{`
+        /* ── Tablet ── */
         @media(max-width:980px) {
-          .prod-layout { grid-template-columns:1fr !important; padding:1.5rem 1rem !important; }
-          .prod-layout > div:first-child { position:static !important; display:flex !important; flex-wrap:nowrap !important; overflow-x:auto; gap:0.5rem; padding-bottom:0.5rem; scrollbar-width:none; }
+          .prod-layout { grid-template-columns:1fr !important; padding:1.2rem 0 !important; gap:1.5rem !important; }
+          .prod-layout > div:first-child { position:static !important; display:flex !important; flex-wrap:nowrap !important; overflow-x:auto; gap:0.45rem; padding:0 0.75rem 0.5rem; scrollbar-width:none; }
           .prod-layout > div:first-child::-webkit-scrollbar { display:none; }
-          .prod-layout > div:first-child button { width:auto !important; flex-shrink:0 !important; min-width:148px !important; max-width:180px !important; }
+          .prod-layout > div:first-child button { width:auto !important; flex-shrink:0 !important; min-width:130px !important; max-width:160px !important; padding:0.75rem 0.85rem !important; }
           .prod-sidebar-dl { display:none !important; }
           .prod-detail-grid { grid-template-columns:1fr !important; }
           .acc-grid { grid-template-columns:repeat(2,1fr) !important; }
+          .prod-detail-wrap { padding:0 0.75rem !important; }
         }
+        /* ── Phone ── */
         @media(max-width:768px) {
           .zoom-slider { display:none !important; }
-          .canvas-3d { height:270px !important; }
-          .prod-layout { padding:1.2rem 0.85rem !important; }
+          .canvas-3d { height:260px !important; width:100% !important; }
+          .prod-header { padding:1.5rem 0.75rem 1.2rem !important; }
+          .prod-header h1 { max-width:100% !important; font-size:1.7rem !important; }
+          .prod-header p { max-width:100% !important; font-size:0.85rem !important; }
+          .acc-section { padding:3rem 0 4rem !important; }
+          .acc-grid { gap:0.85rem !important; }
+          .acc-card { padding:1.2rem 1rem !important; }
         }
-        @media(max-width:500px) {
+        @media(max-width:480px) {
           .acc-grid { grid-template-columns:1fr !important; }
         }
         div[ref] { scrollbar-width:none; }
@@ -930,7 +938,7 @@ export default function Products() {
       `}</style>
 
       {/* ── ACCESSORIES SECTION ── */}
-      <section style={{ background:'var(--bg-deep)', borderTop:'1px solid var(--border-subtle)', padding:'4rem 0 5rem' }}>
+      <section className="acc-section" style={{ background:'var(--bg-deep)', borderTop:'1px solid var(--border-subtle)', padding:'4rem 0 5rem' }}>
         <div className="container">
           <motion.div
             initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }}
