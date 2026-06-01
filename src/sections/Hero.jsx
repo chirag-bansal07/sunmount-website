@@ -96,7 +96,7 @@ const Hero = () => (
             Explore Products <ArrowRightIcon />
           </Link>
           <a
-            href="https://www.sunmount.in/wp-content/uploads/2024/09/Catalogue-2024-rev-2.pdf"
+            href="/catalogue.pdf"
             target="_blank" rel="noopener noreferrer"
             className="btn-secondary"
             style={{ fontSize:'0.9rem', padding:'1rem 2rem', background:'rgba(6,9,18,0.55)', backdropFilter:'blur(8px)' }}

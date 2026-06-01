@@ -115,7 +115,7 @@ export default function ProductsSection() {
           {PRODUCTS.map(p=><ProductCard key={p.id} product={p}/>)}
         </div>
         <div style={{ textAlign:'center' }}>
-          <a href="https://www.sunmount.in/wp-content/uploads/2024/09/Catalogue-2024-rev-2.pdf" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize:'0.85rem', padding:'0.9rem 2.5rem' }}>
+          <a href="/catalogue.pdf" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ fontSize:'0.85rem', padding:'0.9rem 2.5rem' }}>
             ⬇ Download Full Catalogue
           </a>
         </div>

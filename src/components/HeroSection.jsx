@@ -87,7 +87,7 @@ export default function HeroSection() {
         </p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link to="/products" className="btn-primary">Explore Products</Link>
-          <a href="https://www.sunmount.in/wp-content/uploads/2024/09/Catalogue-2024-rev-2.pdf" target="_blank" rel="noopener noreferrer" className="btn-ghost">Download Catalogue</a>
+          <a href="/catalogue.pdf" target="_blank" rel="noopener noreferrer" className="btn-ghost">Download Catalogue</a>
         </div>
         <div style={{ position: 'absolute', bottom: 40, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', color: 'var(--text-3)', fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
           <div>Scroll to see assembly</div>

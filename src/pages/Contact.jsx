@@ -149,7 +149,7 @@ const Contact = () => {
           <motion.div variants={fadeUp} initial="hidden" animate="show" transition={{ delay:0.28 }}
             style={{ display:'flex', flexDirection:'column', gap:'1.5rem' }}>
             {[
-              { label:'HEADQUARTERS', lines:['Sunmount Solutions','Surya Koti, Bajekan-Sirsa Main Road','Sirsa, Haryana 125055'] },
+              { label:'HEADQUARTERS', lines:['Sunmount Solutions Private Limited','Surya Koti, Bajekan-Sirsa Main Road','Sirsa, Haryana 125055'] },
               { label:'PHONE',        lines:['+91 7837 999 222', '+91 8531 999 222'] },
               { label:'EMAIL',        lines:['sales@sunmount.in'] },
               { label:'SUPPLY COVERAGE', lines:['Pan India','International — All Over World'] },

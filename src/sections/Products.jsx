@@ -320,7 +320,7 @@ const Products = () => (
 
       <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true}}
         style={{ textAlign:'center' }}>
-        <a href="https://www.sunmount.in/wp-content/uploads/2024/09/Catalogue-2024-rev-2.pdf"
+        <a href="/catalogue.pdf"
           target="_blank" rel="noopener noreferrer" className="btn-primary"
           style={{ fontSize:'0.95rem', padding:'1.1rem 2.2rem' }}>
           <DownloadIcon /> Download Full Catalogue

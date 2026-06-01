@@ -721,7 +721,7 @@ export default function Products() {
               )
             })}
 
-            <a href="https://www.sunmount.in/wp-content/uploads/2024/09/Catalogue-2024-rev-2.pdf"
+            <a href="/catalogue.pdf"
               target="_blank" rel="noopener noreferrer" className="btn-primary prod-sidebar-dl"
               style={{ width:'100%', justifyContent:'center', fontSize:'0.78rem', marginTop:'1.2rem', padding:'0.85rem 1rem' }}>
               <DownloadIcon /> Download Catalogue
@@ -893,7 +893,7 @@ export default function Products() {
                       <Link to="/contact" className="btn-primary" style={{ fontSize:'0.88rem' }}>
                         Request a Quote <ArrowRightIcon />
                       </Link>
-                      <a href="https://www.sunmount.in/wp-content/uploads/2024/09/Catalogue-2024-rev-2.pdf"
+                      <a href="/catalogue.pdf"
                         target="_blank" rel="noopener noreferrer"
                         className="btn-secondary" style={{ fontSize:'0.88rem' }}>
                         <DownloadIcon /> Download Full Catalogue
@@ -1009,7 +1009,7 @@ export default function Products() {
 
                 <div style={{ display:'flex', flexDirection:'column', gap:'0.75rem', paddingTop:'1.5rem', borderTop:'1px solid var(--border-subtle)' }}>
                   <Link to="/contact" className="btn-primary" style={{ justifyContent:'center', fontSize:'0.85rem' }}>Request a Quote <ArrowRightIcon /></Link>
-                  <a href="https://www.sunmount.in/wp-content/uploads/2024/09/Catalogue-2024-rev-2.pdf" target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ justifyContent:'center', fontSize:'0.85rem' }}><DownloadIcon /> Download Catalogue</a>
+                  <a href="/catalogue.pdf" target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ justifyContent:'center', fontSize:'0.85rem' }}><DownloadIcon /> Download Catalogue</a>
                 </div>
               </div>
             </motion.div>
