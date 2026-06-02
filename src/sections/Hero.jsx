@@ -37,11 +37,12 @@ const Hero = () => (
     }} />
 
     {/* ── CONTENT ── */}
-    <div className="container" style={{
+    <div className="container hero-container" style={{
       position:'relative', zIndex:3,
       height:'100%', display:'flex', alignItems:'center',
     }}>
       <motion.div
+        className="hero-content-wrap"
         style={{ maxWidth:620, paddingTop:'5rem' }}
         initial={{ opacity:0, y:44 }}
         animate={{ opacity:1, y:0 }}
@@ -138,7 +139,18 @@ const Hero = () => (
       </div>
     </motion.div>
 
-    <style>{`@media(max-width:600px){.stats-grid{grid-template-columns:repeat(2,1fr)!important}}`}</style>
+    <style>{`
+      @media(max-width:768px){
+        .stats-grid{ grid-template-columns:repeat(2,1fr)!important; }
+        .hero-container{ align-items:flex-start!important; }
+        .hero-content-wrap{
+          padding-top:6.5rem!important;
+          padding-bottom:6.5rem!important;
+        }
+        .hero-content-wrap h1{ font-size:clamp(2.2rem,10vw,3.2rem)!important; margin-bottom:1rem!important; }
+        .hero-content-wrap p{ font-size:0.95rem!important; margin-bottom:1.8rem!important; }
+      }
+    `}</style>
   </section>
 )
 

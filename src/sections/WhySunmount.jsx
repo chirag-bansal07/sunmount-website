@@ -57,8 +57,10 @@ const WhySunmount = () => {
 
         <div style={{ display:'grid', gridTemplateColumns:'1.3fr 1fr', gap:'3rem', alignItems:'center' }} className="why-grid">
 
-          {/* Interactive orbital wheel */}
+
+          {/* Interactive orbital wheel — hidden on mobile */}
           <motion.div
+            className="why-wheel"
             initial={{opacity:0,scale:0.88}} whileInView={{opacity:1,scale:1}}
             viewport={{once:true,margin:'-80px'}} transition={{duration:0.8,ease:[0.16,1,0.3,1]}}
             style={{ position:'relative', width:'100%', aspectRatio:'1', maxWidth:560, marginLeft:0 }}
@@ -182,7 +184,15 @@ const WhySunmount = () => {
         </div>
       </div>
 
-      <style>{`@media(max-width:900px){.why-grid{grid-template-columns:1fr!important;gap:3rem!important}}`}</style>
+      <style>{`
+        @media(max-width:900px){
+          .why-grid{ grid-template-columns:1fr!important; gap:2rem!important; }
+        }
+        @media(max-width:768px){
+          .why-wheel{ display:none!important; }
+          .why-grid{ gap:1.5rem!important; }
+        }
+      `}</style>
     </section>
   )
 }
