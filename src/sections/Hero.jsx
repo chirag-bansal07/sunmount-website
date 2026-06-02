@@ -144,11 +144,23 @@ const Hero = () => (
         .stats-grid{ grid-template-columns:repeat(2,1fr)!important; }
         .hero-container{ align-items:flex-start!important; }
         .hero-content-wrap{
-          padding-top:6.5rem!important;
-          padding-bottom:6.5rem!important;
+          padding-top:6rem!important;
+          padding-bottom:6rem!important;
         }
-        .hero-content-wrap h1{ font-size:clamp(2.2rem,10vw,3.2rem)!important; margin-bottom:1rem!important; }
-        .hero-content-wrap p{ font-size:0.95rem!important; margin-bottom:1.8rem!important; }
+        .hero-content-wrap h1{ font-size:clamp(2rem,9vw,3rem)!important; margin-bottom:1rem!important; }
+        .hero-content-wrap p{ font-size:0.93rem!important; margin-bottom:1.5rem!important; }
+      }
+      /* iPhone SE and other very small phones */
+      @media(max-width:768px) and (max-height:680px){
+        .hero-content-wrap{
+          padding-top:5rem!important;
+          padding-bottom:5.5rem!important;
+        }
+        .hero-content-wrap h1{ font-size:1.9rem!important; margin-bottom:0.7rem!important; line-height:1.1!important; }
+        .hero-content-wrap p{ font-size:0.85rem!important; margin-bottom:1rem!important; display:-webkit-box!important; -webkit-line-clamp:2!important; -webkit-box-orient:vertical!important; overflow:hidden!important; }
+        .hero-content-wrap .section-label{ margin-bottom:0.8rem!important; font-size:0.65rem!important; }
+        .stats-grid{ padding:0.8rem 0!important; }
+        .stats-grid > div > div:first-child{ font-size:1.5rem!important; }
       }
     `}</style>
   </section>

@@ -189,8 +189,13 @@ const WhySunmount = () => {
           .why-grid{ grid-template-columns:1fr!important; gap:2rem!important; }
         }
         @media(max-width:768px){
-          .why-wheel{ display:none!important; }
-          .why-grid{ gap:1.5rem!important; }
+          .why-wheel{
+            transform: scale(0.58)!important;
+            transform-origin: center center!important;
+            margin: -4.5rem auto!important;
+            max-width: 100%!important;
+          }
+          .why-grid{ gap:0!important; }
         }
       `}</style>
     </section>
