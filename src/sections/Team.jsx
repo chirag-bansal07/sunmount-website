@@ -61,13 +61,13 @@ const Team = () => {
               border:'1px solid var(--border-subtle)',
             }}>
               <img
-                src="/factory.png"
-                alt="SunMount Manufacturing Facility, Sirsa"
+                src="/team-expo.jpg"
+                alt="SunMount Team at Solar Exhibition"
                 style={{
                   width:'100%', height:'100%',
-                  objectFit:'cover', objectPosition:'55% 40%',
+                  objectFit:'cover', objectPosition:'center 30%',
                   display:'block',
-                  filter:'brightness(0.68) saturate(0.82)',
+                  filter:'brightness(0.82) saturate(0.9)',
                 }}
               />
               <div style={{
@@ -80,7 +80,7 @@ const Team = () => {
                 letterSpacing:'0.18em', color:'rgba(255,255,255,0.50)',
                 textTransform:'uppercase',
               }}>
-                // Manufacturing Facility · Sirsa, Haryana
+                // Team · Solar Exhibition
               </div>
             </div>
           </motion.div>
