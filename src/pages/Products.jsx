@@ -643,10 +643,11 @@ export default function Products() {
     if (VALID_IDS.includes(hashId)) setSelected(hashId)
   }, [hashId])
 
-  // Reset to first variant whenever main system changes
+  // Reset to first variant whenever main system changes — also clear assembly view
   useEffect(() => {
     const prod = PRODUCTS.find(p => p.id === selected)
     if (prod) setVariantId(prod.variants[0].id)
+    setAssemblyIdx(null)
   }, [selected])
 
   // Reset zoom and assembly when variant changes
@@ -655,6 +656,11 @@ export default function Products() {
   const product       = PRODUCTS.find(p => p.id === selected)
   const allVariantIds = product ? product.variants.map(v => v.id) : []
   const activeVariant = product?.variants.find(v => v.id === variantId) ?? product?.variants[0]
+
+  // Safe display component — guards against assemblyIdx being out-of-bounds
+  // during the render cycle before state resets propagate
+  const assemblyModel   = (assemblyIdx !== null && activeVariant?.assemblyModels?.[assemblyIdx]) || null
+  const displayComponent = assemblyModel?.Component ?? activeVariant?.Component
 
   return (
     <main style={{ paddingTop: 80, minHeight: '100vh', background: 'var(--bg-base)' }}>
@@ -792,7 +798,7 @@ export default function Products() {
                         background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)',
                         border:'1px solid var(--border-subtle)', cursor:'grab',
                       }}>
-                        <RailCanvas Component={assemblyIdx === null ? activeVariant.Component : activeVariant.assemblyModels[assemblyIdx].Component} zoom={zoom} />
+                        <RailCanvas Component={displayComponent} zoom={zoom} />
                         {/* Model label badge */}
                         <div style={{
                           position:'absolute', top:'1rem', left:'1rem',
@@ -802,7 +808,7 @@ export default function Products() {
                           fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.1em',
                           color:'var(--text-primary)',
                         }}>
-                          {assemblyIdx === null ? activeVariant.name : activeVariant.assemblyModels[assemblyIdx].label}
+                          {assemblyModel ? assemblyModel.label : activeVariant.name}
                         </div>
                         <div style={{
                           position:'absolute', bottom:'0.9rem', left:'1rem',
@@ -1007,9 +1013,9 @@ export default function Products() {
           <AnimatePresence mode="wait">
             <motion.div key={activeVariant.id} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.3}}>
               <div style={{ margin:'1.2rem 1rem 0', position:'relative', height:300, border:'1px solid var(--border-subtle)', background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)', overflow:'hidden' }}>
-                <RailCanvas Component={assemblyIdx === null ? activeVariant.Component : activeVariant.assemblyModels[assemblyIdx].Component} zoom={zoom} />
+                <RailCanvas Component={displayComponent} zoom={zoom} />
                 <div style={{ position:'absolute', top:'0.75rem', left:'0.75rem', background:'rgba(10,14,26,0.8)', backdropFilter:'blur(8px)', border:'1px solid var(--border-subtle)', padding:'0.3rem 0.65rem', fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.1em', color:'var(--text-primary)' }}>
-                  {activeVariant.name}
+                  {assemblyModel ? assemblyModel.label : activeVariant.name}
                 </div>
                 <div style={{ position:'absolute', bottom:'0.7rem', left:'0.75rem', fontFamily:'JetBrains Mono', fontSize:'0.55rem', letterSpacing:'0.14em', color:'var(--text-muted)', pointerEvents:'none', textTransform:'uppercase' }}>↻ Drag to rotate</div>
               </div>
