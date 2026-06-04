@@ -493,10 +493,11 @@ const PRODUCTS = [
    ACCESSORIES
 ───────────────────────────────────────────────────────────────── */
 const ACCESSORIES = [
-  { name: 'U-Clamp',        material: 'Aluminium 6063 T6',  image: '/accessories/u-clamp.png',       features: ['Quick & easy installation', 'High strength', 'All PV modules'] },
-  { name: 'Z-Clamp',        material: 'Aluminium 6063 T6',  image: '/accessories/z-clamp.png',       features: ['30 / 35 / 40 mm modules', 'Cost-effective', 'Long-lasting'] },
+  { name: 'Mid Clamp',      material: 'Aluminium 6063 T6',  image: '/accessories/mid-clamp.png',     features: ['Quick & easy installation', 'High strength', 'All PV modules'] },
+  { name: 'End Clamp',      material: 'Aluminium 6063 T6',  image: '/accessories/end-clamp.png',     features: ['30 / 35 / 40 mm modules', 'Cost-effective', 'Long-lasting'] },
   { name: 'L-Clamp',        material: 'Aluminium 6063 T6',  image: '/accessories/l-clamp.png',       features: ['Robust construction', 'Universal PV compat.', 'Budget-friendly'] },
-  { name: 'Rail Nut',       material: 'Aluminium 6063 T6',  image: '/accessories/rail-nut.png',      features: ['Works with all rails', 'High strength', 'Extended lifespan'] },
+  { name: 'T-Nut',          material: 'Aluminium 6063 T6',  image: '/accessories/t-nut.png',         features: ['Works with all rails', 'High strength', 'Extended lifespan'] },
+  { name: 'Rail Cap',       material: 'Aluminium 6063 T6',  image: '/accessories/rail-cap.png',      features: ['Seals rail ends', 'Clean finish', 'Corrosion resistant'] },
   { name: 'Flange Nut',     material: 'SS 304',              image: '/accessories/flange-nut.png',    features: ['Superior strength', 'Durable construction', 'Easy removal'] },
   { name: 'Spring Washer',  material: 'SS 304',              image: '/accessories/spring-washer.png', features: ['Prevents nut loosening', 'Reinforces joints', 'Minimal maintenance'] },
   { name: 'Allen Key Bolt', material: 'SS 304',              image: '/accessories/allen-bolt.png',    features: ['Strong & durable', 'Quick installation', 'Low maintenance'] },
