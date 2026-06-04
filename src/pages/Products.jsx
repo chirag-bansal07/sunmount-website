@@ -1,7 +1,7 @@
 import { useState, Suspense, useEffect, useRef } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp55, SeamClamp100Pro, SeamClamp70T1, SeamClamp70T2, InclinedRail, InclinedSystem, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro, LongRailLiteEndClamp, LongRailLiteMidClamp } from '../three/RailModels'
+import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp55, SeamClamp100Pro, SeamClamp70T1, SeamClamp70T2, InclinedRail, InclinedSystem, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro, LongRailLiteEndClamp, LongRailLiteMidClamp, LongRailProEndClamp, LongRailProMidClamp, LongRailUltraEndClamp, LongRailUltraMidClamp, MonoRail100EndClamp, MonoRail100ProEndClamp, MonoRail70EndClamp, MonoRail70MidClamp, MonoRail65EndClamp, MiniRail100EndClamp, MiniRail70EndClamp, MiniRailShortEndClamp } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -24,6 +24,7 @@ const PRODUCTS = [
         name: 'MonoRail 100mm',
         subtitle: '100 mm Roof Clearance',
         Component: MonoRail100,
+        assemblyModels: [{ label:'End Clamp Assembly', Component: MonoRail100EndClamp }],
         tagline: 'Standard 100 mm clearance — maximum ventilation, the most popular choice for commercial projects.',
         desc: 'The MonoRail 100mm provides 100 mm of clearance between the panel underside and the roof surface, ensuring excellent natural ventilation and module cooling. The precision T-slot extrusion accepts U-clamps and mid-clamps for all standard panel thicknesses. Rivet-and-EPDM tape attachment to the roof crest is the standard fixing method; a structural-adhesive option is available for non-penetrative installation.',
         specs: [
@@ -51,6 +52,7 @@ const PRODUCTS = [
         name: 'MonoRail 70mm',
         subtitle: '70 mm Roof Clearance',
         Component: MonoRail70,
+        assemblyModels: [{ label:'End Clamp Assembly', Component: MonoRail70EndClamp }, { label:'Mid Clamp Assembly', Component: MonoRail70MidClamp }],
         tagline: 'Low-profile 70 mm variant — reduced wind moment, ideal for high wind-load zones.',
         desc: 'The MonoRail 70mm uses the same T-slot profile but reduces mounting height to 70 mm above the roof crest. The lower centre of gravity reduces the wind-induced bending moment at the base fixing, making it the preferred choice for coastal or high wind-load sites. Panel attachment and material specifications are identical to the 100 mm variant.',
         specs: [
@@ -78,6 +80,7 @@ const PRODUCTS = [
         name: 'MonoRail 65mm',
         subtitle: '65 mm Roof Clearance',
         Component: MonoRail65,
+        assemblyModels: [{ label:'End Clamp Assembly', Component: MonoRail65EndClamp }],
         tagline: 'Ultra-low 65 mm clearance — minimum profile for sites with the strictest height or wind constraints.',
         desc: 'The MonoRail 65mm is the lowest-clearance variant in the Mono Rail range, bringing panels within 65 mm of the roof surface. This ultra-low profile delivers the smallest wind-exposed area of any mono-rail configuration, minimising uplift forces in severe wind environments. Ideal for coastal industrial rooftops and any site where height restrictions apply.',
         specs: [
@@ -105,6 +108,7 @@ const PRODUCTS = [
         name: 'MonoRail 100mm Pro',
         subtitle: '100 mm Clearance · Heavy Duty',
         Component: MonoRail100Pro,
+        assemblyModels: [{ label:'End Clamp Assembly', Component: MonoRail100ProEndClamp }],
         tagline: 'Heavy-duty 100 mm Pro — reinforced profile for large-span purlins and premium commercial projects.',
         desc: 'The MonoRail 100mm Pro shares the 100 mm clearance of the standard variant but uses a heavier-gauge aluminium extrusion with greater wall thickness for improved bending stiffness. This allows wider fixing spacings along the roof purlin, reducing the number of penetrations on large commercial or industrial rooftops. The Pro grade also supports heavier bifacial panel modules.',
         specs: [
@@ -144,6 +148,7 @@ const PRODUCTS = [
         name: 'MiniRail 100mm',
         subtitle: '100 mm Roof Clearance',
         Component: MiniRail100,
+        assemblyModels: [{ label:'End Clamp Assembly', Component: MiniRail100EndClamp }],
         tagline: 'Standard 100 mm clearance — optimal ventilation for residential & light commercial projects.',
         desc: 'The MiniRail 100mm delivers 100 mm of roof clearance in a compact 68 mm profile height. Landscape panel orientation maximises row width on narrower roofs. Z-clamp and end-clamp attachment accommodates all standard panel frame thicknesses without additional tooling. Rivet-and-EPDM tape base fixing preserves the roof membrane.',
         specs: [
@@ -171,6 +176,7 @@ const PRODUCTS = [
         name: 'MiniRail 70mm',
         subtitle: '70 mm Roof Clearance',
         Component: MiniRail70,
+        assemblyModels: [{ label:'End Clamp Assembly', Component: MiniRail70EndClamp }],
         tagline: 'Compact 70 mm clearance — lower profile for wind-sensitive or aesthetically driven projects.',
         desc: 'The MiniRail 70mm reduces the mounting height to 70 mm, creating an even lower profile that blends with the roof line. Ideal for sites with strict visual guidelines or higher wind-load requirements. Panel attachment and material specifications are identical to the 100 mm variant. Its cost-efficiency makes it a frequent choice for residential developments.',
         specs: [
@@ -198,6 +204,7 @@ const PRODUCTS = [
         name: 'Short Rail',
         subtitle: 'Compact Span · Portrait',
         Component: MiniRailShort,
+        assemblyModels: [{ label:'End Clamp Assembly', Component: MiniRailShortEndClamp }],
         tagline: 'Compact short-span rail for narrow bays, canopies and retrofits — same T-slot, all SunMount clamps compatible.',
         desc: 'The Short Rail is a compact aluminium extrusion for rooftops where a full-length rail is impractical due to narrow bay widths, limited purlin spans or modular roof layouts. Its reduced length minimises material usage and simplifies logistics while keeping the same T-slot profile that accepts every SunMount U-clamp, Z-clamp and mid-clamp. Ideal for canopies, carports and residential retrofits.',
         specs: [
@@ -237,6 +244,7 @@ const PRODUCTS = [
         name: 'Long Rail Ultra',
         subtitle: 'Heavy-Duty · Portrait',
         Component: LongRailUltra,
+        assemblyModels: [{ label:'End Clamp Assembly', Component: LongRailUltraEndClamp }, { label:'Mid Clamp Assembly', Component: LongRailUltraMidClamp }],
         tagline: 'Maximum load-bearing capacity — the go-to solution for extreme wind environments and industrial structures.',
         desc: 'The Long Rail Ultra is SunMount\'s heaviest-duty purlin-mounted rail. Its increased cross-section and wall thickness deliver higher bending stiffness, enabling wider purlin spacings without additional support. The system is certified for wind speeds up to 200 km/h and is ideal for large-span industrial sheds and coastal environments where load-to-weight ratio is critical.',
         specs: [
@@ -295,6 +303,7 @@ const PRODUCTS = [
         name: 'Long Rail Pro',
         subtitle: 'Premium · Dual Orientation',
         Component: LongRailPro,
+        assemblyModels: [{ label:'End Clamp Assembly', Component: LongRailProEndClamp }, { label:'Mid Clamp Assembly', Component: LongRailProMidClamp }],
         tagline: 'Premium grade with the highest load capacity — engineered for both portrait and landscape on the most demanding structures.',
         desc: 'The Long Rail Pro is the flagship of the Long Rail range, combining the greatest cross-section wall thickness with a universal profile that accommodates both portrait and landscape panel orientations. It is designed for premium commercial and industrial projects where structural engineers require the highest certified load ratings, the widest allowable purlin spacings, and a single-rail solution across mixed-orientation arrays.',
         specs: [

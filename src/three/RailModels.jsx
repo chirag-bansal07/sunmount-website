@@ -7,12 +7,12 @@ import { useGLTF }      from '@react-three/drei'
 import { useMemo }      from 'react'
 import * as THREE       from 'three'
 
-/* Shared brushed-aluminium PBR material */
+/* Shared brushed-aluminium PBR material — matte industrial look */
 const ALU_MAT = new THREE.MeshStandardMaterial({
-  color          : new THREE.Color('#C9D4DE'),
-  metalness      : 0.95,
-  roughness      : 0.22,
-  envMapIntensity: 1.3,
+  color          : new THREE.Color('#7A8FA8'),
+  metalness      : 0.72,
+  roughness      : 0.52,
+  envMapIntensity: 0.85,
 })
 
 /**
@@ -174,22 +174,44 @@ export function LongRailPro (props) {
   return <primitive object={model} {...props} />
 }
 
-/* ── Assembly models ──────────────────────────────────────────── */
+/* ── Assembly models (rotation corrects Z-up → Y-up from STEP export) ── */
+const ASM_ROT = [-Math.PI / 2, 0, 0]
 
-export function LongRailLiteEndClamp (props) {
-  const model = useNormalisedModel('/models/long-rail-lite-end-clamp.glb', 2.2)
-  return <primitive object={model} {...props} />
+function AsmModel({ path, size = 2.2, ...props }) {
+  const model = useNormalisedModel(path, size)
+  return <group rotation={ASM_ROT}><primitive object={model} {...props} /></group>
 }
 
-export function LongRailLiteMidClamp (props) {
-  const model = useNormalisedModel('/models/long-rail-lite-mid-clamp.glb', 2.2)
-  return <primitive object={model} {...props} />
-}
+// Long Rail assemblies
+export const LongRailLiteEndClamp  = p => <AsmModel path="/models/long-rail-lite-end-clamp.glb"  {...p} />
+export const LongRailLiteMidClamp  = p => <AsmModel path="/models/long-rail-lite-mid-clamp.glb"  {...p} />
+export const LongRailProEndClamp   = p => <AsmModel path="/models/long-rail-pro-end-clamp.glb"   {...p} />
+export const LongRailProMidClamp   = p => <AsmModel path="/models/long-rail-pro-mid-clamp.glb"   {...p} />
+export const LongRailUltraEndClamp = p => <AsmModel path="/models/long-rail-ultra-end-clamp.glb" {...p} />
+export const LongRailUltraMidClamp = p => <AsmModel path="/models/long-rail-ultra-mid-clamp.glb" {...p} />
+
+// Mono Rail assemblies
+export const MonoRail100EndClamp    = p => <AsmModel path="/models/mono-rail-100-end-clamp.glb"     size={1.8} {...p} />
+export const MonoRail100ProEndClamp = p => <AsmModel path="/models/mono-rail-100-pro-end-clamp.glb" size={1.8} {...p} />
+export const MonoRail70EndClamp     = p => <AsmModel path="/models/mono-rail-70-end-clamp.glb"      size={1.8} {...p} />
+export const MonoRail70MidClamp     = p => <AsmModel path="/models/mono-rail-70-mid-clamp-2.glb"    size={1.8} {...p} />
+export const MonoRail65EndClamp     = p => <AsmModel path="/models/mono-rail-65-end-clamp.glb"      size={1.8} {...p} />
+
+// Mini Rail assemblies
+export const MiniRail100EndClamp  = p => <AsmModel path="/models/mini-rail-100-end-clamp.glb"   size={1.8} {...p} />
+export const MiniRail70EndClamp   = p => <AsmModel path="/models/mini-rail-70-end-clamp.glb"    size={1.8} {...p} />
+export const MiniRailShortEndClamp= p => <AsmModel path="/models/mini-rail-short-end-clamp.glb" size={1.8} {...p} />
 
 /* Pre-warm cache */
 useGLTF.preload('/models/inclined-system.glb')
-useGLTF.preload('/models/long-rail-lite-end-clamp.glb')
-useGLTF.preload('/models/long-rail-lite-mid-clamp.glb')
+;[
+  'long-rail-lite-end-clamp','long-rail-lite-mid-clamp',
+  'long-rail-pro-end-clamp','long-rail-pro-mid-clamp',
+  'long-rail-ultra-end-clamp','long-rail-ultra-mid-clamp',
+  'mono-rail-100-end-clamp','mono-rail-100-pro-end-clamp',
+  'mono-rail-70-end-clamp','mono-rail-70-mid-clamp-2','mono-rail-65-end-clamp',
+  'mini-rail-100-end-clamp','mini-rail-70-end-clamp','mini-rail-short-end-clamp',
+].forEach(name => useGLTF.preload(`/models/${name}.glb`))
 useGLTF.preload('/models/seam-clamp-100pro.glb')
 useGLTF.preload('/models/seam-clamp-55.glb')
 useGLTF.preload('/models/seam-clamp-70t1.glb')
