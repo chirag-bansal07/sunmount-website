@@ -177,8 +177,8 @@ export function LongRailPro (props) {
 /* ── Assembly models ────────────────────────────────────────────── */
 // Long Rail STEP files: Z-up → fix with -90° X
 const LONG_ROT = [-Math.PI / 2, 0, 0]
-// Mono/Mini Rail STEP files: opposite Z orientation in CAD
-const MONO_ROT = [Math.PI / 2, 0, 0]
+// Mono/Mini Rail STEP files: clamp axis is X → rotate -90° around Z to bring X up to Y
+const MONO_ROT = [0, 0, -Math.PI / 2]
 
 function AsmModel({ path, size = 2.2, rot = LONG_ROT, ...props }) {
   const model = useNormalisedModel(path, size)
