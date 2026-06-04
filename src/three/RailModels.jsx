@@ -211,6 +211,16 @@ export const MiniRail70MidClamp    = p => <AsmModel path="/models/mini-rail-70-m
 export const MiniRailShortEndClamp = p => <AsmModel path="/models/mini-rail-short-end-clamp.glb" size={1.8} rot={MONO_ROT} {...p} />
 export const MiniRailShortMidClamp = p => <AsmModel path="/models/mini-rail-short-mid-clamp.glb" size={1.8} rot={MONO_ROT} {...p} />
 
+// Standing Seam assemblies (same orientation as Mono Rail)
+export const Seam55EndClamp    = p => <AsmModel path="/models/seam-55-end-clamp.glb"    size={1.8} rot={MONO_ROT} {...p} />
+export const Seam55MidClamp    = p => <AsmModel path="/models/seam-55-mid-clamp.glb"    size={1.8} rot={MONO_ROT} {...p} />
+export const Seam100EndClamp   = p => <AsmModel path="/models/seam-100-end-clamp.glb"   size={1.8} rot={MONO_ROT} {...p} />
+export const Seam100MidClamp   = p => <AsmModel path="/models/seam-100-mid-clamp.glb"   size={1.8} rot={MONO_ROT} {...p} />
+export const Seam70T1EndClamp  = p => <AsmModel path="/models/seam-70t1-end-clamp.glb"  size={1.8} rot={MONO_ROT} {...p} />
+export const Seam70T1MidClamp  = p => <AsmModel path="/models/seam-70t1-mid-clamp.glb"  size={1.8} rot={MONO_ROT} {...p} />
+export const Seam70T2EndClamp  = p => <AsmModel path="/models/seam-70t2-end-clamp.glb"  size={1.8} rot={MONO_ROT} {...p} />
+export const Seam70T2MidClamp  = p => <AsmModel path="/models/seam-70t2-mid-clamp.glb"  size={1.8} rot={MONO_ROT} {...p} />
+
 /* Pre-warm cache */
 useGLTF.preload('/models/inclined-system.glb')
 ;[
@@ -224,6 +234,12 @@ useGLTF.preload('/models/inclined-system.glb')
   'mini-rail-100-end-clamp','mini-rail-100-mid-clamp',
   'mini-rail-70-end-clamp','mini-rail-70-mid-clamp',
   'mini-rail-short-end-clamp','mini-rail-short-mid-clamp',
+].forEach(name => useGLTF.preload(`/models/${name}.glb`))
+;[
+  'seam-55-end-clamp','seam-55-mid-clamp',
+  'seam-100-end-clamp','seam-100-mid-clamp',
+  'seam-70t1-end-clamp','seam-70t1-mid-clamp',
+  'seam-70t2-end-clamp','seam-70t2-mid-clamp',
 ].forEach(name => useGLTF.preload(`/models/${name}.glb`))
 useGLTF.preload('/models/seam-clamp-100pro.glb')
 useGLTF.preload('/models/seam-clamp-55.glb')
