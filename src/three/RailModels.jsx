@@ -193,17 +193,23 @@ export const LongRailProMidClamp   = p => <AsmModel path="/models/long-rail-pro-
 export const LongRailUltraEndClamp = p => <AsmModel path="/models/long-rail-ultra-end-clamp.glb" {...p} />
 export const LongRailUltraMidClamp = p => <AsmModel path="/models/long-rail-ultra-mid-clamp.glb" {...p} />
 
-// Mono Rail assemblies (different CAD orientation)
+// Mono Rail assemblies
 export const MonoRail100EndClamp    = p => <AsmModel path="/models/mono-rail-100-end-clamp.glb"     size={1.8} rot={MONO_ROT} {...p} />
+export const MonoRail100MidClamp    = p => <AsmModel path="/models/mono-rail-100-mid-clamp.glb"     size={1.8} rot={MONO_ROT} {...p} />
 export const MonoRail100ProEndClamp = p => <AsmModel path="/models/mono-rail-100-pro-end-clamp.glb" size={1.8} rot={MONO_ROT} {...p} />
+export const MonoRail100ProMidClamp = p => <AsmModel path="/models/mono-rail-100-pro-mid-clamp.glb" size={1.8} rot={MONO_ROT} {...p} />
 export const MonoRail70EndClamp     = p => <AsmModel path="/models/mono-rail-70-end-clamp.glb"      size={1.8} rot={MONO_ROT} {...p} />
-export const MonoRail70MidClamp     = p => <AsmModel path="/models/mono-rail-70-mid-clamp-2.glb"    size={1.8} rot={MONO_ROT} {...p} />
+export const MonoRail70MidClamp     = p => <AsmModel path="/models/mono-rail-70-mid-clamp.glb"      size={1.8} rot={MONO_ROT} {...p} />
 export const MonoRail65EndClamp     = p => <AsmModel path="/models/mono-rail-65-end-clamp.glb"      size={1.8} rot={MONO_ROT} {...p} />
+export const MonoRail65MidClamp     = p => <AsmModel path="/models/mono-rail-65-mid-clamp.glb"      size={1.8} rot={MONO_ROT} {...p} />
 
-// Mini Rail assemblies (same CAD orientation as Mono Rail)
+// Mini Rail assemblies
 export const MiniRail100EndClamp   = p => <AsmModel path="/models/mini-rail-100-end-clamp.glb"   size={1.8} rot={MONO_ROT} {...p} />
+export const MiniRail100MidClamp   = p => <AsmModel path="/models/mini-rail-100-mid-clamp.glb"   size={1.8} rot={MONO_ROT} {...p} />
 export const MiniRail70EndClamp    = p => <AsmModel path="/models/mini-rail-70-end-clamp.glb"    size={1.8} rot={MONO_ROT} {...p} />
+export const MiniRail70MidClamp    = p => <AsmModel path="/models/mini-rail-70-mid-clamp.glb"    size={1.8} rot={MONO_ROT} {...p} />
 export const MiniRailShortEndClamp = p => <AsmModel path="/models/mini-rail-short-end-clamp.glb" size={1.8} rot={MONO_ROT} {...p} />
+export const MiniRailShortMidClamp = p => <AsmModel path="/models/mini-rail-short-mid-clamp.glb" size={1.8} rot={MONO_ROT} {...p} />
 
 /* Pre-warm cache */
 useGLTF.preload('/models/inclined-system.glb')
@@ -211,9 +217,13 @@ useGLTF.preload('/models/inclined-system.glb')
   'long-rail-lite-end-clamp','long-rail-lite-mid-clamp',
   'long-rail-pro-end-clamp','long-rail-pro-mid-clamp',
   'long-rail-ultra-end-clamp','long-rail-ultra-mid-clamp',
-  'mono-rail-100-end-clamp','mono-rail-100-pro-end-clamp',
-  'mono-rail-70-end-clamp','mono-rail-70-mid-clamp-2','mono-rail-65-end-clamp',
-  'mini-rail-100-end-clamp','mini-rail-70-end-clamp','mini-rail-short-end-clamp',
+  'mono-rail-100-end-clamp','mono-rail-100-mid-clamp',
+  'mono-rail-100-pro-end-clamp','mono-rail-100-pro-mid-clamp',
+  'mono-rail-70-end-clamp','mono-rail-70-mid-clamp',
+  'mono-rail-65-end-clamp','mono-rail-65-mid-clamp',
+  'mini-rail-100-end-clamp','mini-rail-100-mid-clamp',
+  'mini-rail-70-end-clamp','mini-rail-70-mid-clamp',
+  'mini-rail-short-end-clamp','mini-rail-short-mid-clamp',
 ].forEach(name => useGLTF.preload(`/models/${name}.glb`))
 useGLTF.preload('/models/seam-clamp-100pro.glb')
 useGLTF.preload('/models/seam-clamp-55.glb')
