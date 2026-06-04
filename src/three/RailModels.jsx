@@ -174,8 +174,22 @@ export function LongRailPro (props) {
   return <primitive object={model} {...props} />
 }
 
+/* ── Assembly models ──────────────────────────────────────────── */
+
+export function LongRailLiteEndClamp (props) {
+  const model = useNormalisedModel('/models/long-rail-lite-end-clamp.glb', 2.2)
+  return <primitive object={model} {...props} />
+}
+
+export function LongRailLiteMidClamp (props) {
+  const model = useNormalisedModel('/models/long-rail-lite-mid-clamp.glb', 2.2)
+  return <primitive object={model} {...props} />
+}
+
 /* Pre-warm cache */
 useGLTF.preload('/models/inclined-system.glb')
+useGLTF.preload('/models/long-rail-lite-end-clamp.glb')
+useGLTF.preload('/models/long-rail-lite-mid-clamp.glb')
 useGLTF.preload('/models/seam-clamp-100pro.glb')
 useGLTF.preload('/models/seam-clamp-55.glb')
 useGLTF.preload('/models/seam-clamp-70t1.glb')

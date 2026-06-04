@@ -1,7 +1,7 @@
 import { useState, Suspense, useEffect, useRef } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp55, SeamClamp100Pro, SeamClamp70T1, SeamClamp70T2, InclinedRail, InclinedSystem, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro } from '../three/RailModels'
+import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp55, SeamClamp100Pro, SeamClamp70T1, SeamClamp70T2, InclinedRail, InclinedSystem, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro, LongRailLiteEndClamp, LongRailLiteMidClamp } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -264,6 +264,10 @@ const PRODUCTS = [
         name: 'Long Rail Light',
         subtitle: 'Standard · Landscape',
         Component: LongRailLite,
+        assemblyModels: [
+          { label: 'End Clamp Assembly', Component: LongRailLiteEndClamp },
+          { label: 'Mid Clamp Assembly', Component: LongRailLiteMidClamp },
+        ],
         tagline: 'Economical purlin-mounted rail for landscape orientation — fewer penetrations, faster installation.',
         desc: 'The Long Rail Light is a lighter, more economical variant of the purlin-mounted system, optimised for landscape-orientation panels. Its reduced material cross-section keeps project costs lower while still delivering far fewer roof penetrations than Mini or Mono Rail installations. Compatible with existing self-drilling screw holes on asbestos sheets, making retrofits simple.',
         specs: [
@@ -622,6 +626,7 @@ export default function Products() {
   const [selected,   setSelected]   = useState(initId)
   const [variantId,  setVariantId]  = useState(null)
   const [zoom,       setZoom]       = useState(4)
+  const [assemblyIdx, setAssemblyIdx] = useState(null) // null = base model
 
   // Sync selected from URL hash
   useEffect(() => {
@@ -634,8 +639,8 @@ export default function Products() {
     if (prod) setVariantId(prod.variants[0].id)
   }, [selected])
 
-  // Reset zoom when variant changes
-  useEffect(() => { setZoom(4) }, [variantId])
+  // Reset zoom and assembly when variant changes
+  useEffect(() => { setZoom(4); setAssemblyIdx(null) }, [variantId])
 
   const product       = PRODUCTS.find(p => p.id === selected)
   const allVariantIds = product ? product.variants.map(v => v.id) : []
@@ -777,7 +782,7 @@ export default function Products() {
                         background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)',
                         border:'1px solid var(--border-subtle)', cursor:'grab',
                       }}>
-                        <RailCanvas Component={activeVariant.Component} zoom={zoom} />
+                        <RailCanvas Component={assemblyIdx === null ? activeVariant.Component : activeVariant.assemblyModels[assemblyIdx].Component} zoom={zoom} />
                         {/* Model label badge */}
                         <div style={{
                           position:'absolute', top:'1rem', left:'1rem',
@@ -787,7 +792,7 @@ export default function Products() {
                           fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.1em',
                           color:'var(--text-primary)',
                         }}>
-                          {activeVariant.name}
+                          {assemblyIdx === null ? activeVariant.name : activeVariant.assemblyModels[assemblyIdx].label}
                         </div>
                         <div style={{
                           position:'absolute', bottom:'0.9rem', left:'1rem',
@@ -816,6 +821,30 @@ export default function Products() {
                         <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.75rem', color:'var(--text-muted)', lineHeight:1, userSelect:'none' }}>−</span>
                       </div>
                     </div>
+
+                    {/* ── Model view switcher (only if variant has assembly models) ── */}
+                    {activeVariant.assemblyModels?.length > 0 && (
+                      <div style={{ display:'flex', gap:'0.5rem', marginBottom:'1.2rem', flexWrap:'wrap' }}>
+                        <button onClick={() => setAssemblyIdx(null)} style={{
+                          padding:'0.4rem 0.9rem', fontFamily:'JetBrains Mono', fontSize:'0.65rem',
+                          letterSpacing:'0.1em', textTransform:'uppercase', cursor:'pointer',
+                          background: assemblyIdx === null ? 'var(--gradient-sun)' : 'var(--bg-elevated)',
+                          color: assemblyIdx === null ? 'var(--bg-deep)' : 'var(--text-muted)',
+                          border:`1px solid ${assemblyIdx === null ? 'transparent' : 'var(--border-subtle)'}`,
+                          transition:'all 0.25s',
+                        }}>Base Rail</button>
+                        {activeVariant.assemblyModels.map((m, i) => (
+                          <button key={i} onClick={() => setAssemblyIdx(i)} style={{
+                            padding:'0.4rem 0.9rem', fontFamily:'JetBrains Mono', fontSize:'0.65rem',
+                            letterSpacing:'0.1em', textTransform:'uppercase', cursor:'pointer',
+                            background: assemblyIdx === i ? 'var(--gradient-sun)' : 'var(--bg-elevated)',
+                            color: assemblyIdx === i ? 'var(--bg-deep)' : 'var(--text-muted)',
+                            border:`1px solid ${assemblyIdx === i ? 'transparent' : 'var(--border-subtle)'}`,
+                            transition:'all 0.25s',
+                          }}>{m.label}</button>
+                        ))}
+                      </div>
+                    )}
 
                     {/* Variant tagline + description */}
                     <div style={{ marginBottom:'2rem' }}>
@@ -968,12 +997,22 @@ export default function Products() {
           <AnimatePresence mode="wait">
             <motion.div key={activeVariant.id} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.3}}>
               <div style={{ margin:'1.2rem 1rem 0', position:'relative', height:300, border:'1px solid var(--border-subtle)', background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)', overflow:'hidden' }}>
-                <RailCanvas Component={activeVariant.Component} zoom={zoom} />
+                <RailCanvas Component={assemblyIdx === null ? activeVariant.Component : activeVariant.assemblyModels[assemblyIdx].Component} zoom={zoom} />
                 <div style={{ position:'absolute', top:'0.75rem', left:'0.75rem', background:'rgba(10,14,26,0.8)', backdropFilter:'blur(8px)', border:'1px solid var(--border-subtle)', padding:'0.3rem 0.65rem', fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.1em', color:'var(--text-primary)' }}>
                   {activeVariant.name}
                 </div>
                 <div style={{ position:'absolute', bottom:'0.7rem', left:'0.75rem', fontFamily:'JetBrains Mono', fontSize:'0.55rem', letterSpacing:'0.14em', color:'var(--text-muted)', pointerEvents:'none', textTransform:'uppercase' }}>↻ Drag to rotate</div>
               </div>
+
+              {/* Mobile model switcher */}
+              {activeVariant.assemblyModels?.length > 0 && (
+                <div style={{ display:'flex', gap:'0.45rem', padding:'0.9rem 1rem 0', flexWrap:'wrap' }}>
+                  <button onClick={() => setAssemblyIdx(null)} style={{ padding:'0.38rem 0.8rem', fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.1em', textTransform:'uppercase', cursor:'pointer', background: assemblyIdx === null ? 'var(--gradient-sun)' : 'var(--bg-elevated)', color: assemblyIdx === null ? 'var(--bg-deep)' : 'var(--text-muted)', border:`1px solid ${assemblyIdx === null ? 'transparent' : 'var(--border-subtle)'}`, transition:'all 0.25s' }}>Base Rail</button>
+                  {activeVariant.assemblyModels.map((m, i) => (
+                    <button key={i} onClick={() => setAssemblyIdx(i)} style={{ padding:'0.38rem 0.8rem', fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.1em', textTransform:'uppercase', cursor:'pointer', background: assemblyIdx === i ? 'var(--gradient-sun)' : 'var(--bg-elevated)', color: assemblyIdx === i ? 'var(--bg-deep)' : 'var(--text-muted)', border:`1px solid ${assemblyIdx === i ? 'transparent' : 'var(--border-subtle)'}`, transition:'all 0.25s' }}>{m.label}</button>
+                  ))}
+                </div>
+              )}
 
               {/* Detail */}
               <div style={{ padding:'1.2rem 1rem 2rem' }}>
