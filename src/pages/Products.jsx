@@ -498,6 +498,7 @@ const ACCESSORIES = [
   { name: 'L-Clamp',        material: 'Aluminium 6063 T6',  image: '/accessories/l-clamp.png',       features: ['Robust construction', 'Universal PV compat.', 'Budget-friendly'] },
   { name: 'T-Nut',          material: 'Aluminium 6063 T6',  image: '/accessories/t-nut.png',         features: ['Works with all rails', 'High strength', 'Extended lifespan'] },
   { name: 'Rail Cap',       material: 'Aluminium 6063 T6',  image: '/accessories/rail-cap.png',      features: ['Seals rail ends', 'Clean finish', 'Corrosion resistant'] },
+  { name: 'Rail Stand',     material: 'Aluminium 6063 T6',  image: '/accessories/rail-stand.png',    features: ['Secure rail support', 'High load capacity', 'Easy installation'] },
   { name: 'Flange Nut',     material: 'SS 304',              image: '/accessories/flange-nut.png',    features: ['Superior strength', 'Durable construction', 'Easy removal'] },
   { name: 'Spring Washer',  material: 'SS 304',              image: '/accessories/spring-washer.png', features: ['Prevents nut loosening', 'Reinforces joints', 'Minimal maintenance'] },
   { name: 'Allen Key Bolt', material: 'SS 304',              image: '/accessories/allen-bolt.png',    features: ['Strong & durable', 'Quick installation', 'Low maintenance'] },
