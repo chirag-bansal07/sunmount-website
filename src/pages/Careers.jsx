@@ -294,7 +294,7 @@ const Careers = () => {
                 {[
                   { label: 'EMAIL YOUR RESUME', value: 'info@sunmount.in' },
                   { label: 'ADDRESS', value: 'Sunmount Solutions Private Limited\nSurya Koti, Bajekan-Sirsa Main Road\nSirsa, Haryana 125055' },
-                  { label: 'PHONE', value: '+91 7837 999 222\n+91 8531 999 222' },
+                  { label: 'PHONE', value: '+91 8708 605 564' },
                 ].map((item, i) => (
                   <div key={i} style={{
                     padding: '1.4rem 1.6rem', background: 'var(--bg-elevated)',
