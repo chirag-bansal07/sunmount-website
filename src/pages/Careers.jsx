@@ -208,14 +208,14 @@ const Careers = () => {
                   }}>
                   <div>
                     <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '0.4rem', color: 'var(--text-primary)' }}>{job.title}</h3>
-                    <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', marginTop: '0.3rem' }}>
                       {[
                         { icon: '📍', text: job.location },
                         { icon: '🕘', text: job.type },
                         { icon: '💰', text: job.salary },
                         { icon: '🎓', text: job.education },
                       ].map((tag, t) => (
-                        <span key={t} style={{ fontFamily: 'JetBrains Mono', fontSize: '0.68rem', letterSpacing: '0.08em', color: 'var(--text-muted)' }}>
+                        <span key={t} style={{ fontFamily: 'Montserrat', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.03em', color: 'var(--text-secondary)' }}>
                           {tag.icon} {tag.text}
                         </span>
                       ))}
