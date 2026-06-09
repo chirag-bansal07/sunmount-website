@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { to: '/#why',     label: 'Why Sunmount'  },
   { to: '/#team',    label: 'Team'          },
   { to: '/contact',  label: 'Contact Us'    },
+  { to: '/careers',  label: 'Careers'       },
 ]
 
 const Navbar = () => {

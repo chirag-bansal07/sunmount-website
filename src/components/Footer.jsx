@@ -33,7 +33,7 @@ const Footer = () => (
         {/* Navigation */}
         <div>
           <h4 style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Navigation</h4>
-          {[{ to:'/', label:'Home' },{ to:'/#products', label:'Products' },{ to:'/#why', label:'Why Sunmount' },{ to:'/#team', label:'Team' },{ to:'/contact', label:'Contact Us' }].map(l => (
+          {[{ to:'/', label:'Home' },{ to:'/#products', label:'Products' },{ to:'/#why', label:'Why Sunmount' },{ to:'/#team', label:'Team' },{ to:'/contact', label:'Contact Us' },{ to:'/careers', label:'Careers' }].map(l => (
             <div key={l.label} style={{ marginBottom:'0.7rem' }}>
               <Link to={l.to} style={{ fontSize:'0.88rem', color:'var(--text-muted)', transition:'color 0.2s' }}
                 onMouseEnter={e => e.target.style.color='var(--sun-orange)'}

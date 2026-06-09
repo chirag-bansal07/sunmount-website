@@ -6,6 +6,7 @@ import Footer from './components/Footer'
 import Home from './pages/Home'
 import Contact from './pages/Contact'
 import Products from './pages/Products'
+import Careers from './pages/Careers'
 import './index.css'
 
 function ScrollHandler() {
@@ -36,6 +37,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/careers" element={<Careers />} />
       </Routes>
       <Footer />
       <Analytics />
