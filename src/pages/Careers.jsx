@@ -213,7 +213,7 @@ const Careers = () => {
                         { icon: '📍', text: job.location },
                         { icon: '🕘', text: job.type },
                         { icon: '💰', text: job.salary },
-                        { icon: '🎓', text: job.education },
+                        { icon: '🎓', text: 'Minimum Undergraduate' },
                       ].map((tag, t) => (
                         <span key={t} style={{ fontFamily: 'Montserrat', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.03em', color: 'var(--text-secondary)' }}>
                           {tag.icon} {tag.text}
