@@ -96,7 +96,7 @@ const Careers = () => {
       const payload = {
         access_key: 'ce080276-f9f7-4b7d-a791-f2553f5da3ee',
         botcheck: false,
-        to: 'info@sunmount.in',
+        to: 'info@sunmount.in,hr.suntrik@gmail.com',
         subject: `Career Application — ${roleLabel} | ${form.name}`,
         from_name: form.name,
         email: form.email,
