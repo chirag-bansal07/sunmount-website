@@ -453,7 +453,48 @@ const PRODUCTS = [
     ],
   },
 
-  /* ── 5. INCLINED SYSTEM ──────────────────────────────────────── */
+  /* ── 5. FRP WALKWAY ─────────────────────────────────────────── */
+  {
+    id: 'frp',
+    name: 'FRP Walkway',
+    short: 'Safety · Maintenance Access',
+    tag: 'WALKWAY',
+    badge: 'Anti-Slip',
+    systemDesc: 'Fibre-reinforced polymer (FRP) grating panels engineered for safe maintenance access on solar rooftops. Meniscus top surface, isophthalic polyester resin, and UV-stabilised construction for decades of outdoor service life.',
+    variants: [
+      {
+        id: 'frp-walkway',
+        name: 'FRP Walkway',
+        subtitle: '20 mm & 25 mm Height · Meniscus Top',
+        Component: null,
+        tagline: 'Anti-slip, corrosion-resistant walkway panels for safe rooftop access — engineered for the harshest solar installation environments.',
+        desc: 'The SunMount FRP Walkway is a pultruded fibre-reinforced polymer grating designed for permanent maintenance walkways on solar rooftops. The distinctive meniscus top surface provides superior anti-slip grip in wet or dusty conditions, while the 38 × 38 mm open mesh allows drainage and ventilation to the panels below. Manufactured using isophthalic polyester resin with integrated UV stabilisers, the panels resist colour fade, surface degradation, and structural loss caused by prolonged outdoor exposure. Unlike steel grating, FRP requires zero painting or galvanising and will not corrode even in coastal or chemically aggressive environments. The standard RAL 1004 yellow finish ensures high visibility for maintenance personnel.',
+        specs: [
+          { label: 'Height',          value: '20 mm & 25 mm' },
+          { label: 'Mesh Size',       value: '38 × 38 mm' },
+          { label: 'Top Surface',     value: 'Meniscus (anti-slip)' },
+          { label: 'Rib Thickness',   value: '6 – 5 mm' },
+          { label: 'Resin',           value: 'Isophthalic Polyester · UV Non FR' },
+          { label: 'Color',           value: 'Yellow — RAL 1004' },
+          { label: 'Panel Size',      value: '310 mm × 20/25 mm × 3660 mm' },
+          { label: 'Material',        value: 'Fibre-Reinforced Polymer (FRP)' },
+        ],
+        highlights: [
+          'Meniscus surface — superior anti-slip grip in wet & dusty conditions',
+          'Open mesh design — free drainage, no water pooling',
+          '38 × 38 mm mesh allows under-panel ventilation',
+          'Isophthalic resin — high chemical & weather resistance',
+          'UV-stabilised — zero colour fade or structural loss outdoors',
+          'Corrosion-free — no paint, no galvanising, no maintenance',
+          'Lightweight FRP — minimal added load on rooftop structure',
+          'High-visibility yellow (RAL 1004) for personnel safety',
+        ],
+        applications: ['Solar rooftop walkway', 'Industrial rooftop access', 'Coastal installation', 'Chemical plant rooftop'],
+      },
+    ],
+  },
+
+  /* ── 6. INCLINED SYSTEM ──────────────────────────────────────── */
   {
     id: 'inclined',
     name: 'Inclined System',
@@ -797,7 +838,8 @@ export default function Products() {
                     transition={{ duration:0.3 }}>
 
                     <div style={{ display:'flex', gap:'0.75rem', marginBottom:'2rem', alignItems:'stretch' }}>
-                      {/* ── 3D Viewport ── */}
+                      {/* ── 3D Viewport or No-Model Placeholder ── */}
+                      {displayComponent ? (
                       <div className="canvas-3d" style={{
                         flex:1, height:340, position:'relative',
                         background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)',
@@ -821,9 +863,29 @@ export default function Products() {
                           color:'var(--text-muted)', textTransform:'uppercase', pointerEvents:'none',
                         }}>↻ Drag to rotate</div>
                       </div>
+                      ) : (
+                      <div style={{
+                        flex:1, height:340, position:'relative',
+                        background:'linear-gradient(135deg,rgba(224,85,64,0.06) 0%,rgba(232,146,58,0.04) 100%)',
+                        border:'1px solid var(--border-subtle)',
+                        display:'flex', flexDirection:'column',
+                        alignItems:'center', justifyContent:'center', gap:'1rem',
+                      }}>
+                        <div style={{ fontSize:'3.5rem', opacity:0.5 }}>🏗️</div>
+                        <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.18em', color:'var(--sun-orange)', textTransform:'uppercase' }}>{activeVariant.name}</div>
+                        <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.12em', color:'var(--text-muted)', textTransform:'uppercase' }}>3D Model Coming Soon</div>
+                        <div style={{ display:'flex', flexWrap:'wrap', gap:'0.5rem', justifyContent:'center', maxWidth:320, marginTop:'0.5rem' }}>
+                          {activeVariant.specs.slice(0,4).map((s,i) => (
+                            <div key={i} style={{ padding:'0.3rem 0.75rem', background:'rgba(201,212,224,0.06)', border:'1px solid var(--border-subtle)', fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.08em', color:'var(--aluminum-mid)', textTransform:'uppercase', textAlign:'center' }}>
+                              {s.label}: <span style={{ color:'var(--text-primary)' }}>{s.value}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      )}
 
-                      {/* ── Zoom Slider ── */}
-                      <div className="zoom-slider" style={{
+                      {/* ── Zoom Slider (only when 3D model present) ── */}
+                      {displayComponent && <div className="zoom-slider" style={{
                         display:'flex', flexDirection:'column', alignItems:'center',
                         justifyContent:'center', gap:'0.5rem',
                         background:'rgba(10,14,26,0.6)', backdropFilter:'blur(8px)',
@@ -840,7 +902,7 @@ export default function Products() {
                           />
                         </div>
                         <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.75rem', color:'var(--text-muted)', lineHeight:1, userSelect:'none' }}>−</span>
-                      </div>
+                      </div>}
                     </div>
 
                     {/* ── Model view switcher (only if variant has assembly models) ── */}
@@ -1017,6 +1079,7 @@ export default function Products() {
         {activeVariant && (
           <AnimatePresence mode="wait">
             <motion.div key={activeVariant.id} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.3}}>
+              {displayComponent ? (
               <div style={{ margin:'1.2rem 1rem 0', position:'relative', height:300, border:'1px solid var(--border-subtle)', background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)', overflow:'hidden' }}>
                 <RailCanvas Component={displayComponent} zoom={zoom} />
                 <div style={{ position:'absolute', top:'0.75rem', left:'0.75rem', background:'rgba(10,14,26,0.8)', backdropFilter:'blur(8px)', border:'1px solid var(--border-subtle)', padding:'0.3rem 0.65rem', fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.1em', color:'var(--text-primary)' }}>
@@ -1024,6 +1087,13 @@ export default function Products() {
                 </div>
                 <div style={{ position:'absolute', bottom:'0.7rem', left:'0.75rem', fontFamily:'JetBrains Mono', fontSize:'0.55rem', letterSpacing:'0.14em', color:'var(--text-muted)', pointerEvents:'none', textTransform:'uppercase' }}>↻ Drag to rotate</div>
               </div>
+              ) : (
+              <div style={{ margin:'1.2rem 1rem 0', height:240, border:'1px solid var(--border-subtle)', background:'linear-gradient(135deg,rgba(224,85,64,0.06) 0%,rgba(232,146,58,0.04) 100%)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:'0.75rem' }}>
+                <div style={{ fontSize:'2.8rem', opacity:0.5 }}>🏗️</div>
+                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.15em', color:'var(--sun-orange)', textTransform:'uppercase' }}>{activeVariant.name}</div>
+                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.1em', color:'var(--text-muted)', textTransform:'uppercase' }}>3D Model Coming Soon</div>
+              </div>
+              )}
 
               {/* Mobile model switcher */}
               {activeVariant.assemblyModels?.length > 0 && (
