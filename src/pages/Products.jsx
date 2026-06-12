@@ -1,7 +1,7 @@
 import { useState, Suspense, useEffect, useRef } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp55, SeamClamp100Pro, SeamClamp70T1, SeamClamp70T2, InclinedRail, InclinedSystem, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro, LongRailLiteEndClamp, LongRailLiteMidClamp, LongRailProEndClamp, LongRailProMidClamp, LongRailUltraEndClamp, LongRailUltraMidClamp, MonoRail100EndClamp, MonoRail100MidClamp, MonoRail100ProEndClamp, MonoRail100ProMidClamp, MonoRail70EndClamp, MonoRail70MidClamp, MonoRail65EndClamp, MonoRail65MidClamp, MiniRail100EndClamp, MiniRail100MidClamp, MiniRail70EndClamp, MiniRail70MidClamp, MiniRailShortEndClamp, MiniRailShortMidClamp, Seam55EndClamp, Seam55MidClamp, Seam100EndClamp, Seam100MidClamp, Seam70T1EndClamp, Seam70T1MidClamp, Seam70T2EndClamp, Seam70T2MidClamp } from '../three/RailModels'
+import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp55, SeamClamp100Pro, SeamClamp70T1, SeamClamp70T2, InclinedRail, InclinedSystem, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro, LongRailLiteEndClamp, LongRailLiteMidClamp, LongRailProEndClamp, LongRailProMidClamp, LongRailUltraEndClamp, LongRailUltraMidClamp, MonoRail100EndClamp, MonoRail100MidClamp, MonoRail100ProEndClamp, MonoRail100ProMidClamp, MonoRail70EndClamp, MonoRail70MidClamp, MonoRail65EndClamp, MonoRail65MidClamp, MiniRail100EndClamp, MiniRail100MidClamp, MiniRail70EndClamp, MiniRail70MidClamp, MiniRailShortEndClamp, MiniRailShortMidClamp, Seam55EndClamp, Seam55MidClamp, Seam100EndClamp, Seam100MidClamp, Seam70T1EndClamp, Seam70T1MidClamp, Seam70T2EndClamp, Seam70T2MidClamp, FrpWalkway } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -466,7 +466,7 @@ const PRODUCTS = [
         id: 'frp-walkway',
         name: 'FRP Walkway',
         subtitle: '20 mm & 25 mm Height · Meniscus Top',
-        Component: null,
+        Component: FrpWalkway,
         tagline: 'Anti-slip, corrosion-resistant walkway panels for safe rooftop access — engineered for the harshest solar installation environments.',
         desc: 'The SunMount FRP Walkway is a pultruded fibre-reinforced polymer grating designed for permanent maintenance walkways on solar rooftops. The distinctive meniscus top surface provides superior anti-slip grip in wet or dusty conditions, while the 38 × 38 mm open mesh allows drainage and ventilation to the panels below. Manufactured using isophthalic polyester resin with integrated UV stabilisers, the panels resist colour fade, surface degradation, and structural loss caused by prolonged outdoor exposure. Unlike steel grating, FRP requires zero painting or galvanising and will not corrode even in coastal or chemically aggressive environments. The standard RAL 1004 yellow finish ensures high visibility for maintenance personnel.',
         specs: [

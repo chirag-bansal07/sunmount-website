@@ -15,11 +15,19 @@ const ALU_MAT = new THREE.MeshStandardMaterial({
   envMapIntensity: 0.85,
 })
 
+/* FRP grating material — RAL 1004 golden yellow, matte fibreglass look */
+const FRP_MAT = new THREE.MeshStandardMaterial({
+  color          : new THREE.Color('#D9A300'),
+  metalness      : 0.05,
+  roughness      : 0.62,
+  envMapIntensity: 0.55,
+})
+
 /**
- * Load a GLB, clone it, apply aluminium material, and normalise
- * the geometry so it fits inside a 2-unit cube centred at the origin.
+ * Load a GLB, clone it, apply a material, and normalise
+ * the geometry so it fits inside a target-size cube centred at the origin.
  */
-function useNormalisedModel (path, targetSize = 2) {
+function useNormalisedModel (path, targetSize = 2, material = ALU_MAT) {
   const { scene } = useGLTF(path)
 
   return useMemo(() => {
@@ -28,7 +36,7 @@ function useNormalisedModel (path, targetSize = 2) {
     // Apply material to every mesh
     clone.traverse(o => {
       if (o.isMesh) {
-        o.material      = ALU_MAT
+        o.material      = material
         o.castShadow    = true
         o.receiveShadow = true
       }
@@ -51,7 +59,19 @@ function useNormalisedModel (path, targetSize = 2) {
     wrapper.scale.setScalar(scale)      // scale to fit targetSize
 
     return wrapper
-  }, [scene, targetSize])
+  }, [scene, targetSize, material])
+}
+
+/* ── FRP Walkway ─────────────────────────────────────────────────
+   Single panel ~3.66 m × 0.31 m × 0.03 m. Tilt the flat grating so the
+   anti-slip mesh surface reads well while the viewer auto-rotates. */
+export function FrpWalkway (props) {
+  const model = useNormalisedModel('/models/frp-walkway.glb', 2.6, FRP_MAT)
+  return (
+    <group rotation={[-0.42, 0, 0]}>
+      <primitive object={model} {...props} />
+    </group>
+  )
 }
 
 /* ── Exported components ──────────────────────────────────────── */
@@ -259,3 +279,4 @@ useGLTF.preload('/models/mini-rail-short.glb')
 useGLTF.preload('/models/long-rail-ultra.glb')
 useGLTF.preload('/models/long-rail-lite.glb')
 useGLTF.preload('/models/long-rail-pro.glb')
+useGLTF.preload('/models/frp-walkway.glb')
