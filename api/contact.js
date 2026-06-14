@@ -35,14 +35,16 @@ async function readBody(req) {
   })
 }
 
-async function sendViaResend({ to, subject, html, replyTo }) {
+async function sendViaResend({ to, subject, html, replyTo, attachments }) {
+  const payload = { from: FROM, to, subject, html, reply_to: replyTo }
+  if (attachments) payload.attachments = attachments
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ from: FROM, to, subject, html, reply_to: replyTo }),
+    body: JSON.stringify(payload),
   })
   if (!res.ok) {
     const text = await res.text().catch(() => '')
@@ -67,18 +69,15 @@ function autoReplyHtml({ name }) {
             <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;line-height:1.3;">Thank you for reaching out, ${esc(first)}! &#9728;&#65039;</h1>
           </td></tr>
           <tr><td style="padding:14px 36px 4px;color:#c9d4e0;font-size:15px;line-height:1.75;">
-            <p style="margin:0 0 16px;">We've received your enquiry at <strong style="color:#fff;">Sunmount Solutions Private Limited</strong> and we're glad you're considering us for your solar mounting requirements. Our team will get back to you shortly.</p>
+            <p style="margin:0 0 16px;">We've received your enquiry at <strong style="color:#fff;">Sunmount Solutions Private Limited</strong> and we're glad you're considering us for your solar mounting requirements. <strong style="color:#fff;">Our sales representative will contact you soon.</strong></p>
             <p style="margin:0 0 10px;">To help us prepare the <strong style="color:#fff;">most accurate quote</strong> for your project, please reply to this email with:</p>
             <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px;">
               <tr><td style="color:#E8923A;font-size:15px;padding:3px 10px 3px 0;vertical-align:top;">&#10003;</td><td style="color:#c9d4e0;font-size:15px;line-height:1.6;padding:3px 0;">Your detailed <strong style="color:#fff;">requirement</strong> (system type, panel count, roof type)</td></tr>
               <tr><td style="color:#E8923A;font-size:15px;padding:3px 10px 3px 0;vertical-align:top;">&#10003;</td><td style="color:#c9d4e0;font-size:15px;line-height:1.6;padding:3px 0;">Your <strong style="color:#fff;">site layout</strong> — roof drawings, dimensions, or photos</td></tr>
             </table>
-            <p style="margin:0 0 22px;">In the meantime, here's our complete product catalogue covering every mounting system we offer:</p>
+            <p style="margin:0 0 6px;">📎 We've <strong style="color:#fff;">attached our complete product catalogue</strong> to this email for your reference — covering every mounting system we offer.</p>
           </td></tr>
-          <tr><td align="center" style="padding:0 36px 26px;">
-            <a href="${CATALOGUE_URL}" style="display:inline-block;background:linear-gradient(90deg,#E05540,#E8923A);color:#0a0e1a;font-size:15px;font-weight:700;text-decoration:none;padding:14px 34px;border-radius:6px;">&#8595; Download Product Catalogue</a>
-          </td></tr>
-          <tr><td style="padding:0 36px;"><div style="border-top:1px solid #1f2738;"></div></td></tr>
+          <tr><td style="padding:18px 36px 0;"><div style="border-top:1px solid #1f2738;"></div></td></tr>
           <tr><td style="padding:22px 36px;color:#8a97a8;font-size:13px;line-height:1.8;">
             <p style="margin:0 0 6px;color:#ffffff;font-size:14px;font-weight:700;">Sunmount Solutions Private Limited</p>
             <p style="margin:0;">Surya Koti, Bajekan-Sirsa Main Road, Sirsa, Haryana 125055</p>
@@ -118,6 +117,7 @@ export default async function handler(req, res) {
       replyTo: SALES_EMAIL,
       subject: 'Thank you for contacting Sunmount Solutions',
       html: autoReplyHtml({ name }),
+      attachments: [{ filename: 'Sunmount-Solutions-Catalogue.pdf', path: CATALOGUE_URL }],
     })
     res.status(200).json({ success: true, autoReply: true })
   } catch (e) {
