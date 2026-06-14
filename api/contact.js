@@ -35,8 +35,9 @@ async function readBody(req) {
   })
 }
 
-async function sendViaResend({ to, subject, html, replyTo, attachments }) {
+async function sendViaResend({ to, subject, html, text, replyTo, attachments }) {
   const payload = { from: FROM, to, subject, html, reply_to: replyTo }
+  if (text) payload.text = text
   if (attachments) payload.attachments = attachments
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -53,40 +54,61 @@ async function sendViaResend({ to, subject, html, replyTo, attachments }) {
   return res.json()
 }
 
-/* ── Customer auto-reply email ─────────────────────────────────── */
+/* ── Customer auto-reply — plain text (helps land in Primary, not Promotions) ── */
+function autoReplyText({ name }) {
+  const first = (name || '').trim().split(/\s+/)[0] || 'there'
+  return `Hi ${first},
+
+Thank you for reaching out to Sunmount Solutions Private Limited. We've received your enquiry and our sales representative will contact you soon.
+
+To help us prepare the most accurate quote for your project, please reply to this email with:
+  - Your detailed requirement (system type, panel count, roof type)
+  - Your site layout (roof drawings, dimensions, or photos)
+
+We've attached our complete product catalogue to this email for your reference.
+
+Warm regards,
+Sales Team
+Sunmount Solutions Private Limited
+Surya Koti, Bajekan-Sirsa Main Road, Sirsa, Haryana 125055
+Phone: +91 7837 999 222 / +91 8531 999 222
+Email: ${SALES_EMAIL}
+Web: ${SITE}`
+}
+
+/* ── Customer auto-reply — light, letter-style HTML (transactional look) ──
+   Deliberately simple: light background, one small logo, plenty of plain
+   text, minimal styling. This reads as a personal/transactional email so
+   Gmail is far more likely to place it in Primary rather than Promotions. */
 function autoReplyHtml({ name }) {
   const first = (name || '').trim().split(/\s+/)[0] || 'there'
   return `
-  <div style="margin:0;padding:0;background:#0a0e1a;font-family:Arial,Helvetica,sans-serif;">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0a0e1a;padding:24px 0;">
-      <tr><td align="center">
-        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#10141f;border:1px solid #1f2738;border-radius:10px;overflow:hidden;">
-          <tr><td style="height:4px;background:linear-gradient(90deg,#E05540,#E8923A);"></td></tr>
-          <tr><td align="center" style="padding:28px 24px 8px;">
-            <img src="${LOGO_URL}" alt="Sunmount Solutions" width="180" style="max-width:180px;height:auto;display:block;" />
+  <div style="margin:0;padding:0;background:#ffffff;font-family:Arial,Helvetica,sans-serif;color:#1f2937;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;">
+      <tr><td align="center" style="padding:24px 16px;">
+        <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
+          <tr><td style="padding:0 4px 16px;">
+            <img src="${LOGO_URL}" alt="Sunmount Solutions" width="150" style="max-width:150px;height:auto;display:block;" />
           </td></tr>
-          <tr><td style="padding:12px 36px 0;">
-            <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;line-height:1.3;">Thank you for reaching out, ${esc(first)}! &#9728;&#65039;</h1>
+          <tr><td style="padding:0 4px;color:#1f2937;font-size:15px;line-height:1.7;">
+            <p style="margin:0 0 16px;">Hi ${esc(first)},</p>
+            <p style="margin:0 0 16px;">Thank you for reaching out to <strong>Sunmount Solutions Private Limited</strong>. We've received your enquiry and <strong>our sales representative will contact you soon.</strong></p>
+            <p style="margin:0 0 8px;">To help us prepare the most accurate quote for your project, please reply to this email with:</p>
+            <ul style="margin:0 0 16px;padding:0 0 0 20px;color:#374151;">
+              <li style="margin:0 0 6px;">Your detailed <strong>requirement</strong> (system type, panel count, roof type)</li>
+              <li style="margin:0;">Your <strong>site layout</strong> — roof drawings, dimensions, or photos</li>
+            </ul>
+            <p style="margin:0 0 20px;">We've <strong>attached our complete product catalogue</strong> to this email for your reference.</p>
+            <p style="margin:0 0 4px;">Warm regards,</p>
+            <p style="margin:0 0 20px;"><strong>Sales Team — Sunmount Solutions</strong></p>
           </td></tr>
-          <tr><td style="padding:14px 36px 4px;color:#c9d4e0;font-size:15px;line-height:1.75;">
-            <p style="margin:0 0 16px;">We've received your enquiry at <strong style="color:#fff;">Sunmount Solutions Private Limited</strong> and we're glad you're considering us for your solar mounting requirements. <strong style="color:#fff;">Our sales representative will contact you soon.</strong></p>
-            <p style="margin:0 0 10px;">To help us prepare the <strong style="color:#fff;">most accurate quote</strong> for your project, please reply to this email with:</p>
-            <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 18px;">
-              <tr><td style="color:#E8923A;font-size:15px;padding:3px 10px 3px 0;vertical-align:top;">&#10003;</td><td style="color:#c9d4e0;font-size:15px;line-height:1.6;padding:3px 0;">Your detailed <strong style="color:#fff;">requirement</strong> (system type, panel count, roof type)</td></tr>
-              <tr><td style="color:#E8923A;font-size:15px;padding:3px 10px 3px 0;vertical-align:top;">&#10003;</td><td style="color:#c9d4e0;font-size:15px;line-height:1.6;padding:3px 0;">Your <strong style="color:#fff;">site layout</strong> — roof drawings, dimensions, or photos</td></tr>
-            </table>
-            <p style="margin:0 0 6px;">📎 We've <strong style="color:#fff;">attached our complete product catalogue</strong> to this email for your reference — covering every mounting system we offer.</p>
-          </td></tr>
-          <tr><td style="padding:18px 36px 0;"><div style="border-top:1px solid #1f2738;"></div></td></tr>
-          <tr><td style="padding:22px 36px;color:#8a97a8;font-size:13px;line-height:1.8;">
-            <p style="margin:0 0 6px;color:#ffffff;font-size:14px;font-weight:700;">Sunmount Solutions Private Limited</p>
-            <p style="margin:0;">Surya Koti, Bajekan-Sirsa Main Road, Sirsa, Haryana 125055</p>
-            <p style="margin:6px 0 0;">&#128222; +91 7837 999 222 &nbsp;|&nbsp; +91 8531 999 222</p>
-            <p style="margin:2px 0 0;">&#9993;&#65039; <a href="mailto:${SALES_EMAIL}" style="color:#E8923A;text-decoration:none;">${SALES_EMAIL}</a> &nbsp;|&nbsp; &#127760; <a href="${SITE}" style="color:#E8923A;text-decoration:none;">www.sunmount.in</a></p>
-            <p style="margin:14px 0 0;color:#5b6677;font-size:11px;">ISO 9001 Certified &middot; T&Uuml;V S&Uuml;D Certified &middot; MSME Registered &middot; Made in India</p>
+          <tr><td style="padding:16px 4px 0;border-top:1px solid #e5e7eb;color:#6b7280;font-size:13px;line-height:1.7;">
+            <p style="margin:0;color:#111827;font-weight:700;">Sunmount Solutions Private Limited</p>
+            <p style="margin:2px 0 0;">Surya Koti, Bajekan-Sirsa Main Road, Sirsa, Haryana 125055</p>
+            <p style="margin:2px 0 0;">+91 7837 999 222 &nbsp;|&nbsp; +91 8531 999 222</p>
+            <p style="margin:2px 0 0;"><a href="mailto:${SALES_EMAIL}" style="color:#c2410c;text-decoration:none;">${SALES_EMAIL}</a> &nbsp;|&nbsp; <a href="${SITE}" style="color:#c2410c;text-decoration:none;">www.sunmount.in</a></p>
           </td></tr>
         </table>
-        <p style="color:#5b6677;font-size:11px;margin:16px 0 0;">You received this email because you submitted an enquiry at www.sunmount.in</p>
       </td></tr>
     </table>
   </div>`
@@ -117,6 +139,7 @@ export default async function handler(req, res) {
       replyTo: SALES_EMAIL,
       subject: 'Thank you for contacting Sunmount Solutions',
       html: autoReplyHtml({ name }),
+      text: autoReplyText({ name }),
       attachments: [{ filename: 'Sunmount-Solutions-Catalogue.pdf', path: CATALOGUE_URL }],
     })
     res.status(200).json({ success: true, autoReply: true })
