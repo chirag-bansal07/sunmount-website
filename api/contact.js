@@ -22,6 +22,12 @@ const LOGO_URL      = 'https://www.sunmount.in/logo.png'
 
 const esc = (s = '') => String(s).replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]))
 
+// First name, capitalised (e.g. "chirag" -> "Chirag")
+const firstName = (name = '') => {
+  const w = String(name).trim().split(/\s+/)[0] || ''
+  return w ? w.charAt(0).toUpperCase() + w.slice(1).toLowerCase() : 'there'
+}
+
 async function readBody(req) {
   if (req.body) {
     if (typeof req.body === 'string') { try { return JSON.parse(req.body) } catch { return {} } }
@@ -56,7 +62,7 @@ async function sendViaResend({ to, subject, html, text, replyTo, attachments }) 
 
 /* ── Customer auto-reply — plain text (helps land in Primary, not Promotions) ── */
 function autoReplyText({ name }) {
-  const first = (name || '').trim().split(/\s+/)[0] || 'there'
+  const first = firstName(name)
   return `Hi ${first},
 
 Thank you for reaching out to Sunmount Solutions Private Limited. We've received your enquiry and our sales representative will contact you soon.
@@ -81,7 +87,7 @@ Web: ${SITE}`
    text, minimal styling. This reads as a personal/transactional email so
    Gmail is far more likely to place it in Primary rather than Promotions. */
 function autoReplyHtml({ name }) {
-  const first = (name || '').trim().split(/\s+/)[0] || 'there'
+  const first = firstName(name)
   return `
   <div style="margin:0;padding:0;background:#ffffff;font-family:Arial,Helvetica,sans-serif;color:#1f2937;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;">
