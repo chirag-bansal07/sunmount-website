@@ -65,8 +65,8 @@ function useNormalisedModel (path, targetSize = 2, material = ALU_MAT) {
 /* ── FRP Walkway ─────────────────────────────────────────────────
    Single panel ~3.66 m × 0.31 m × 0.03 m. Tilt the flat grating so the
    anti-slip mesh surface reads well while the viewer auto-rotates. */
-export function FrpWalkway (props) {
-  const model = useNormalisedModel('/models/frp-walkway.glb', 2.6, FRP_MAT)
+export function FrpWalkway ({ size = 2.6, ...props }) {
+  const model = useNormalisedModel('/models/frp-walkway.glb', size, FRP_MAT)
   return (
     <group rotation={[-0.42, 0, 0]}>
       <primitive object={model} {...props} />

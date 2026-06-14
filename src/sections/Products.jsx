@@ -1,7 +1,7 @@
 import { useState, useRef, Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp70T1, InclinedRail, InclinedSystem } from '../three/RailModels'
+import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp70T1, InclinedRail, InclinedSystem, FrpWalkway } from '../three/RailModels'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -9,6 +9,9 @@ import useInView from '../hooks/useInView'
 
 const fadeUp  = { hidden:{opacity:0,y:30}, show:{opacity:1,y:0,transition:{duration:0.7,ease:[0.16,1,0.3,1]}} }
 const stagger = { hidden:{},              show:{transition:{staggerChildren:0.11}} }
+
+/* FRP walkway shown slightly smaller so the long panel fits the card neatly */
+const FrpWalkwayHome = (p) => <FrpWalkway size={2.1} {...p} />
 
 const PRODUCTS = [
   {
@@ -111,6 +114,26 @@ const PRODUCTS = [
     ],
     Component: InclinedSystem,
   },
+  {
+    id: 'frp',
+    name: 'FRP Walkway',
+    tag: 'WALKWAY',
+    badge: 'Anti-Slip',
+    summary: 'Fibreglass grating for safe maintenance access across solar rooftops. Anti-slip meniscus surface — fully corrosion-free and UV-stabilised for the harshest environments.',
+    specs: [
+      'Height: 20 / 25 mm | Mesh: 38 × 38 mm',
+      'Resin: Isophthalic Polyester (UV)',
+      'Panel: 310 mm × 3660 mm',
+      'Colour: Golden Yellow — RAL 1004',
+    ],
+    highlights: [
+      'Anti-slip meniscus top surface',
+      'Corrosion-free — no paint or galvanising',
+      'UV-stabilised, zero colour fade',
+      'Lightweight & high-visibility yellow',
+    ],
+    Component: FrpWalkwayHome,
+  },
 ]
 
 /* Corner accent squares */
@@ -205,12 +228,19 @@ const ProductCard = ({ product, index }) => {
         position:'relative',
         background:'linear-gradient(180deg,var(--bg-elevated) 0%,var(--bg-surface) 100%)',
         border: hover ? '1px solid var(--border-accent)' : '1px solid var(--border-subtle)',
-        borderRadius:4, overflow:'hidden',
-        transition:'border-color 0.45s, transform 0.45s cubic-bezier(0.16,1,0.3,1)',
+        borderRadius:8, overflow:'hidden',
+        transition:'border-color 0.45s, transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s',
         transform: hover ? 'translateY(-6px)' : 'translateY(0)',
+        boxShadow: hover ? '0 18px 40px -18px rgba(0,0,0,0.7)' : '0 0 0 rgba(0,0,0,0)',
         display:'flex', flexDirection:'column', height:'100%',
       }}
     >
+      {/* Top accent bar — fills on hover */}
+      <div style={{
+        position:'absolute', top:0, left:0, height:3, zIndex:4,
+        width: hover ? '100%' : '0%', background:'var(--gradient-sun)',
+        transition:'width 0.5s cubic-bezier(0.16,1,0.3,1)',
+      }} />
       {['tl','tr','bl','br'].map(p => <Corner key={p} pos={p} active={hover} />)}
 
       {/* Top bar: index + tags */}
@@ -321,20 +351,25 @@ const Products = () => (
           Engineered for <span className="gradient-text">Every Roof.</span>
         </h2>
         <p style={{ color:'var(--text-secondary)', fontSize:'1rem', lineHeight:1.7 }}>
-          Four precision-engineered mounting systems — from trapezoidal metal sheets to
-          standing seam profiles. All rated for 200 km/h wind speeds.
+          Five precision-engineered mounting systems — plus heavy-duty FRP walkways for safe
+          rooftop access. From trapezoidal sheets to standing seam, all rated for 200 km/h winds.
         </p>
       </motion.div>
 
       <motion.div
+        className="home-products-grid"
         variants={stagger} initial="hidden" whileInView="show" viewport={{once:true,margin:'-60px'}}
-        style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))', gap:'1.2rem', marginBottom:'2.5rem', alignItems:'stretch' }}>
+        style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'1.4rem', marginBottom:'2.5rem', alignItems:'stretch' }}>
         {PRODUCTS.map((p, i) => (
           <motion.div key={p.id} variants={fadeUp} style={{ height:'100%', display:'flex', flexDirection:'column' }}>
             <ProductCard product={p} index={i} />
           </motion.div>
         ))}
       </motion.div>
+      <style>{`
+        @media(max-width:900px){ .home-products-grid{ grid-template-columns:repeat(2,1fr)!important; } }
+        @media(max-width:560px){ .home-products-grid{ grid-template-columns:1fr!important; } }
+      `}</style>
 
       <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true}}
         style={{ textAlign:'center' }}>
