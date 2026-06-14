@@ -1,14 +1,24 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, lazy, Suspense } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
-import Contact from './pages/Contact'
-import Products from './pages/Products'
-import Careers from './pages/Careers'
 import './index.css'
+
+// Route-level code splitting — keeps the heavy 3D Products page and the
+// other routes out of the initial bundle for a fast first load.
+const Contact  = lazy(() => import('./pages/Contact'))
+const Products = lazy(() => import('./pages/Products'))
+const Careers  = lazy(() => import('./pages/Careers'))
+
+const RouteFallback = () => (
+  <div style={{ minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{ width: 46, height: 46, borderRadius: '50%', border: '3px solid var(--border-subtle)', borderTopColor: 'var(--sun-orange)', animation: 'spin 0.8s linear infinite' }} />
+    <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+  </div>
+)
 
 function ScrollHandler() {
   const { hash, pathname } = useLocation()
@@ -34,12 +44,14 @@ function App() {
     <Router>
       <ScrollHandler />
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/careers" element={<Careers />} />
-      </Routes>
+      <Suspense fallback={<RouteFallback />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/careers" element={<Careers />} />
+        </Routes>
+      </Suspense>
       <Footer />
       <Analytics />
       <SpeedInsights />

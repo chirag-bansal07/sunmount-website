@@ -241,42 +241,7 @@ export const Seam70T1MidClamp  = p => <AsmModel path="/models/seam-70t1-mid-clam
 export const Seam70T2EndClamp  = p => <AsmModel path="/models/seam-70t2-end-clamp.glb"  size={1.8} rot={MONO_ROT} {...p} />
 export const Seam70T2MidClamp  = p => <AsmModel path="/models/seam-70t2-mid-clamp.glb"  size={1.8} rot={MONO_ROT} {...p} />
 
-/* Pre-warm cache */
-useGLTF.preload('/models/inclined-system.glb')
-;[
-  'long-rail-lite-end-clamp','long-rail-lite-mid-clamp',
-  'long-rail-pro-end-clamp','long-rail-pro-mid-clamp',
-  'long-rail-ultra-end-clamp','long-rail-ultra-mid-clamp',
-  'mono-rail-100-end-clamp','mono-rail-100-mid-clamp',
-  'mono-rail-100-pro-end-clamp','mono-rail-100-pro-mid-clamp',
-  'mono-rail-70-end-clamp','mono-rail-70-mid-clamp',
-  'mono-rail-65-end-clamp','mono-rail-65-mid-clamp',
-  'mini-rail-100-end-clamp','mini-rail-100-mid-clamp',
-  'mini-rail-70-end-clamp','mini-rail-70-mid-clamp',
-  'mini-rail-short-end-clamp','mini-rail-short-mid-clamp',
-].forEach(name => useGLTF.preload(`/models/${name}.glb`))
-;[
-  'seam-55-end-clamp','seam-55-mid-clamp',
-  'seam-100-end-clamp','seam-100-mid-clamp',
-  'seam-70t1-end-clamp','seam-70t1-mid-clamp',
-  'seam-70t2-end-clamp','seam-70t2-mid-clamp',
-].forEach(name => useGLTF.preload(`/models/${name}.glb`))
-useGLTF.preload('/models/seam-clamp-100pro.glb')
-useGLTF.preload('/models/seam-clamp-55.glb')
-useGLTF.preload('/models/seam-clamp-70t1.glb')
-useGLTF.preload('/models/seam-clamp-70t2.glb')
-useGLTF.preload('/models/mono-rail.glb')
-useGLTF.preload('/models/mini-rail.glb')
-useGLTF.preload('/models/long-rail.glb')
-useGLTF.preload('/models/seam-clamp.glb')
-useGLTF.preload('/models/mono-rail-100.glb')
-useGLTF.preload('/models/mono-rail-70.glb')
-useGLTF.preload('/models/mono-rail-65.glb')
-useGLTF.preload('/models/mono-rail-100-pro.glb')
-useGLTF.preload('/models/mini-rail-100.glb')
-useGLTF.preload('/models/mini-rail-70.glb')
-useGLTF.preload('/models/mini-rail-short.glb')
-useGLTF.preload('/models/long-rail-ultra.glb')
-useGLTF.preload('/models/long-rail-lite.glb')
-useGLTF.preload('/models/long-rail-pro.glb')
-useGLTF.preload('/models/frp-walkway.glb')
+/* Models are loaded on demand when each component first mounts (drei caches
+   them after first load). We intentionally do NOT bulk-preload all ~40 GLBs
+   on import — that previously fired dozens of downloads on every page load and
+   hurt mobile FCP/LCP. On-demand loading keeps the initial payload light. */

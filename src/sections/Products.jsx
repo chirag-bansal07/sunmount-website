@@ -5,6 +5,7 @@ import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp70T1, InclinedRail, I
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import useInView from '../hooks/useInView'
 
 const fadeUp  = { hidden:{opacity:0,y:30}, show:{opacity:1,y:0,transition:{duration:0.7,ease:[0.16,1,0.3,1]}} }
 const stagger = { hidden:{},              show:{transition:{staggerChildren:0.11}} }
@@ -159,7 +160,7 @@ function SpinModel({ Component, hover }) {
 
 function RailCanvas({ Component, hover }) {
   return (
-    <Canvas dpr={[1,2]} gl={{ antialias:true, alpha:true }}>
+    <Canvas dpr={[1,1.5]} gl={{ antialias:true, alpha:true, powerPreference:'low-power' }}>
       <PerspectiveCamera makeDefault position={[0, 0, 4]} fov={40} />
       <ambientLight intensity={0.6} />
       <directionalLight position={[4,4,2]} intensity={2.0} color="#FBB034" />
@@ -171,6 +172,23 @@ function RailCanvas({ Component, hover }) {
       </Suspense>
       <ContactShadows position={[0,-0.8,0]} opacity={0.40} scale={6} blur={2.5} far={3} />
     </Canvas>
+  )
+}
+
+/* Mounts the WebGL canvas only while the card is on screen — keeps mobile
+   from running 5 live 3D contexts at once. Shows a light placeholder otherwise. */
+function LazyRailCanvas({ Component, hover }) {
+  const [ref, inView] = useInView({ rootMargin: '250px' })
+  return (
+    <div ref={ref} style={{ width:'100%', height:'100%' }}>
+      {inView ? (
+        <RailCanvas Component={Component} hover={hover} />
+      ) : (
+        <div style={{ width:'100%', height:'100%', display:'flex', alignItems:'center', justifyContent:'center' }}>
+          <div style={{ width:42, height:42, borderRadius:'50%', border:'2px solid var(--border-subtle)', borderTopColor:'var(--sun-orange)', opacity:0.5 }} />
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -218,7 +236,7 @@ const ProductCard = ({ product, index }) => {
         background:'radial-gradient(ellipse at 50% 70%, rgba(224,85,64,0.07) 0%, transparent 70%)',
         margin:'0.5rem 0',
       }}>
-        <RailCanvas Component={product.Component} hover={hover} />
+        <LazyRailCanvas Component={product.Component} hover={hover} />
         <div style={{
           position:'absolute', bottom:'0.5rem', left:'50%', transform:'translateX(-50%)',
           display:'flex', alignItems:'center', gap:'0.4rem',
