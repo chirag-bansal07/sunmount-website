@@ -31,20 +31,34 @@ const Contact = () => {
     setStatus('loading')
     try {
       const requirementLabel = REQUIREMENTS.find(r => r.value === form.requirement)?.label || form.requirement || 'Not specified'
-      const res = await fetch('/api/contact', {
+
+      // 1. Lead notification → Web3Forms (client-side; determines success)
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          name: form.name,
-          company: form.company,
+          access_key: 'ce080276-f9f7-4b7d-a791-f2553f5da3ee',
+          botcheck: false,
+          subject: `New Enquiry from ${form.name} — ${requirementLabel}`,
+          from_name: form.name,
           email: form.email,
-          phone: form.phone,
+          phone: form.phone || '—',
+          company: form.company || '—',
           requirement: requirementLabel,
-          message: form.message,
+          message: form.message || '—',
         }),
       })
       const data = await res.json()
+
       if (data.success) {
+        // 2. Customer auto-reply from sales@sunmount.in → our Resend function
+        //    (fire-and-forget; must never block or fail the submission)
+        fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: form.name, email: form.email }),
+        }).catch(() => {})
+
         setStatus('sent')
       } else {
         setErrorMsg(data.message || 'Submission failed')
@@ -89,7 +103,7 @@ const Contact = () => {
               <div style={{ padding:'3rem', background:'var(--bg-elevated)', border:'1px solid var(--border-accent)', textAlign:'center' }}>
                 <div style={{ fontSize:'3rem', marginBottom:'1rem', color:'var(--sun-orange)' }}>✓</div>
                 <h3 style={{ fontSize:'1.6rem', marginBottom:'0.8rem', color:'var(--sun-orange)' }}>Message Sent!</h3>
-                <p style={{ color:'var(--text-secondary)' }}>We've sent a confirmation to your email with our catalogue. Our team will get back to you within 24 hours.</p>
+                <p style={{ color:'var(--text-secondary)' }}>Thank you for reaching out. Our team will get back to you within 24 hours — please check your email for our catalogue.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:'1.2rem' }}>
