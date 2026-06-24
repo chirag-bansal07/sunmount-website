@@ -12,17 +12,22 @@ const STATS = [
 const Hero = () => (
   <section style={{ position:'relative', height:'100vh', minHeight:600, overflow:'hidden' }}>
 
-    {/* ── FACTORY BACKGROUND ── */}
-    <img
-      src="/factory.png"
-      alt="SunMount Factory"
-      style={{
-        position:'absolute', inset:0,
-        width:'100%', height:'100%',
-        objectFit:'cover', objectPosition:'50% 35%',
-        zIndex:0,
-      }}
-    />
+    {/* ── FACTORY BACKGROUND (LCP image — WebP w/ PNG fallback, high priority) ── */}
+    <picture>
+      <source srcSet="/factory.webp" type="image/webp" />
+      <img
+        src="/factory.png"
+        alt="SunMount solar mounting structures manufacturing facility"
+        fetchPriority="high"
+        decoding="async"
+        style={{
+          position:'absolute', inset:0,
+          width:'100%', height:'100%',
+          objectFit:'cover', objectPosition:'50% 35%',
+          zIndex:0,
+        }}
+      />
+    </picture>
 
     {/* ── GRADIENT OVERLAYS ── */}
     {/* Left-side dark for text legibility */}

@@ -5,6 +5,7 @@ import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp55, SeamClamp100Pro, 
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import useSeo from '../hooks/useSeo'
 
 /* ─────────────────────────────────────────────────────────────────
    PRODUCT + VARIANT DATA
@@ -675,6 +676,11 @@ function VariantSlider({ variants, selectedId, onSelect }) {
 const VALID_IDS = PRODUCTS.map(p => p.id)
 
 export default function Products() {
+  useSeo({
+    title: 'Solar Mounting Systems & Products | Mono · Mini · Long Rail · Standing Seam · FRP Walkway — SunMount',
+    description: 'Explore SunMount\'s full range of solar mounting systems with interactive 3D models — Mono Rail, Mini Rail, Long Rail, Standing Seam clamps and FRP Walkway. ISO 9001 & TÜV SÜD certified, rated to 200 km/h.',
+    path: '/products',
+  })
   const { hash }  = useLocation()
   const hashId    = hash.replace('#', '')
   const initId    = VALID_IDS.includes(hashId) ? hashId : 'mono'

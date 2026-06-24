@@ -5,6 +5,7 @@ import Offers from '../sections/Offers'
 import Testimonials from '../sections/Testimonials'
 import Team from '../sections/Team'
 import useInView from '../hooks/useInView'
+import useSeo from '../hooks/useSeo'
 
 // Heavy 3D section — split into its own chunk AND only downloaded once the
 // visitor scrolls near it. Keeps the Hero (LCP) fast and saves the Three.js
@@ -25,7 +26,13 @@ function DeferredProducts() {
   )
 }
 
-const Home = () => (
+const Home = () => {
+  useSeo({
+    title: "SunMount® | Solar Mounting Structures | India's Premium Manufacturer",
+    description: "India's indigenous solar PV mounting manufacturer. ISO 9001 & TÜV SÜD certified Mono, Mini, Long Rail, Standing Seam & FRP Walkway systems engineered for 200 km/h wind loads.",
+    path: '/',
+  })
+  return (
   <main>
     <Hero />
     <DeferredProducts />
@@ -34,6 +41,7 @@ const Home = () => (
     <Testimonials />
     <Team />
   </main>
-)
+  )
+}
 
 export default Home

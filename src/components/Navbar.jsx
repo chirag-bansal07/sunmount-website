@@ -54,16 +54,20 @@ const Navbar = () => {
         }}>
 
           {/* ── SUNMOUNT LOGO — far left ── */}
-          <Link to="/" style={{ display:'flex', alignItems:'center', flexShrink:0 }}>
-            <img
-              src="/logo.png"
-              alt="SunMount Solar Mounting Solutions"
-              style={{
-                height: logoH,
-                width: 'auto',
-                transition: 'height 0.4s cubic-bezier(0.16,1,0.3,1)',
-              }}
-            />
+          <Link to="/" style={{ display:'flex', alignItems:'center', flexShrink:0 }} aria-label="SunMount — home">
+            <picture>
+              <source srcSet="/logo.webp" type="image/webp" />
+              <img
+                src="/logo.png"
+                alt="SunMount Solar Mounting Solutions logo"
+                width="180" height="60"
+                style={{
+                  height: logoH,
+                  width: 'auto',
+                  transition: 'height 0.4s cubic-bezier(0.16,1,0.3,1)',
+                }}
+              />
+            </picture>
           </Link>
 
           {/* ── DESKTOP NAV — centred ── */}

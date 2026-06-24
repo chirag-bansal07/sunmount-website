@@ -60,16 +60,21 @@ const Team = () => {
               overflow:'hidden', position:'relative',
               border:'1px solid var(--border-subtle)',
             }}>
-              <img
-                src="/team-expo.jpg"
-                alt="SunMount Team at Solar Exhibition"
-                style={{
-                  width:'100%', height:'100%',
-                  objectFit:'cover', objectPosition:'center 30%',
-                  display:'block',
-                  filter:'brightness(0.82) saturate(0.9)',
-                }}
-              />
+              <picture>
+                <source srcSet="/team-expo.webp" type="image/webp" />
+                <img
+                  src="/team-expo.jpg"
+                  alt="SunMount team at a solar energy exhibition"
+                  loading="lazy"
+                  decoding="async"
+                  style={{
+                    width:'100%', height:'100%',
+                    objectFit:'cover', objectPosition:'center 30%',
+                    display:'block',
+                    filter:'brightness(0.82) saturate(0.9)',
+                  }}
+                />
+              </picture>
               <div style={{
                 position:'absolute', inset:0,
                 background:'linear-gradient(180deg, transparent 50%, rgba(6,9,18,0.75) 100%)',
@@ -103,7 +108,9 @@ const Team = () => {
                 }}>
                   <img
                     src="/director.jpg"
-                    alt="Vikas Bansal"
+                    alt="Vikas Bansal — Director, Sunmount Solutions"
+                    loading="lazy"
+                    decoding="async"
                     style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 10%', display:'block', transform:'scale(1.08)', transformOrigin:'center 10%' }}
                   />
                 </div>
