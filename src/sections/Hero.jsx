@@ -14,7 +14,11 @@ const Hero = () => (
 
     {/* ── FACTORY BACKGROUND (LCP image — WebP w/ PNG fallback, high priority) ── */}
     <picture>
-      <source srcSet="/factory.webp" type="image/webp" />
+      <source
+        type="image/webp"
+        srcSet="/factory-640.webp 640w, /factory-960.webp 960w, /factory-1280.webp 1280w, /factory-1600.webp 1600w"
+        sizes="100vw"
+      />
       <img
         src="/factory.png"
         alt="SunMount solar mounting structures manufacturing facility"

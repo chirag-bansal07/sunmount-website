@@ -30,8 +30,10 @@
     <meta name="twitter:description" content="India's indigenous solar PV mounting manufacturer — ISO 9001 &amp; TÜV SÜD certified." />
     <meta name="twitter:image" content="https://www.sunmount.in/logo.png" />
 
-    <!-- Preload the hero (LCP) image -->
-    <link rel="preload" as="image" href="/factory.webp" fetchpriority="high" />
+    <!-- Preload the hero (LCP) image — responsive, so phones fetch a small one -->
+    <link rel="preload" as="image" href="/factory-1280.webp"
+          imagesrcset="/factory-640.webp 640w, /factory-960.webp 960w, /factory-1280.webp 1280w, /factory-1600.webp 1600w"
+          imagesizes="100vw" fetchpriority="high" />
 
     <!-- Fonts: preconnect + non-render-blocking stylesheet (swap) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

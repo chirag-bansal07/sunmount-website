@@ -20,10 +20,10 @@ const Footer = () => (
           {/* Badge grid — 2 × 2 */}
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem', alignItems:'center', marginTop:'0.5rem', maxWidth:220 }}>
             {[
-              { src:'/badge-makeindia.png', alt:'Make in India', h: 90 },
-              { src:'/badge-iso.png',       alt:'ISO 9001',      h: 80 },
-              { src:'/badge-tuv.png',       alt:'TÜV SÜD',      h: 80 },
-              { src:'/badge-msme.png',      alt:'MSME',          h: 90 },
+              { src:'/badge-makeindia.webp', alt:'Make in India', h: 90 },
+              { src:'/badge-iso.webp',       alt:'ISO 9001',      h: 80 },
+              { src:'/badge-tuv.webp',       alt:'TÜV SÜD',      h: 80 },
+              { src:'/badge-msme.webp',      alt:'MSME',          h: 90 },
             ].map(({ src, alt, h }) => (
               <div key={alt} style={{ display:'flex', justifyContent:'center', alignItems:'center' }}>
                 <img src={src} alt={alt} loading="lazy" decoding="async"
