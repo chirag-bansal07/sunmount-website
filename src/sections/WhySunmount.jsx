@@ -173,7 +173,7 @@ const WhySunmount = () => {
             </p>
             <div style={{ marginTop:'2rem', display:'flex', gap:'0.5rem' }}>
               {PILLARS.map(p => (
-                <button key={p.id} onClick={() => setActive(p.id)} style={{
+                <button key={p.id} onClick={() => setActive(p.id)} aria-label={`View ${p.label}`} style={{
                   width: p.id === active ? 32 : 8, height:4,
                   background: p.id === active ? 'var(--sun-orange)' : 'var(--aluminum-edge)',
                   transition:'all 0.4s', cursor:'pointer', border:'none',

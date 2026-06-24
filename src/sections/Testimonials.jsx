@@ -107,7 +107,7 @@ const Testimonials = () => {
           {/* Navigation controls */}
           <div style={{ display:'flex', justifyContent:'center', alignItems:'center', gap:'1.5rem', marginTop:'2rem' }}>
             {/* Prev button */}
-            <button onClick={prev} style={{
+            <button onClick={prev} aria-label="Previous testimonial" style={{
               width:44, height:44, borderRadius:'50%',
               background:'var(--bg-elevated)', border:'1px solid var(--border-subtle)',
               color:'var(--text-secondary)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center',
@@ -124,7 +124,7 @@ const Testimonials = () => {
             {/* Dot indicators */}
             <div style={{ display:'flex', gap:'0.45rem' }}>
               {REVIEWS.map((_, i) => (
-                <button key={i} onClick={() => setActive(i)} style={{
+                <button key={i} onClick={() => setActive(i)} aria-label={`Go to testimonial ${i + 1}`} style={{
                   width: i === active ? 28 : 8, height:4,
                   background: i === active ? 'var(--sun-orange)' : 'var(--aluminum-edge)',
                   transition:'all 0.4s', cursor:'pointer', border:'none',
@@ -133,7 +133,7 @@ const Testimonials = () => {
             </div>
 
             {/* Next button */}
-            <button onClick={next} style={{
+            <button onClick={next} aria-label="Next testimonial" style={{
               width:44, height:44, borderRadius:'50%',
               background:'var(--bg-elevated)', border:'1px solid var(--border-subtle)',
               color:'var(--text-secondary)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center',

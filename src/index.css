@@ -27,7 +27,7 @@
   /* Text */
   --text-primary:   #F4F6FB;
   --text-secondary: #A8B3C7;
-  --text-muted:     #6B7691;
+  --text-muted:     #8B95AD;
 
   /* Borders */
   --border-subtle: rgba(201,212,224,0.08);
@@ -55,11 +55,11 @@ img,svg{display:block;max-width:100%}
 .container{max-width:1280px;margin:0 auto;padding:0 2rem}
 
 .section-label{
-  font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:500;
-  text-transform:uppercase;letter-spacing:0.25em;color:var(--sun-orange);
+  font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.25em;color:#E8923A;
   margin-bottom:1rem;display:inline-flex;align-items:center;gap:0.6rem;
 }
-.section-label::before{content:'';width:24px;height:1px;background:var(--sun-orange)}
+.section-label::before{content:'';width:24px;height:1px;background:#E8923A}
 
 .gradient-text{background:var(--gradient-sun);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 

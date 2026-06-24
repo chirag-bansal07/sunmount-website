@@ -139,7 +139,7 @@ const Hero = () => (
                 color:'var(--sun-orange)', lineHeight:1, marginBottom:'0.25rem',
               }}>{s.value}</div>
               <div style={{
-                fontSize:'0.72rem', color:'rgba(255,255,255,0.5)',
+                fontSize:'0.72rem', color:'rgba(255,255,255,0.75)',
                 letterSpacing:'0.08em', textTransform:'uppercase', fontFamily:'JetBrains Mono',
               }}>{s.label}</div>
             </div>
