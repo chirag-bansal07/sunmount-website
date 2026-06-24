@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { ArrowRightIcon } from '../components/icons'
 import { motion } from 'framer-motion'
+import useSeo from '../hooks/useSeo'
 
 const FIELDS = [
   { name: 'name',    label: 'Full Name',              type: 'text',  placeholder: 'Your Name' },
@@ -20,6 +21,11 @@ const REQUIREMENTS = [
 const fadeUp = { hidden:{opacity:0,y:28}, show:{opacity:1,y:0,transition:{duration:0.7,ease:[0.16,1,0.3,1]}} }
 
 const Contact = () => {
+  useSeo({
+    title: 'Contact SunMount | Request a Solar Mounting Quote',
+    description: 'Get in touch with Sunmount Solutions for solar mounting structures. Request a quote, share your project requirement and site layout — our team responds within 24 hours.',
+    path: '/contact',
+  })
   const [form, setForm]       = useState({ name:'', company:'', email:'', phone:'', requirement:'', message:'' })
   const [status, setStatus]   = useState('idle') // idle | loading | sent | error
   const [errorMsg, setErrorMsg] = useState('')

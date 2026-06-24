@@ -7,7 +7,10 @@ const Footer = () => (
 
         {/* Brand col — real logo */}
         <div>
-          <img src="/logo.png" alt="SunMount" style={{ height:52, width:'auto', marginBottom:'1rem', filter:'drop-shadow(0 0 8px rgba(224,85,64,0.2))' }} />
+          <picture>
+            <source srcSet="/logo.webp" type="image/webp" />
+            <img src="/logo.png" alt="SunMount Solutions logo" loading="lazy" decoding="async" style={{ height:52, width:'auto', marginBottom:'1rem', filter:'drop-shadow(0 0 8px rgba(224,85,64,0.2))' }} />
+          </picture>
           <p style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.15em', color:'var(--sun-orange)', marginBottom:'1.2rem', textTransform:'uppercase' }}>
             Quality · Stability · Infinity
           </p>
@@ -23,7 +26,7 @@ const Footer = () => (
               { src:'/badge-msme.png',      alt:'MSME',          h: 90 },
             ].map(({ src, alt, h }) => (
               <div key={alt} style={{ display:'flex', justifyContent:'center', alignItems:'center' }}>
-                <img src={src} alt={alt}
+                <img src={src} alt={alt} loading="lazy" decoding="async"
                   style={{ height: h, width:'auto', objectFit:'contain', display:'block' }} />
               </div>
             ))}
