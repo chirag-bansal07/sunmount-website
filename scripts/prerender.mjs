@@ -15,7 +15,14 @@ const ssrDir = path.join(root, 'dist-ssr')
 const { render, ROUTES, NOT_FOUND, SITE_URL, DEFAULT_OG_IMAGE } =
   await import(pathToFileURL(path.join(ssrDir, 'entry-server.js')).href)
 
-const template = await readFile(path.join(dist, 'index.html'), 'utf8')
+let template = await readFile(path.join(dist, 'index.html'), 'utf8')
+
+// Inline the (tiny) app stylesheet so it no longer blocks first paint.
+const cssLink = template.match(/<link rel="stylesheet"[^>]*href="(\/assets\/[^"]+\.css)"[^>]*>/)
+if (cssLink) {
+  const css = await readFile(path.join(dist, cssLink[1]), 'utf8')
+  if (css.length < 20000) template = template.replace(cssLink[0], () => `<style>${css}</style>`)
+}
 const SEO_BLOCK = /<!-- seo:start -->[\s\S]*?<!-- seo:end -->/
 if (!SEO_BLOCK.test(template) || !template.includes('<div id="root"></div>')) {
   throw new Error('prerender: index.html is missing the seo markers or the empty #root')

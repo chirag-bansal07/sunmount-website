@@ -156,7 +156,7 @@ function ProductView({ product, meta }) {
           <div>
             <h2 style={{ fontSize: 'clamp(1.4rem, 3vw, 2rem)', marginBottom: '0.5rem' }}>Get a quote for your roof</h2>
             <p style={{ color: 'var(--text-secondary)' }}>
-              Share your roof type and project size. Call <a href="tel:+917837999222" style={{ color: 'var(--sun-orange)' }}>+91 78379 99222</a> or send an enquiry.
+              Share your roof type and project size. Call <a href="tel:+917837999222" style={{ color: 'var(--sun-orange)', textDecoration: 'underline', textUnderlineOffset: 3 }}>+91 78379 99222</a> or send an enquiry.
             </p>
           </div>
           <Link to="/contact" className="btn-primary">Send an Enquiry <ArrowRightIcon /></Link>

@@ -320,7 +320,7 @@ export default function Products() {
                         <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.75rem', color:'var(--sun-orange)', lineHeight:1, userSelect:'none' }}>+</span>
                         <div style={{ height:140, display:'flex', alignItems:'center', justifyContent:'center', width:20 }}>
                           <input
-                            type="range" min={2} max={7} step={0.05}
+                            type="range" min={2} max={7} step={0.05} aria-label="Zoom 3D model"
                             value={9 - zoom}
                             onChange={e => setZoom(9 - parseFloat(e.target.value))}
                             style={{ transform:'rotate(-90deg)', width:140, cursor:'pointer', accentColor:'#E05540', margin:0 }}
