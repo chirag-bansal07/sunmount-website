@@ -4,10 +4,10 @@ import { motion } from 'framer-motion'
 import useSeo from '../hooks/useSeo'
 
 const FIELDS = [
-  { name: 'name',    label: 'Full Name',              type: 'text',  placeholder: 'Your Name' },
-  { name: 'company', label: 'Company / Organization', type: 'text',  placeholder: 'Solar EPC Ltd.' },
-  { name: 'email',   label: 'Email Address',          type: 'email', placeholder: 'sample@gmail.com' },
-  { name: 'phone',   label: 'Phone Number',           type: 'tel',   placeholder: '9999999999' },
+  { name: 'name',    label: 'Full Name',              type: 'text',  placeholder: 'Your Name',        required: true,  autoComplete: 'name' },
+  { name: 'company', label: 'Company / Organization (optional)', type: 'text', placeholder: 'Solar EPC Ltd.', required: false, autoComplete: 'organization' },
+  { name: 'email',   label: 'Email Address',          type: 'email', placeholder: 'sample@gmail.com', required: true,  autoComplete: 'email' },
+  { name: 'phone',   label: 'Phone Number',           type: 'tel',   placeholder: '9999999999',       required: true,  autoComplete: 'tel' },
 ]
 
 const REQUIREMENTS = [
@@ -15,14 +15,17 @@ const REQUIREMENTS = [
   { value: 'mini',   label: 'Mini Rail System' },
   { value: 'long',   label: 'Long Rail System' },
   { value: 'seam',   label: 'Standing Seam System' },
+  { value: 'inclined', label: 'Inclined System' },
+  { value: 'frp',    label: 'FRP Walkway' },
   { value: 'other',  label: 'Other / General Consultation' },
 ]
 
-const fadeUp = { hidden:{opacity:0,y:28}, show:{opacity:1,y:0,transition:{duration:0.7,ease:[0.16,1,0.3,1]}} }
+// Above the fold: slide only, never opacity 0, so the H1 (LCP) paints from the prerendered HTML
+const fadeUp = { hidden:{y:28}, show:{y:0,transition:{duration:0.7,ease:[0.16,1,0.3,1]}} }
 
 const Contact = () => {
   useSeo('/contact')
-  const [form, setForm]       = useState({ name:'', company:'', email:'', phone:'', requirement:'', message:'' })
+  const [form, setForm]       = useState({ name:'', company:'', email:'', phone:'', requirement:'', message:'', botcheck:false })
   const [status, setStatus]   = useState('idle') // idle | loading | sent | error
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -39,8 +42,8 @@ const Contact = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          access_key: 'ce080276-f9f7-4b7d-a791-f2553f5da3ee',
-          botcheck: false,
+          access_key: import.meta.env.VITE_WEB3FORMS_KEY || 'ce080276-f9f7-4b7d-a791-f2553f5da3ee',
+          botcheck: form.botcheck, // honeypot — Web3Forms rejects the submission if a bot ticks it
           subject: `New Enquiry from ${form.name} — ${requirementLabel}`,
           from_name: form.name,
           email: form.email,
@@ -89,9 +92,14 @@ const Contact = () => {
         <div className="container">
           <motion.div variants={fadeUp} initial="hidden" animate="show">
             <div className="section-label">CONTACT US</div>
-            <h1 style={{ fontSize:'clamp(2.5rem, 6vw, 5rem)', maxWidth:700 }}>
-              Let's Build Something<br /><span className="gradient-text">Great Together.</span>
+            <h1 style={{ fontSize:'clamp(2.5rem, 6vw, 5rem)', maxWidth:760 }}>
+              Request a Solar Mounting<br /><span className="gradient-text">Structure Quote.</span>
             </h1>
+            <p style={{ color:'var(--text-secondary)', fontSize:'1.02rem', lineHeight:1.75, maxWidth:640, marginTop:'1.2rem' }}>
+              Tell us your roof type, system size in kW and site location. Our engineers recommend the right
+              Mono Rail, Mini Rail, Long Rail, Standing Seam or Inclined system and reply within 24 hours
+              with a quote and the product catalogue.
+            </p>
           </motion.div>
         </div>
       </div>
@@ -104,15 +112,20 @@ const Contact = () => {
             {status === 'sent' ? (
               <div style={{ padding:'3rem', background:'var(--bg-elevated)', border:'1px solid var(--border-accent)', textAlign:'center' }}>
                 <div style={{ fontSize:'3rem', marginBottom:'1rem', color:'var(--sun-orange)' }}>✓</div>
-                <h3 style={{ fontSize:'1.6rem', marginBottom:'0.8rem', color:'var(--sun-orange)' }}>Message Sent!</h3>
+                <h2 role="status" style={{ fontSize:'1.6rem', marginBottom:'0.8rem', color:'var(--sun-orange)' }}>Message Sent!</h2>
                 <p style={{ color:'var(--text-secondary)' }}>Thank you for reaching out. Our team will get back to you within 24 hours — please check your email for our catalogue.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:'1.2rem' }}>
-                {FIELDS.map(({ name, label, type, placeholder }) => (
+                {/* Honeypot: hidden from people and assistive tech, bots tend to fill it */}
+                <input type="checkbox" name="botcheck" tabIndex={-1} aria-hidden="true" autoComplete="off"
+                  checked={form.botcheck} onChange={e => setForm(p => ({ ...p, botcheck: e.target.checked }))}
+                  style={{ position:'absolute', left:'-9999px', width:1, height:1, opacity:0 }} />
+                {FIELDS.map(({ name, label, type, placeholder, required, autoComplete }) => (
                   <div key={name}>
-                    <label style={{ display:'block', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }}>{label}</label>
-                    <input name={name} type={type} placeholder={placeholder} value={form[name]} onChange={handleChange} required
+                    <label htmlFor={`contact-${name}`} style={{ display:'block', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }}>{label}</label>
+                    <input id={`contact-${name}`} name={name} type={type} placeholder={placeholder} value={form[name]} onChange={handleChange}
+                      required={required} autoComplete={autoComplete} {...(type === 'tel' ? { inputMode: 'tel', pattern: '[+0-9 ()-]{7,20}', title: 'Phone number, digits only (e.g. 9876543210 or +91 98765 43210)' } : {})}
                       style={inputStyle}
                       onFocus={e => e.target.style.borderColor='var(--sun-orange)'}
                       onBlur={e => e.target.style.borderColor='var(--border-subtle)'} />
@@ -120,8 +133,8 @@ const Contact = () => {
                 ))}
 
                 <div>
-                  <label style={{ display:'block', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }}>Product Requirement</label>
-                  <select name="requirement" value={form.requirement} onChange={handleChange}
+                  <label style={{ display:'block', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }} htmlFor="contact-requirement">Product Requirement</label>
+                  <select id="contact-requirement" name="requirement" value={form.requirement} onChange={handleChange}
                     style={{ ...inputStyle, cursor:'pointer' }}
                     onFocus={e => e.target.style.borderColor='var(--sun-orange)'}
                     onBlur={e => e.target.style.borderColor='var(--border-subtle)'}>
@@ -133,8 +146,8 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label style={{ display:'block', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }}>Message / Project Details</label>
-                  <textarea name="message" rows={5} placeholder="Describe your project — roof type, number of panels, location..."
+                  <label style={{ display:'block', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }} htmlFor="contact-message">Message / Project Details</label>
+                  <textarea id="contact-message" name="message" rows={5} placeholder="Describe your project — roof type, number of panels, location..."
                     value={form.message} onChange={handleChange}
                     style={{ ...inputStyle, resize:'vertical', minHeight:130 }}
                     onFocus={e => e.target.style.borderColor='var(--sun-orange)'}
@@ -161,20 +174,24 @@ const Contact = () => {
             style={{ display:'flex', flexDirection:'column', gap:'1.5rem' }}>
             {[
               { label:'HEADQUARTERS', lines:['Sunmount Solutions Private Limited','Surya Koti, Bajekan-Sirsa Main Road','Sirsa, Haryana 125055'] },
-              { label:'PHONE',        lines:['+91 7837 999 222', '+91 8531 999 222'] },
-              { label:'EMAIL',        lines:['sales@sunmount.in'] },
+              { label:'PHONE',        lines:[{ text:'+91 7837 999 222', href:'tel:+917837999222' }, { text:'+91 8531 999 222', href:'tel:+918531999222' }] },
+              { label:'EMAIL',        lines:[{ text:'sales@sunmount.in', href:'mailto:sales@sunmount.in' }] },
               { label:'SUPPLY COVERAGE', lines:['Pan India','International — All Over World'] },
             ].map((item, i) => (
               <div key={i} style={{ padding:'1.8rem', background:'var(--bg-elevated)', border:'1px solid var(--border-subtle)', borderLeft:'2px solid var(--sun-orange)' }}>
                 <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.65rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.6rem' }}>// {item.label}</div>
-                {item.lines.map((line, j) => <div key={j} style={{ fontSize:'0.95rem', color:'var(--text-primary)', lineHeight:1.6 }}>{line}</div>)}
+                {item.lines.map((line, j) => (
+                  <div key={j} style={{ fontSize:'0.95rem', color:'var(--text-primary)', lineHeight:1.6 }}>
+                    {line.href ? <a href={line.href} style={{ color:'var(--text-primary)', textDecoration:'underline', textDecorationColor:'var(--border-accent)', textUnderlineOffset:3 }}>{line.text}</a> : line}
+                  </div>
+                ))}
               </div>
             ))}
             <div style={{ padding:'1.8rem', background:'var(--bg-elevated)', border:'1px solid var(--border-subtle)' }}>
               <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.65rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', marginBottom:'1rem' }}>// CERTIFICATIONS</div>
               <div style={{ display:'flex', gap:'0.75rem', flexWrap:'wrap' }}>
                 {['ISO Certified','TÜV Certified','MSME Registered','Made in India'].map(c => (
-                  <span key={c} style={{ padding:'0.3rem 0.75rem', background:'rgba(255,107,26,0.08)', border:'1px solid var(--border-accent)', fontFamily:'JetBrains Mono', fontSize:'0.65rem', letterSpacing:'0.1em', color:'var(--sun-orange)', textTransform:'uppercase' }}>{c}</span>
+                  <span key={c} style={{ padding:'0.3rem 0.75rem', background:'rgba(255,107,26,0.08)', border:'1px solid var(--border-accent)', fontFamily:'JetBrains Mono', fontSize:'0.65rem', letterSpacing:'0.1em', color:'var(--sun-orange-bright)', textTransform:'uppercase' }}>{c}</span>
                 ))}
               </div>
             </div>

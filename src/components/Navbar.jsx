@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const BADGES = [
-  { src: '/badge-makeindia.webp', alt: 'Make in India',      title: 'Made in India',      extraH: 0  },
-  { src: '/badge-iso.webp',       alt: 'ISO 9001 Certified', title: 'ISO 9001 Certified', extraH: 0  },
-  { src: '/badge-tuv.webp',       alt: 'TÜV SÜD Certified', title: 'TÜV SÜD Certified',  extraH: 0  },
-  { src: '/badge-msme.webp',      alt: 'MSME Registered',    title: 'MSME Registered',    extraH: 0  },
+  { src: '/badge-makeindia.webp', alt: 'Make in India',      title: 'Made in India',      extraH: 0, w: 200, h: 91  },
+  { src: '/badge-iso.webp',       alt: 'ISO 9001 Certified', title: 'ISO 9001 Certified', extraH: 0, w: 200, h: 200 },
+  { src: '/badge-tuv.webp',       alt: 'TÜV SÜD Certified', title: 'TÜV SÜD Certified',  extraH: 0, w: 200, h: 200 },
+  { src: '/badge-msme.webp',      alt: 'MSME Registered',    title: 'MSME Registered',    extraH: 0, w: 180, h: 88  },
 ]
 
 const NAV_LINKS = [
@@ -19,12 +19,26 @@ const NAV_LINKS = [
 
 const Navbar = () => {
   const [scrolled,  setScrolled]  = useState(false)
-  const [menuOpen,  setMenuOpen]  = useState(false)
   const location                  = useLocation()
+  // The menu is "open at" a location entry, so any navigation closes it.
+  const [openAt,    setOpenAt]    = useState(null)
+  const menuOpen                  = openAt === location.key
+  const setMenuOpen               = open => setOpenAt(open ? location.key : null)
+  const toggleRef                 = useRef(null)
+
+  // Escape closes the mobile menu and returns focus to the toggle
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKey = e => {
+      if (e.key === 'Escape') { setOpenAt(null); toggleRef.current?.focus() }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [menuOpen])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', onScroll)
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -60,7 +74,7 @@ const Navbar = () => {
               <img
                 src="/logo.png"
                 alt="SunMount Solar Mounting Solutions logo"
-                width="180" height="60"
+                width="600" height="150"
                 style={{
                   height: logoH,
                   width: 'auto',
@@ -112,12 +126,13 @@ const Navbar = () => {
             className="trust-badges"
             style={{ display:'flex', gap:'1.4rem', alignItems:'center', flexShrink:0 }}
           >
-            {BADGES.map(({ src, alt, title, extraH }) => (
+            {BADGES.map(({ src, alt, title, extraH, w, h }) => (
               <img
                 key={alt}
                 src={src}
                 alt={alt}
                 title={title}
+                width={w} height={h}
                 style={{
                   height: badgeH + extraH,
                   width: 'auto',
@@ -134,9 +149,13 @@ const Navbar = () => {
 
           {/* ── MOBILE TOGGLE ── */}
           <button
+            ref={toggleRef}
+            type="button"
             className="mobile-toggle"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
             style={{
               display: 'none', flexDirection: 'column', justifyContent: 'center',
               gap: 5, width: 32, height: 32, background: 'none', border: 'none', cursor: 'pointer',
@@ -158,7 +177,7 @@ const Navbar = () => {
 
         {/* ── MOBILE MENU ── */}
         {menuOpen && (
-          <div style={{
+          <div id="mobile-menu" style={{
             position: 'absolute', top: '100%', left: 0, right: 0,
             background: 'rgba(6,9,18,0.98)', backdropFilter: 'blur(20px)',
             padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.2rem',

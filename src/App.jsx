@@ -2,8 +2,10 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { useEffect, lazy, Suspense } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
+import { MotionConfig } from 'framer-motion'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import WhatsAppButton from './components/WhatsAppButton'
 import Home from './pages/Home'
 import './index.css'
 
@@ -11,6 +13,7 @@ import './index.css'
 // other routes out of the initial bundle for a fast first load.
 const Contact  = lazy(() => import('./pages/Contact'))
 const Products = lazy(() => import('./pages/Products'))
+const ProductDetail = lazy(() => import('./pages/ProductDetail'))
 const Careers  = lazy(() => import('./pages/Careers'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
@@ -43,21 +46,27 @@ function ScrollHandler() {
 // Router-agnostic shell — wrapped in BrowserRouter here and in StaticRouter by
 // src/entry-server.jsx, which prerenders every route at build time.
 export function AppShell() {
+  // reducedMotion="user": framer-motion skips transform animations when the OS asks for less motion
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <ScrollHandler />
+      <a href="#main-content" className="skip-link">Skip to content</a>
       <Navbar />
+      <div id="main-content" tabIndex={-1}>
       <Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/products/:slug" element={<ProductDetail />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
+      </div>
       <Footer />
-    </>
+      <WhatsAppButton />
+    </MotionConfig>
   )
 }
 

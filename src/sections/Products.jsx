@@ -1,17 +1,12 @@
-import { useState, useRef, Suspense } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp70T1, InclinedRail, InclinedSystem, FrpWalkway } from '../three/RailModels'
+import { useState } from 'react'
+import Model3D from '../components/Model3D'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import useInView from '../hooks/useInView'
 
 const fadeUp  = { hidden:{opacity:0,y:30}, show:{opacity:1,y:0,transition:{duration:0.7,ease:[0.16,1,0.3,1]}} }
 const stagger = { hidden:{},              show:{transition:{staggerChildren:0.11}} }
 
-/* FRP walkway shown slightly smaller so the long panel fits the card neatly */
-const FrpWalkwayHome = (p) => <FrpWalkway size={2.1} {...p} />
 
 const PRODUCTS = [
   {
@@ -32,7 +27,8 @@ const PRODUCTS = [
       'Easy installation & maintenance',
       'Compatible with all PV modules',
     ],
-    Component: MonoRail,
+    model: 'MonoRail',
+    slug: 'mono-rail',
   },
   {
     id: 'mini',
@@ -52,7 +48,8 @@ const PRODUCTS = [
       'Roof clearance of 100 mm',
       'Cost-effective solution',
     ],
-    Component: MiniRail,
+    model: 'MiniRail',
+    slug: 'mini-rail',
   },
   {
     id: 'long',
@@ -72,7 +69,8 @@ const PRODUCTS = [
       'Suitable for asbestos roofs',
       'Universal for any roof crest',
     ],
-    Component: LongRail,
+    model: 'LongRail',
+    slug: 'long-rail',
   },
   {
     id: 'seam',
@@ -92,7 +90,8 @@ const PRODUCTS = [
       'Suitable for all standing seam profiles',
       'Compatible with all PV modules',
     ],
-    Component: SeamClamp70T1,
+    model: 'SeamClamp70T1',
+    slug: 'standing-seam',
   },
   {
     id: 'inclined',
@@ -112,7 +111,8 @@ const PRODUCTS = [
       'Works on metal & asbestos roofs',
       'Adjustable angle 5° to 20°',
     ],
-    Component: InclinedSystem,
+    model: 'InclinedSystem',
+    slug: 'inclined',
   },
   {
     id: 'frp',
@@ -132,7 +132,10 @@ const PRODUCTS = [
       'UV-stabilised, zero colour fade',
       'Lightweight & high-visibility yellow',
     ],
-    Component: FrpWalkwayHome,
+    model: 'FrpWalkway',
+    // shown slightly smaller so the long panel fits the card neatly
+    modelProps: { size: 2.1 },
+    slug: 'frp-walkway',
   },
 ]
 
@@ -155,66 +158,6 @@ function Corner({ pos, active }) {
     }} />
   )
 }
-
-/* 3D spinning model viewer — works with real GLB models */
-function SpinModel({ Component, hover }) {
-  const ref = useRef()
-  useFrame((_, dt) => {
-    if (!ref.current) return
-    if (hover) {
-      // Snap to nearest full turn of the target so we never spin backwards
-      const y = ref.current.rotation.y
-      const x = ref.current.rotation.x
-      const tY = -0.65 + Math.round((y + 0.65) / (Math.PI * 2)) * Math.PI * 2
-      const tX = -0.28 + Math.round((x + 0.28) / (Math.PI * 2)) * Math.PI * 2
-      ref.current.rotation.y += (tY - y) * 0.10
-      ref.current.rotation.x += (tX - x) * 0.10
-    } else {
-      ref.current.rotation.y += dt * 0.55
-      ref.current.rotation.x += (0.18 - ref.current.rotation.x) * 0.05
-    }
-  })
-  return (
-    <group ref={ref}>
-      <Component />
-    </group>
-  )
-}
-
-function RailCanvas({ Component, hover }) {
-  return (
-    <Canvas dpr={[1,1.5]} gl={{ antialias:true, alpha:true, powerPreference:'low-power' }}>
-      <PerspectiveCamera makeDefault position={[0, 0, 4]} fov={40} />
-      <ambientLight intensity={0.6} />
-      <directionalLight position={[4,4,2]} intensity={2.0} color="#FBB034" />
-      <directionalLight position={[-3,1,-2]} intensity={0.7} color="#6090d4" />
-      <directionalLight position={[0,3,-4]} intensity={0.5} color="#ffffff" />
-      <Suspense fallback={null}>
-        <SpinModel Component={Component} hover={hover} />
-        <Environment preset="sunset" />
-      </Suspense>
-      <ContactShadows position={[0,-0.8,0]} opacity={0.40} scale={6} blur={2.5} far={3} />
-    </Canvas>
-  )
-}
-
-/* Mounts the WebGL canvas only while the card is on screen — keeps mobile
-   from running 5 live 3D contexts at once. Shows a light placeholder otherwise. */
-function LazyRailCanvas({ Component, hover }) {
-  const [ref, inView] = useInView({ rootMargin: '250px' })
-  return (
-    <div ref={ref} style={{ width:'100%', height:'100%' }}>
-      {inView ? (
-        <RailCanvas Component={Component} hover={hover} />
-      ) : (
-        <div style={{ width:'100%', height:'100%', display:'flex', alignItems:'center', justifyContent:'center' }}>
-          <div style={{ width:42, height:42, borderRadius:'50%', border:'2px solid var(--border-subtle)', borderTopColor:'var(--sun-orange)', opacity:0.5 }} />
-        </div>
-      )}
-    </div>
-  )
-}
-
 
 const ProductCard = ({ product, index }) => {
   const [hover, setHover] = useState(false)
@@ -266,7 +209,7 @@ const ProductCard = ({ product, index }) => {
         background:'radial-gradient(ellipse at 50% 70%, rgba(224,85,64,0.07) 0%, transparent 70%)',
         margin:'0.5rem 0',
       }}>
-        <LazyRailCanvas Component={product.Component} hover={hover} />
+        <Model3D kind="spin" model={product.model} modelProps={product.modelProps} hover={hover} label={product.name} />
         <div style={{
           position:'absolute', bottom:'0.5rem', left:'50%', transform:'translateX(-50%)',
           display:'flex', alignItems:'center', gap:'0.4rem',
@@ -324,7 +267,7 @@ const ProductCard = ({ product, index }) => {
           )}
         </div>
 
-        <Link to={`/products#${product.id}`} style={{
+        <Link to={`/products/${product.slug}`} style={{
           display:'flex', alignItems:'center', justifyContent:'space-between', width:'100%',
           padding:'0.8rem 1rem', marginBottom:'1.2rem', marginTop:'auto',
           background: hover ? 'var(--gradient-sun)' : 'transparent',

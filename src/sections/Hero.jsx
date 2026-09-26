@@ -22,6 +22,7 @@ const Hero = () => (
       <img
         src="/factory.png"
         alt="SunMount solar mounting structures manufacturing facility"
+        width="1600" height="900"
         fetchPriority="high"
         decoding="async"
         style={{
@@ -45,7 +46,7 @@ const Hero = () => (
       background:'linear-gradient(0deg, var(--bg-base) 0%, transparent 100%)',
     }} />
 
-    {/* ── CONTENT ── */}
+    {/* ── CONTENT ── (entrance slides only, never opacity 0: the H1 is the LCP element and must paint from the prerendered HTML) */}
     <div className="container hero-container" style={{
       position:'relative', zIndex:3,
       height:'100%', display:'flex', alignItems:'center',
@@ -53,15 +54,15 @@ const Hero = () => (
       <motion.div
         className="hero-content-wrap"
         style={{ maxWidth:620, paddingTop:'5rem' }}
-        initial={{ opacity:0, y:44 }}
-        animate={{ opacity:1, y:0 }}
+        initial={{ y:44 }}
+        animate={{ y:0 }}
         transition={{ duration:1, ease:[0.16,1,0.3,1] }}
       >
 
         {/* Label */}
         <motion.div
           className="section-label" style={{ marginBottom:'1.4rem' }}
-          initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:0.2, duration:0.7 }}
+          initial={{ y:8 }} animate={{ y:0 }} transition={{ delay:0.2, duration:0.7 }}
         >
           ISO 9001 · TÜV SÜD Certified · MSME Registered
         </motion.div>
@@ -74,7 +75,7 @@ const Hero = () => (
             marginBottom:'1.6rem',
             letterSpacing:'-0.02em',
           }}
-          initial={{ opacity:0, y:24 }} animate={{ opacity:1, y:0 }}
+          initial={{ y:24 }} animate={{ y:0 }}
           transition={{ delay:0.15, duration:0.9, ease:[0.16,1,0.3,1] }}
         >
           Solar Mounting<br />
@@ -88,7 +89,7 @@ const Hero = () => (
             fontSize:'1.08rem', color:'rgba(244,246,251,0.72)',
             lineHeight:1.75, marginBottom:'2.5rem', maxWidth:500,
           }}
-          initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
+          initial={{ y:16 }} animate={{ y:0 }}
           transition={{ delay:0.3, duration:0.8, ease:[0.16,1,0.3,1] }}
         >
           India's indigenous solar PV mounting manufacturer.
@@ -99,7 +100,7 @@ const Hero = () => (
         {/* CTAs */}
         <motion.div
           style={{ display:'flex', gap:'1rem', flexWrap:'wrap' }}
-          initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
+          initial={{ y:16 }} animate={{ y:0 }}
           transition={{ delay:0.45, duration:0.8, ease:[0.16,1,0.3,1] }}
         >
           <Link to="/products" className="btn-primary" style={{ fontSize:'0.9rem', padding:'1rem 2rem' }}>
@@ -124,7 +125,7 @@ const Hero = () => (
         background:'rgba(6,9,18,0.78)', backdropFilter:'blur(16px)',
         borderTop:'1px solid rgba(255,255,255,0.07)',
       }}
-      initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
+      initial={{ y:20 }} animate={{ y:0 }}
       transition={{ delay:0.7, duration:0.8, ease:[0.16,1,0.3,1] }}
     >
       <div className="container">

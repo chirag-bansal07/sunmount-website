@@ -1,592 +1,11 @@
-import { useState, Suspense, useEffect, useRef } from 'react'
-import { Canvas, useThree } from '@react-three/fiber'
-import { Environment, PerspectiveCamera, ContactShadows, OrbitControls } from '@react-three/drei'
-import { MiniRail, MonoRail, LongRail, SeamClamp, SeamClamp55, SeamClamp100Pro, SeamClamp70T1, SeamClamp70T2, InclinedRail, InclinedSystem, ShortRail, MonoRail100, MonoRail70, MonoRail65, MonoRail100Pro, MiniRail100, MiniRail70, MiniRailShort, LongRailUltra, LongRailLite, LongRailPro, LongRailLiteEndClamp, LongRailLiteMidClamp, LongRailProEndClamp, LongRailProMidClamp, LongRailUltraEndClamp, LongRailUltraMidClamp, MonoRail100EndClamp, MonoRail100MidClamp, MonoRail100ProEndClamp, MonoRail100ProMidClamp, MonoRail70EndClamp, MonoRail70MidClamp, MonoRail65EndClamp, MonoRail65MidClamp, MiniRail100EndClamp, MiniRail100MidClamp, MiniRail70EndClamp, MiniRail70MidClamp, MiniRailShortEndClamp, MiniRailShortMidClamp, Seam55EndClamp, Seam55MidClamp, Seam100EndClamp, Seam100MidClamp, Seam70T1EndClamp, Seam70T1MidClamp, Seam70T2EndClamp, Seam70T2MidClamp, FrpWalkway } from '../three/RailModels'
+import { useState, useEffect, useRef } from 'react'
+import Model3D from '../components/Model3D'
+import { PRODUCTS, ACCESSORIES } from '../data/products'
+import { PRODUCT_INDEX } from '../data/productIndex'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import useSeo from '../hooks/useSeo'
-
-/* ─────────────────────────────────────────────────────────────────
-   PRODUCT + VARIANT DATA
-───────────────────────────────────────────────────────────────── */
-const PRODUCTS = [
-  /* ── 1. MONO RAIL ─────────────────────────────────────────────── */
-  {
-    id: 'mono',
-    name: 'Mono Rail System',
-    short: 'Portrait · Trapezoidal Roofs',
-    tag: 'PORTRAIT',
-    badge: 'Best Seller',
-    systemDesc: 'T-slot aluminium rail for portrait-orientation panels on trapezoidal metal roofs. Four variants — 100 mm, 70 mm, 65 mm and 100 mm Pro — to match any project clearance or wind-load requirement.',
-    variants: [
-      {
-        id: 'mono-100',
-        name: 'MonoRail 100mm',
-        subtitle: '100 mm Roof Clearance',
-        Component: MonoRail100,
-        assemblyModels: [{ label:'End Clamp Assembly', Component: MonoRail100EndClamp }, { label:'Mid Clamp Assembly', Component: MonoRail100MidClamp }],
-        tagline: 'Standard 100 mm clearance — maximum ventilation, the most popular choice for commercial projects.',
-        desc: 'The MonoRail 100mm provides 100 mm of clearance between the panel underside and the roof surface, ensuring excellent natural ventilation and module cooling. The precision T-slot extrusion accepts U-clamps and mid-clamps for all standard panel thicknesses. Rivet-and-EPDM tape attachment to the roof crest is the standard fixing method; a structural-adhesive option is available for non-penetrative installation.',
-        specs: [
-          { label: 'Profile Height',     value: '70 mm' },
-          { label: 'Roof Clearance',     value: '100 mm' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Orientation',        value: 'Portrait' },
-          { label: 'Attachment',         value: 'Rivet + EPDM tape / Structural adhesive' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          '100 mm clearance for maximum ventilation & cooling',
-          'Lightweight single-rail design',
-          'Optimised for any trapezoidal crest width',
-          'Portrait orientation — high module capacity',
-          'U-clamp & mid-clamp panel attachment',
-          'Compatible with all PV module brands',
-        ],
-        applications: ['Commercial rooftop', 'Industrial shed', 'Large residential', 'Warehouse'],
-      },
-      {
-        id: 'mono-70',
-        name: 'MonoRail 70mm',
-        subtitle: '70 mm Roof Clearance',
-        Component: MonoRail70,
-        assemblyModels: [{ label:'End Clamp Assembly', Component: MonoRail70EndClamp }, { label:'Mid Clamp Assembly', Component: MonoRail70MidClamp }],
-        tagline: 'Low-profile 70 mm variant — reduced wind moment, ideal for high wind-load zones.',
-        desc: 'The MonoRail 70mm uses the same T-slot profile but reduces mounting height to 70 mm above the roof crest. The lower centre of gravity reduces the wind-induced bending moment at the base fixing, making it the preferred choice for coastal or high wind-load sites. Panel attachment and material specifications are identical to the 100 mm variant.',
-        specs: [
-          { label: 'Profile Height',     value: '70 mm' },
-          { label: 'Roof Clearance',     value: '70 mm' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Orientation',        value: 'Portrait' },
-          { label: 'Attachment',         value: 'Rivet + EPDM tape / Structural adhesive' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          '70 mm clearance — reduced wind moment vs 100 mm',
-          'Lower visual profile on roof',
-          'Preferred for coastal & high wind-load zones',
-          'Portrait orientation — high module capacity',
-          'U-clamp & mid-clamp panel attachment',
-          'Compatible with all PV module brands',
-        ],
-        applications: ['Coastal installation', 'High wind zone', 'Commercial rooftop', 'Industrial shed'],
-      },
-      {
-        id: 'mono-65',
-        name: 'MonoRail 65mm',
-        subtitle: '65 mm Roof Clearance',
-        Component: MonoRail65,
-        assemblyModels: [{ label:'End Clamp Assembly', Component: MonoRail65EndClamp }, { label:'Mid Clamp Assembly', Component: MonoRail65MidClamp }],
-        tagline: 'Ultra-low 65 mm clearance — minimum profile for sites with the strictest height or wind constraints.',
-        desc: 'The MonoRail 65mm is the lowest-clearance variant in the Mono Rail range, bringing panels within 65 mm of the roof surface. This ultra-low profile delivers the smallest wind-exposed area of any mono-rail configuration, minimising uplift forces in severe wind environments. Ideal for coastal industrial rooftops and any site where height restrictions apply.',
-        specs: [
-          { label: 'Profile Height',     value: '70 mm' },
-          { label: 'Roof Clearance',     value: '65 mm' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Orientation',        value: 'Portrait' },
-          { label: 'Attachment',         value: 'Rivet + EPDM tape / Structural adhesive' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          '65 mm clearance — minimum wind-exposed profile',
-          'Lowest uplift force in the Mono Rail range',
-          'Portrait orientation — high module capacity',
-          'Ideal for height-restricted & coastal sites',
-          'U-clamp & mid-clamp panel attachment',
-          'Compatible with all PV module brands',
-        ],
-        applications: ['Coastal installation', 'High wind zone', 'Height-restricted site', 'Industrial shed'],
-      },
-      {
-        id: 'mono-100-pro',
-        name: 'MonoRail 100mm Pro',
-        subtitle: '100 mm Clearance · Heavy Duty',
-        Component: MonoRail100Pro,
-        assemblyModels: [{ label:'End Clamp Assembly', Component: MonoRail100ProEndClamp }, { label:'Mid Clamp Assembly', Component: MonoRail100ProMidClamp }],
-        tagline: 'Heavy-duty 100 mm Pro — reinforced profile for large-span purlins and premium commercial projects.',
-        desc: 'The MonoRail 100mm Pro shares the 100 mm clearance of the standard variant but uses a heavier-gauge aluminium extrusion with greater wall thickness for improved bending stiffness. This allows wider fixing spacings along the roof purlin, reducing the number of penetrations on large commercial or industrial rooftops. The Pro grade also supports heavier bifacial panel modules.',
-        specs: [
-          { label: 'Profile Height',     value: '70 mm (heavy-gauge wall)' },
-          { label: 'Roof Clearance',     value: '100 mm' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Orientation',        value: 'Portrait' },
-          { label: 'Attachment',         value: 'Rivet + EPDM tape / Structural adhesive' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          'Heavy-gauge extrusion — wider purlin spacing',
-          '100 mm clearance for maximum ventilation',
-          'Supports heavier bifacial panel modules',
-          'Fewer roof penetrations on large-span roofs',
-          'Portrait orientation — high module capacity',
-          'Compatible with all PV module brands',
-        ],
-        applications: ['Large commercial rooftop', 'Premium project', 'Bifacial module installation', 'Industrial shed'],
-      },
-    ],
-  },
-
-  /* ── 2. MINI RAIL ────────────────────────────────────────────── */
-  {
-    id: 'mini',
-    name: 'Mini Rail System',
-    short: 'Landscape · Residential',
-    tag: 'LANDSCAPE',
-    badge: 'Cost Effective',
-    systemDesc: 'Low-profile compact extrusion for landscape-orientation panels on trapezoidal roofs. Three variants — 100 mm, 70 mm and Short Rail — covering all clearance needs from standard to compact-bay installations.',
-    variants: [
-      {
-        id: 'mini-100',
-        name: 'MiniRail 100mm',
-        subtitle: '100 mm Roof Clearance',
-        Component: MiniRail100,
-        assemblyModels: [{ label:'End Clamp Assembly', Component: MiniRail100EndClamp }, { label:'Mid Clamp Assembly', Component: MiniRail100MidClamp }],
-        tagline: 'Standard 100 mm clearance — optimal ventilation for residential & light commercial projects.',
-        desc: 'The MiniRail 100mm delivers 100 mm of roof clearance in a compact 68 mm profile height. Landscape panel orientation maximises row width on narrower roofs. Z-clamp and end-clamp attachment accommodates all standard panel frame thicknesses without additional tooling. Rivet-and-EPDM tape base fixing preserves the roof membrane.',
-        specs: [
-          { label: 'Profile Height',     value: '68 mm' },
-          { label: 'Roof Clearance',     value: '100 mm' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Orientation',        value: 'Landscape' },
-          { label: 'Attachment',         value: 'Rivet + EPDM tape' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          '100 mm clearance — excellent ventilation',
-          'Compact 68 mm profile — minimal visual impact',
-          'Landscape orientation for wider rows',
-          'Z-clamp & end-clamp panel attachment',
-          'Minimal raw material usage — cost-effective',
-          'Compatible with all PV module brands',
-        ],
-        applications: ['Residential rooftop', 'Light commercial', 'Warehouse', 'Industrial shed'],
-      },
-      {
-        id: 'mini-70',
-        name: 'MiniRail 70mm',
-        subtitle: '70 mm Roof Clearance',
-        Component: MiniRail70,
-        assemblyModels: [{ label:'End Clamp Assembly', Component: MiniRail70EndClamp }, { label:'Mid Clamp Assembly', Component: MiniRail70MidClamp }],
-        tagline: 'Compact 70 mm clearance — lower profile for wind-sensitive or aesthetically driven projects.',
-        desc: 'The MiniRail 70mm reduces the mounting height to 70 mm, creating an even lower profile that blends with the roof line. Ideal for sites with strict visual guidelines or higher wind-load requirements. Panel attachment and material specifications are identical to the 100 mm variant. Its cost-efficiency makes it a frequent choice for residential developments.',
-        specs: [
-          { label: 'Profile Height',     value: '68 mm' },
-          { label: 'Roof Clearance',     value: '70 mm' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Orientation',        value: 'Landscape' },
-          { label: 'Attachment',         value: 'Rivet + EPDM tape' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          '70 mm clearance — near-flush roof profile',
-          'Low visual impact — aesthetics-driven projects',
-          'Reduced wind moment vs 100 mm variant',
-          'Landscape orientation — wider row coverage',
-          'Most cost-effective in the Mini Rail range',
-          'Compatible with all PV module brands',
-        ],
-        applications: ['Residential rooftop', 'Aesthetics-sensitive site', 'High wind zone', 'Light commercial'],
-      },
-      {
-        id: 'mini-short',
-        name: 'Short Rail',
-        subtitle: 'Compact Span · Portrait',
-        Component: MiniRailShort,
-        assemblyModels: [{ label:'End Clamp Assembly', Component: MiniRailShortEndClamp }, { label:'Mid Clamp Assembly', Component: MiniRailShortMidClamp }],
-        tagline: 'Compact short-span rail for narrow bays, canopies and retrofits — same T-slot, all SunMount clamps compatible.',
-        desc: 'The Short Rail is a compact aluminium extrusion for rooftops where a full-length rail is impractical due to narrow bay widths, limited purlin spans or modular roof layouts. Its reduced length minimises material usage and simplifies logistics while keeping the same T-slot profile that accepts every SunMount U-clamp, Z-clamp and mid-clamp. Ideal for canopies, carports and residential retrofits.',
-        specs: [
-          { label: 'Profile Length',     value: 'Short-span (custom cut)' },
-          { label: 'Profile Height',     value: '68 mm' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Orientation',        value: 'Portrait' },
-          { label: 'Attachment',         value: 'Rivet + EPDM tape' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          'Short span — designed for narrow-bay rooftops',
-          'Reduced material & logistics cost',
-          'Same T-slot — all SunMount clamps compatible',
-          'Modular — cut to exact bay width on site',
-          'Fast installation on compact or retrofit projects',
-          'Compatible with all PV module brands',
-        ],
-        applications: ['Compact residential', 'Canopy / carport', 'Narrow-bay industrial', 'Retrofit installation'],
-      },
-    ],
-  },
-
-  /* ── 3. LONG RAIL ────────────────────────────────────────────── */
-  {
-    id: 'long',
-    name: 'Long Rail System',
-    short: 'Landscape · Industrial',
-    tag: 'LANDSCAPE',
-    badge: 'High Strength',
-    systemDesc: 'Heavy-duty purlin-mounted aluminium rail for industrial buildings, asbestos cement roofs and high wind-load zones. Three variants — Ultra, Light and Pro — spanning every load and orientation requirement.',
-    variants: [
-      {
-        id: 'long-ultra',
-        name: 'Long Rail Ultra',
-        subtitle: 'Heavy-Duty · Landscape',
-        Component: LongRailUltra,
-        assemblyModels: [{ label:'End Clamp Assembly', Component: LongRailUltraEndClamp }, { label:'Mid Clamp Assembly', Component: LongRailUltraMidClamp }],
-        tagline: 'Maximum load-bearing capacity — the go-to solution for extreme wind environments and industrial structures.',
-        desc: 'The Long Rail Ultra is SunMount\'s heaviest-duty purlin-mounted rail. Its increased cross-section and wall thickness deliver higher bending stiffness, enabling wider purlin spacings without additional support. The system is certified for wind speeds up to 200 km/h and is ideal for large-span industrial sheds and coastal environments where load-to-weight ratio is critical.',
-        specs: [
-          { label: 'Profile Height',     value: '50 mm (PRO grade)' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Mounting',           value: 'Purlin-mounted' },
-          { label: 'Orientation',        value: 'Landscape' },
-          { label: 'Roof Types',         value: 'Metal sheet · Asbestos cement' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          'Maximum bending stiffness — widest purlin spacing',
-          'Rated up to 200 km/h wind speed',
-          'Fewer roof penetrations vs Mini/Mono Rail',
-          'Reuses existing J-bolt holes on asbestos sheets',
-          'Universal for any trapezoidal crest profile',
-          'FEA & wind load analysis certified',
-        ],
-        applications: ['Industrial shed', 'Large-span factory', 'Coastal installation', 'Asbestos cement roof'],
-      },
-      {
-        id: 'long-lite',
-        name: 'Long Rail Light',
-        subtitle: 'Standard · Landscape',
-        Component: LongRailLite,
-        assemblyModels: [
-          { label: 'End Clamp Assembly', Component: LongRailLiteEndClamp },
-          { label: 'Mid Clamp Assembly', Component: LongRailLiteMidClamp },
-        ],
-        tagline: 'Economical purlin-mounted rail for landscape orientation — fewer penetrations, faster installation.',
-        desc: 'The Long Rail Light is a lighter, more economical variant of the purlin-mounted system, optimised for landscape-orientation panels. Its reduced material cross-section keeps project costs lower while still delivering far fewer roof penetrations than Mini or Mono Rail installations. Compatible with existing self-drilling screw holes on asbestos sheets, making retrofits simple.',
-        specs: [
-          { label: 'Profile Height',     value: '30 mm (LITE grade)' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Mounting',           value: 'Purlin-mounted' },
-          { label: 'Orientation',        value: 'Landscape' },
-          { label: 'Roof Types',         value: 'Metal sheet · Asbestos cement' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          'Cost-effective purlin-mounted solution',
-          'Landscape orientation — wide row coverage',
-          'Fewer roof penetrations vs Mini/Mono Rail',
-          'Uses existing self-drilling screw holes',
-          'Compatible with asbestos cement roofs',
-          'Easy installation & maintenance',
-        ],
-        applications: ['Industrial shed', 'Warehouse', 'Asbestos roof', 'Light commercial'],
-      },
-      {
-        id: 'long-pro',
-        name: 'Long Rail Pro',
-        subtitle: 'Premium · Landscape',
-        Component: LongRailPro,
-        assemblyModels: [{ label:'End Clamp Assembly', Component: LongRailProEndClamp }, { label:'Mid Clamp Assembly', Component: LongRailProMidClamp }],
-        tagline: 'Premium grade with the highest load capacity — engineered for landscape arrays on the most demanding structures.',
-        desc: 'The Long Rail Pro is the flagship of the Long Rail range, combining the greatest cross-section wall thickness with a robust profile optimised for landscape panel orientation. It is designed for premium commercial and industrial projects where structural engineers require the highest certified load ratings, the widest allowable purlin spacings, and a single-rail solution across large landscape arrays.',
-        specs: [
-          { label: 'Grade',              value: 'PRO (maximum wall thickness)' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Mounting',           value: 'Purlin-mounted' },
-          { label: 'Orientation',        value: 'Landscape' },
-          { label: 'Roof Types',         value: 'Metal sheet · Asbestos cement' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          'Highest load rating in the Long Rail range',
-          'Optimised for landscape orientation',
-          'Maximum permitted purlin spacing',
-          'FEA-certified for extreme wind zones',
-          'Single-rail solution for large landscape arrays',
-          'Compatible with all PV module brands',
-        ],
-        applications: ['Premium commercial', 'Large landscape array', 'Extreme wind zone', 'Large-span industrial'],
-      },
-    ],
-  },
-
-  /* ── 4. STANDING SEAM ────────────────────────────────────────── */
-  {
-    id: 'seam',
-    name: 'Standing Seam System',
-    short: 'Landscape · Zero Penetration',
-    tag: 'LANDSCAPE',
-    badge: 'No Puncture',
-    systemDesc: 'Clamp-based system that grips the standing seam profile without any drilling. Four clamp variants cover every seam geometry used in India.',
-    variants: [
-      {
-        id: 'seam-55',
-        name: 'Standing Seam 55mm',
-        subtitle: 'T1 Profile · 55 mm Seam',
-        Component: SeamClamp55,
-        assemblyModels: [{ label:'End Clamp Assembly', Component: Seam55EndClamp }, { label:'Mid Clamp Assembly', Component: Seam55MidClamp }],
-        tagline: 'The standard 55 mm seam clamp — covers the most common standing seam profile in India.',
-        desc: 'Standing Seam 55mm is designed for the most widely installed standing seam roofing profile in India. Grub screws fix the aluminium clamp onto the 55 mm seam without drilling, preserving the roof membrane and warranty. Landscape-orientation panels attach via U-clamp or mid-clamp directly to the clamp\'s T-slot.',
-        specs: [
-          { label: 'Seam Profile',       value: 'T1' },
-          { label: 'Seam Height',        value: '55 mm' },
-          { label: 'Clamp Material',     value: 'Aluminium 6063 T6 · SS 304' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Roof Penetration',   value: 'Zero' },
-          { label: 'Orientation',        value: 'Landscape' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          'Zero roof penetration — preserves manufacturer warranty',
-          'Grub-screw clamping, no drilling required',
-          'Designed for 55 mm standing seam geometry',
-          'Fastest installation in the SunMount range',
-          'Landscape panel orientation',
-          'Compatible with all PV module brands',
-        ],
-        applications: ['Standing seam factory', 'Premium commercial', 'Architectural warehouse', 'High-end residential'],
-      },
-      {
-        id: 'seam-100-pro',
-        name: 'Standing Seam 100mm Pro',
-        subtitle: 'T2 Profile · 100 mm Seam · Pro',
-        Component: SeamClamp100Pro,
-        assemblyModels: [{ label:'End Clamp Assembly', Component: Seam100EndClamp }, { label:'Mid Clamp Assembly', Component: Seam100MidClamp }],
-        tagline: 'Pro-grade 100 mm clamp for tall T2 seam profiles — maximum grip for industrial-grade standing seam roofing.',
-        desc: 'Standing Seam 100mm Pro accommodates taller, 100 mm T2 standing seam profiles typical of large-span industrial roofing. The deep Pro-grade clamp jaw provides a more secure grip on the wider seam body, and reinforced grub screws ensure lock-tight retention even under extreme wind loads. Panel attachment via T-slot U-clamp or mid-clamp.',
-        specs: [
-          { label: 'Seam Profile',       value: 'T2 · Pro grade' },
-          { label: 'Seam Height',        value: '100 mm' },
-          { label: 'Clamp Material',     value: 'Aluminium 6063 T6 · SS 304' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Roof Penetration',   value: 'Zero' },
-          { label: 'Orientation',        value: 'Landscape' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          'Zero roof penetration',
-          'Designed for tall 100 mm standing seam geometry',
-          'Deeper jaw for positive seam engagement',
-          'Grub-screw locking — no drilling',
-          'Landscape panel orientation',
-          'Compatible with all PV module brands',
-        ],
-        applications: ['Industrial standing seam', 'Large-span factory', 'Commercial warehouse', 'Premium rooftop'],
-      },
-      {
-        id: 'seam-70-t1',
-        name: 'Standing Seam 70mm Type 1',
-        subtitle: 'T2 Profile · 70 mm · Type 1 Clamp',
-        Component: SeamClamp70T1,
-        assemblyModels: [{ label:'End Clamp Assembly', Component: Seam70T1EndClamp }, { label:'Mid Clamp Assembly', Component: Seam70T1MidClamp }],
-        tagline: '70 mm Type 1 clamp — our patented precision fit for narrow-flange standing seam profiles at 70 mm seam height.',
-        desc: 'Standing Seam 70mm Type 1 is precision-machined for 70 mm narrow-flange standing seam profiles commonly found on imported and premium domestic roofing systems. The Type 1 clamp jaw conforms to the seam\'s inner radius, and dual grub screws distribute clamping force evenly without distorting the seam, preserving the roof warranty.',
-        specs: [
-          { label: 'Seam Profile',       value: 'T2 · P1–P2 geometry' },
-          { label: 'Clamp Points',       value: 'P1 & P2 (dual grub screw)' },
-          { label: 'Clamp Material',     value: 'Aluminium 6063 T6 · SS 304' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Roof Penetration',   value: 'Zero' },
-          { label: 'Orientation',        value: 'Landscape' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          'Zero roof penetration',
-          'Dual P1–P2 contact for even clamping force',
-          'No seam distortion — warranty safe',
-          'Patented Type 1 clamp for narrow-flange 70 mm seams',
-          'Landscape panel orientation',
-          'Compatible with all PV module brands',
-        ],
-        applications: ['Imported standing seam', 'Premium residential', 'Architectural project', 'Commercial rooftop'],
-      },
-      {
-        id: 'seam-70-t2',
-        name: 'Standing Seam 70mm Type 2',
-        subtitle: 'T2 Profile · 70 mm · Type 2 Clamp',
-        Component: SeamClamp70T2,
-        assemblyModels: [{ label:'End Clamp Assembly', Component: Seam70T2EndClamp }, { label:'Mid Clamp Assembly', Component: Seam70T2MidClamp }],
-        tagline: '70 mm Type 2 clamp — wide-flange geometry for maximum pull-out resistance on large-profile seams.',
-        desc: 'Standing Seam 70mm Type 2 is engineered for wide-flange 70 mm standing seam profiles. The Type 2 jaw accommodates the wider seam body and dual-point grub screws deliver maximum pull-out resistance for heavy panel loads and high wind environments. This variant provides the highest holding force among the 70 mm seam clamp range.',
-        specs: [
-          { label: 'Seam Profile',       value: 'T2 · P2–P3 geometry' },
-          { label: 'Clamp Points',       value: 'P2 & P3 (dual grub screw)' },
-          { label: 'Clamp Material',     value: 'Aluminium 6063 T6 · SS 304' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Design Wind Speed',  value: 'Up to 200 km/h' },
-          { label: 'Roof Penetration',   value: 'Zero' },
-          { label: 'Orientation',        value: 'Landscape' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          'Zero roof penetration',
-          'Dual P2–P3 contact — maximum pull-out resistance',
-          'For wide-flange 70 mm seam profiles (Type 2)',
-          'High wind-load holding capacity',
-          'Landscape panel orientation',
-          'Compatible with all PV module brands',
-        ],
-        applications: ['Large-span industrial', 'Wide-seam standing seam roof', 'Premium commercial', 'High wind zone'],
-      },
-    ],
-  },
-
-  /* ── 5. FRP WALKWAY ─────────────────────────────────────────── */
-  {
-    id: 'frp',
-    name: 'FRP Walkway',
-    short: 'Safety · Maintenance Access',
-    tag: 'WALKWAY',
-    badge: 'Anti-Slip',
-    systemDesc: 'Fibre-reinforced polymer (FRP) grating panels engineered for safe maintenance access on solar rooftops. Meniscus top surface, isophthalic polyester resin, and UV-stabilised construction for decades of outdoor service life.',
-    variants: [
-      {
-        id: 'frp-walkway',
-        name: 'FRP Walkway',
-        subtitle: '20 mm & 25 mm Height · Meniscus Top',
-        Component: FrpWalkway,
-        tagline: 'Anti-slip, corrosion-resistant walkway panels for safe rooftop access — engineered for the harshest solar installation environments.',
-        desc: 'The SunMount FRP Walkway is a pultruded fibre-reinforced polymer grating designed for permanent maintenance walkways on solar rooftops. The distinctive meniscus top surface provides superior anti-slip grip in wet or dusty conditions, while the 38 × 38 mm open mesh allows drainage and ventilation to the panels below. Manufactured using isophthalic polyester resin with integrated UV stabilisers, the panels resist colour fade, surface degradation, and structural loss caused by prolonged outdoor exposure. Unlike steel grating, FRP requires zero painting or galvanising and will not corrode even in coastal or chemically aggressive environments. The standard RAL 1004 yellow finish ensures high visibility for maintenance personnel.',
-        specs: [
-          { label: 'Height',          value: '20 mm & 25 mm' },
-          { label: 'Mesh Size',       value: '38 × 38 mm' },
-          { label: 'Top Surface',     value: 'Meniscus (anti-slip)' },
-          { label: 'Rib Thickness',   value: '6 – 5 mm' },
-          { label: 'Resin',           value: 'Isophthalic Polyester · UV Non FR' },
-          { label: 'Color',           value: 'Yellow — RAL 1004' },
-          { label: 'Panel Size',      value: '310 mm × 20/25 mm × 3660 mm' },
-          { label: 'Material',        value: 'Fibre-Reinforced Polymer (FRP)' },
-        ],
-        highlights: [
-          'Meniscus surface — superior anti-slip grip in wet & dusty conditions',
-          'Open mesh design — free drainage, no water pooling',
-          '38 × 38 mm mesh allows under-panel ventilation',
-          'Isophthalic resin — high chemical & weather resistance',
-          'UV-stabilised — zero colour fade or structural loss outdoors',
-          'Corrosion-free — no paint, no galvanising, no maintenance',
-          'Lightweight FRP — minimal added load on rooftop structure',
-          'High-visibility yellow (RAL 1004) for personnel safety',
-        ],
-        applications: ['Solar rooftop walkway', 'Industrial rooftop access', 'Coastal installation', 'Chemical plant rooftop'],
-      },
-    ],
-  },
-
-  /* ── 6. INCLINED SYSTEM ──────────────────────────────────────── */
-  {
-    id: 'inclined',
-    name: 'Inclined System',
-    short: 'Portrait · Adjustable Tilt',
-    tag: 'PORTRAIT',
-    badge: 'Adjustable Tilt',
-    systemDesc: 'Tilted mounting structure for flat or low-pitch roofs. Adjustable inclination from 5° to 20° for maximum south-facing generation regardless of roof aspect.',
-    variants: [
-      {
-        id: 'inclined-std',
-        name: 'Inclined System',
-        subtitle: '5° – 20° Adjustable Tilt',
-        Component: InclinedSystem,
-        tagline: 'Adjustable tilt from 5° to 20° — optimises energy yield on north-, east- or west-facing roofs.',
-        desc: 'The Inclined System uses precision-extruded L-channel and C-channel aluminium to tilt solar PV panels at an adjustable angle on flat or low-pitch trapezoidal metal and asbestos roofs. Panels face south regardless of roof orientation, maximising annual energy yield. The inclination is set at installation from 5° to 20° depending on site latitude. L-channels attach to the roof crest via self-drilling screws (metal) or J-bolts (asbestos).',
-        specs: [
-          { label: 'C-Channel Height',   value: '50 mm' },
-          { label: 'Tilt Angle',         value: '5° – 20° (set at installation)' },
-          { label: 'Panel Thickness',    value: '30 mm · 35 mm · 40 mm' },
-          { label: 'Material',           value: 'Aluminium 6063 T6 · SS 304 · EPDM' },
-          { label: 'Design Wind Speed',  value: 'Up to 170 km/h' },
-          { label: 'Orientation',        value: 'Portrait · South-facing' },
-          { label: 'Roof Attachment',    value: 'Self-drilling screws / J-bolts' },
-          { label: 'Finish',             value: 'Anodized / Non-anodized' },
-        ],
-        highlights: [
-          'South-facing panels on any roof aspect',
-          'Higher energy yield on flat & low-pitch roofs',
-          'Adjustable tilt 5° – 20° at installation',
-          'Compatible with metal sheet & asbestos cement roofs',
-          'Uses existing J-bolt holes on asbestos roofs',
-          'Portrait orientation — purlin-mounted',
-        ],
-        applications: ['Flat industrial roof', 'Low-pitch residential', 'North/East/West-facing roof', 'Asbestos cement roof'],
-      },
-    ],
-  },
-]
-
-/* ─────────────────────────────────────────────────────────────────
-   ACCESSORIES
-───────────────────────────────────────────────────────────────── */
-const ACCESSORIES = [
-  { name: 'Mid Clamp',      material: 'Aluminium 6063 T6',  image: '/accessories/mid-clamp.png',     features: ['Quick & easy installation', 'High strength', 'All PV modules'] },
-  { name: 'End Clamp',      material: 'Aluminium 6063 T6',  image: '/accessories/end-clamp.png',     features: ['Patented 30–35 mm design', 'Fits 30 / 35 / 40 mm modules', 'Strong & long-lasting'] },
-  { name: 'L-Clamp',        material: 'Aluminium 6063 T6',  image: '/accessories/l-clamp.png',       features: ['Robust construction', 'Universal PV compat.', 'Budget-friendly'] },
-  { name: 'T-Nut',          material: 'Aluminium 6063 T6',  image: '/accessories/t-nut.png',         features: ['Works with all rails', 'High strength', 'Extended lifespan'] },
-  { name: 'Rail Cap',       material: 'Aluminium 6063 T6',  image: '/accessories/rail-cap.png',      features: ['Seals rail ends', 'Clean finish', 'Corrosion resistant'] },
-  { name: 'Rail Stand',     material: 'Aluminium 6063 T6',  image: '/accessories/rail-stand.png',    features: ['Secure rail support', 'High load capacity', 'Easy installation'] },
-  { name: 'Flange Nut',     material: 'SS 304',              image: '/accessories/flange-nut.png',    features: ['Superior strength', 'Durable construction', 'Easy removal'] },
-  { name: 'Spring Washer',  material: 'SS 304',              image: '/accessories/spring-washer.png', features: ['Prevents nut loosening', 'Reinforces joints', 'Minimal maintenance'] },
-  { name: 'Allen Key Bolt', material: 'SS 304',              image: '/accessories/allen-bolt.png',    features: ['Strong & durable', 'Quick installation', 'Low maintenance'] },
-  { name: 'T-Bolt',         material: 'SS 304',              image: '/accessories/t-bolt.png',        features: ['T-slot compatible', 'Robust & long-lasting', 'Easy upkeep'] },
-  { name: 'Hex Bolt',       material: 'SS 304',              image: '/accessories/hex-bolt.png',      features: ['High strength', 'Extended lifespan', 'Simple maintenance'] },
-  { name: 'SDS Screw',      material: 'Xylan Coated',        image: '/accessories/sds-screw.png',     features: ['One-tool approach', 'Self-drilling', 'Cost-effective'] },
-  { name: 'Rivet',          material: 'Aluminium',           image: '/accessories/rivet.png',         features: ['Strong & affordable', 'Industry standard', 'Durable'] },
-  { name: 'EPDM Tape',      material: '100% Genuine EPDM',   image: '/accessories/epdm-tape.png',     features: ['ASTM tested', 'Moisture & heat resistant', 'Good electrical resistivity'] },
-]
-
-/* ─────────────────────────────────────────────────────────────────
-   3-D CANVAS
-───────────────────────────────────────────────────────────────── */
-
-/** Syncs the camera distance to the zoom slider value, preserving current orbit angle */
-function ZoomController({ zoom }) {
-  const { camera } = useThree()
-  useEffect(() => {
-    const len = camera.position.length()
-    if (len > 0) camera.position.multiplyScalar(zoom / len)
-  }, [zoom, camera])
-  return null
-}
-
-function RailCanvas({ Component, zoom }) {
-  return (
-    <Canvas dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
-      <PerspectiveCamera makeDefault position={[0, 0, zoom]} fov={38} />
-      <ambientLight intensity={0.6} />
-      <directionalLight position={[4, 4, 2]} intensity={2.0} color="#FBB034" />
-      <directionalLight position={[-3, 1, -2]} intensity={0.7} color="#6090d4" />
-      <directionalLight position={[0, 3, -4]} intensity={0.5} color="#ffffff" />
-      <Suspense fallback={null}>
-        <Component />
-        <Environment preset="sunset" />
-      </Suspense>
-      <ContactShadows position={[0, -0.8, 0]} opacity={0.40} scale={6} blur={2.5} far={3} />
-      <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={1.2} makeDefault />
-      <ZoomController zoom={zoom} />
-    </Canvas>
-  )
-}
 
 /* ─────────────────────────────────────────────────────────────────
    VARIANT SLIDER
@@ -703,13 +122,12 @@ export default function Products() {
   useEffect(() => { setZoom(4); setAssemblyIdx(null) }, [variantId])
 
   const product       = PRODUCTS.find(p => p.id === selected)
-  const allVariantIds = product ? product.variants.map(v => v.id) : []
   const activeVariant = product?.variants.find(v => v.id === variantId) ?? product?.variants[0]
 
   // Safe display component — guards against assemblyIdx being out-of-bounds
   // during the render cycle before state resets propagate
   const assemblyModel   = (assemblyIdx !== null && activeVariant?.assemblyModels?.[assemblyIdx]) || null
-  const displayComponent = assemblyModel?.Component ?? activeVariant?.Component
+  const displayModel     = assemblyModel?.model ?? activeVariant?.model
 
   return (
     <main style={{ paddingTop: 80, minHeight: '100vh', background: 'var(--bg-base)' }}>
@@ -722,16 +140,19 @@ export default function Products() {
       }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'var(--gradient-sun)' }} />
         <div className="container">
-          <motion.div initial={{ opacity:0, y:24 }} animate={{ opacity:1, y:0 }}
+          <motion.div initial={{ y:24 }} animate={{ y:0 }}
             transition={{ duration:0.7, ease:[0.16,1,0.3,1] }}>
             <div className="section-label">COMPLETE PRODUCT RANGE</div>
             <h1 className="prod-h1" style={{ fontSize:'clamp(1.8rem,3vw,2.8rem)', maxWidth:540, lineHeight:1.15 }}>
-              Precision Mounting <span className="gradient-text">Systems Catalogue</span>
+              Solar Mounting <span className="gradient-text">Systems Catalogue</span>
             </h1>
             <p className="prod-subp" style={{ color:'var(--text-secondary)', marginTop:'0.75rem', maxWidth:580, fontSize:'0.92rem', lineHeight:1.7 }}>
               Six aluminium mounting systems — ISO 9001 &amp; TÜV SÜD certified, rated up to 200 km/h.
               Select a system, then choose the model variant that suits your project.
             </p>
+            <nav aria-label="Product pages" className="prod-pages">
+              {PRODUCT_INDEX.map(p => <Link key={p.slug} to={`/products/${p.slug}`}>{p.name.replace(/ System$/, "")}</Link>)}
+            </nav>
           </motion.div>
         </div>
       </div>
@@ -743,7 +164,7 @@ export default function Products() {
           padding:'2.5rem 2rem', alignItems:'start' }} className="prod-layout">
 
           {/* ── Sidebar ── */}
-          <motion.div initial={{ opacity:0, x:-24 }} animate={{ opacity:1, x:0 }}
+          <motion.div initial={{ x:-24 }} animate={{ x:0 }}
             transition={{ duration:0.7, ease:[0.16,1,0.3,1], delay:0.1 }}
             style={{ position:'sticky', top:108 }}>
 
@@ -799,7 +220,7 @@ export default function Products() {
           </motion.div>
 
           {/* ── Detail Panel ── */}
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div key={selected} className="prod-detail-wrap"
               initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, y:-10 }}
               transition={{ duration:0.4, ease:[0.16,1,0.3,1] }}>
@@ -822,6 +243,7 @@ export default function Products() {
                 <p style={{ color:'var(--text-secondary)', fontSize:'0.9rem', lineHeight:1.7 }}>
                   {product?.systemDesc}
                 </p>
+                {product && <Link to={`/products/${product.slug}`} className="prod-more">Full {product.name} specifications <ArrowRightIcon /></Link>}
               </div>
 
               {/* ── Variant Slider ── */}
@@ -835,20 +257,20 @@ export default function Products() {
 
               {/* ── 3D Canvas ── */}
               {activeVariant && (
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="wait" initial={false}>
                   <motion.div key={activeVariant.id}
                     initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
                     transition={{ duration:0.3 }}>
 
                     <div style={{ display:'flex', gap:'0.75rem', marginBottom:'2rem', alignItems:'stretch' }}>
                       {/* ── 3D Viewport or No-Model Placeholder ── */}
-                      {displayComponent ? (
+                      {displayModel ? (
                       <div className="canvas-3d" style={{
                         flex:1, height:340, position:'relative',
                         background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)',
                         border:'1px solid var(--border-subtle)', cursor:'grab',
                       }}>
-                        <RailCanvas Component={displayComponent} zoom={zoom} />
+                        <Model3D kind="product" model={displayModel} zoom={zoom} label={activeVariant.name} />
                         {/* Model label badge */}
                         <div style={{
                           position:'absolute', top:'1rem', left:'1rem',
@@ -888,7 +310,7 @@ export default function Products() {
                       )}
 
                       {/* ── Zoom Slider (only when 3D model present) ── */}
-                      {displayComponent && <div className="zoom-slider" style={{
+                      {displayModel && <div className="zoom-slider" style={{
                         display:'flex', flexDirection:'column', alignItems:'center',
                         justifyContent:'center', gap:'0.5rem',
                         background:'rgba(10,14,26,0.6)', backdropFilter:'blur(8px)',
@@ -1054,6 +476,7 @@ export default function Products() {
           </div>
           <h2 style={{ fontSize:'1.8rem', marginBottom:'0.6rem' }}>{product?.name}</h2>
           <p style={{ color:'var(--text-secondary)', fontSize:'0.95rem', lineHeight:1.75 }}>{product?.systemDesc}</p>
+          {product && <Link to={`/products/${product.slug}`} className="prod-more">Full {product.name} specifications <ArrowRightIcon /></Link>}
         </div>
 
         {/* Variant Pills */}
@@ -1080,11 +503,11 @@ export default function Products() {
 
         {/* 3D Canvas — full width with margins */}
         {activeVariant && (
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div key={activeVariant.id} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.3}}>
-              {displayComponent ? (
+              {displayModel ? (
               <div style={{ margin:'1.2rem 1rem 0', position:'relative', height:300, border:'1px solid var(--border-subtle)', background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)', overflow:'hidden' }}>
-                <RailCanvas Component={displayComponent} zoom={zoom} />
+                <Model3D kind="product" model={displayModel} zoom={zoom} label={activeVariant.name} />
                 <div style={{ position:'absolute', top:'0.75rem', left:'0.75rem', background:'rgba(10,14,26,0.8)', backdropFilter:'blur(8px)', border:'1px solid var(--border-subtle)', padding:'0.3rem 0.65rem', fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.1em', color:'var(--text-primary)' }}>
                   {assemblyModel ? assemblyModel.label : activeVariant.name}
                 </div>
@@ -1168,6 +591,10 @@ export default function Products() {
         }
 
         /* Phone: swap to mobile layout entirely */
+          .prod-pages { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1.2rem; }
+          .prod-pages a { font-family:'JetBrains Mono'; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.4rem 0.75rem; border:1px solid var(--border-subtle); color:var(--text-secondary); transition:border-color .3s, color .3s; }
+          .prod-pages a:hover { border-color:var(--border-accent); color:var(--sun-orange); }
+          .prod-more { display:inline-flex; align-items:center; gap:0.5rem; margin-top:0.9rem; font-family:'JetBrains Mono'; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--sun-orange); }
         @media(max-width:768px) {
           .desktop-products-layout { display:none !important; }
           .mobile-products-layout  { display:block !important; }
@@ -1229,7 +656,8 @@ export default function Products() {
                   / {String(i + 1).padStart(2, '0')}
                 </div>
                 <div style={{ width:110, height:110, marginBottom:'1.2rem', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                  <img src={acc.image} alt={acc.name}
+                  <img src={acc.image} alt={`${acc.name} — ${acc.material} solar mounting accessory`}
+                    width={100} height={100} loading="lazy" decoding="async"
                     style={{ width:100, height:100, objectFit:'contain', filter:'drop-shadow(0 3px 10px rgba(0,0,0,0.5))' }} />
                 </div>
                 <h3 style={{ fontSize:'1.05rem', fontWeight:800, letterSpacing:'0.02em', marginBottom:'0.4rem', color:'var(--text-primary)' }}>

@@ -4,7 +4,7 @@
 //
 // Runs after `vite build` (client → dist/) and
 // `vite build --ssr src/entry-server.jsx --outDir dist-ssr`.
-import { readFile, writeFile, rm } from 'node:fs/promises'
+import { readFile, writeFile, rm, mkdir } from 'node:fs/promises'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import path from 'node:path'
 
@@ -49,6 +49,7 @@ async function writePage(meta, file) {
   const html = template
     .replace(SEO_BLOCK, () => headTags(meta))
     .replace('<div id="root"></div>', () => `<div id="root">${body}</div>`)
+  await mkdir(path.dirname(path.join(dist, file)), { recursive: true })
   await writeFile(path.join(dist, file), html)
   console.log(`  prerendered ${meta.path.padEnd(12)} → dist/${file}`)
 }
