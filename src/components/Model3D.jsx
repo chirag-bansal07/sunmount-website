@@ -32,7 +32,7 @@ function Poster({ label, onLoad }) {
             display: 'flex', alignItems: 'center', gap: '0.6rem',
             padding: '0.75rem 1.2rem', background: 'rgba(10,14,26,0.8)',
             border: '1px solid var(--border-accent)', color: 'var(--text-primary)',
-            fontFamily: 'JetBrains Mono', fontSize: '0.7rem', letterSpacing: '0.12em',
+            fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize: '0.7rem', letterSpacing: '0.12em',
             textTransform: 'uppercase', cursor: 'pointer',
           }}
         >

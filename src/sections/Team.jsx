@@ -49,7 +49,7 @@ const Team = () => {
             <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'1rem', marginBottom:'2rem' }}>
               {STATS.map((s, i) => (
                 <div key={i} style={{ padding:'1.2rem 0.9rem', background:'var(--bg-elevated)', border:'1px solid var(--border-subtle)', borderLeft:'2px solid var(--sun-orange)' }}>
-                  <div style={{ fontFamily:'Montserrat', fontSize:'1.8rem', fontWeight:900, color:'var(--sun-orange)', lineHeight:1, marginBottom:'0.4rem' }}>{s.num}</div>
+                  <div style={{ fontFamily:"'Montserrat', 'Montserrat Fallback', sans-serif", fontSize:'1.8rem', fontWeight:900, color:'var(--sun-orange)', lineHeight:1, marginBottom:'0.4rem' }}>{s.num}</div>
                   <div style={{ fontSize:'0.72rem', color:'var(--text-muted)', lineHeight:1.4 }}>{s.label}</div>
                 </div>
               ))}
@@ -83,7 +83,7 @@ const Team = () => {
               }} />
               <div style={{
                 position:'absolute', bottom:'0.8rem', left:'1rem',
-                fontFamily:'JetBrains Mono', fontSize:'0.6rem',
+                fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.6rem',
                 letterSpacing:'0.18em', color:'rgba(255,255,255,0.50)',
                 textTransform:'uppercase',
               }}>
@@ -117,9 +117,9 @@ const Team = () => {
                     style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 10%', display:'block', transform:'scale(1.08)', transformOrigin:'center 10%' }}
                   />
                 </div>
-                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.63rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.3rem' }}>— DIRECTOR</div>
+                <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.63rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.3rem' }}>— DIRECTOR</div>
                 <h3 style={{ fontSize:'1.15rem', marginBottom:'0.15rem' }}>Vikas Bansal</h3>
-                <p style={{ fontSize:'0.72rem', color:'var(--text-muted)', marginBottom:'0.6rem', fontFamily:'JetBrains Mono', letterSpacing:'0.05em' }}>
+                <p style={{ fontSize:'0.72rem', color:'var(--text-muted)', marginBottom:'0.6rem', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", letterSpacing:'0.05em' }}>
                   Founder · Managing Director
                 </p>
                 <p style={{ fontSize:'0.78rem', color:'var(--text-secondary)', lineHeight:1.6, marginBottom:'0.9rem' }}>

@@ -188,15 +188,15 @@ const ProductCard = ({ product, index }) => {
 
       {/* Top bar: index + tags */}
       <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'1rem 1.2rem 0' }}>
-        <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.65rem', letterSpacing:'0.15em', color:'var(--text-muted)' }}>
+        <span style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.65rem', letterSpacing:'0.15em', color:'var(--text-muted)' }}>
           0{index+1}
         </span>
         <div style={{ display:'flex', gap:'0.4rem' }}>
-          <span style={{ padding:'0.2rem 0.6rem', background:'rgba(224,85,64,0.12)', border:'1px solid var(--border-accent)', borderRadius:2, fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.12em', color:'var(--sun-orange)' }}>
+          <span style={{ padding:'0.2rem 0.6rem', background:'rgba(224,85,64,0.12)', border:'1px solid var(--border-accent)', borderRadius:2, fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.62rem', letterSpacing:'0.12em', color:'var(--sun-orange)' }}>
             {product.tag}
           </span>
           {product.badge && (
-            <span style={{ padding:'0.2rem 0.6rem', background:'rgba(201,212,224,0.08)', border:'1px solid var(--border-subtle)', borderRadius:2, fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.12em', color:'var(--aluminum-mid)' }}>
+            <span style={{ padding:'0.2rem 0.6rem', background:'rgba(201,212,224,0.08)', border:'1px solid var(--border-subtle)', borderRadius:2, fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.62rem', letterSpacing:'0.12em', color:'var(--aluminum-mid)' }}>
               {product.badge}
             </span>
           )}
@@ -213,7 +213,7 @@ const ProductCard = ({ product, index }) => {
         <div style={{
           position:'absolute', bottom:'0.5rem', left:'50%', transform:'translateX(-50%)',
           display:'flex', alignItems:'center', gap:'0.4rem',
-          fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.12em',
+          fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.6rem', letterSpacing:'0.12em',
           color: hover ? 'var(--sun-orange)' : 'var(--text-muted)', transition:'color 0.3s',
           whiteSpace:'nowrap',
         }}>
@@ -238,7 +238,7 @@ const ProductCard = ({ product, index }) => {
               flex:1, padding:'0.45rem 0',
               background: tab===t ? 'var(--gradient-sun)' : 'transparent',
               color: tab===t ? 'var(--bg-deep)' : 'var(--text-muted)',
-              fontFamily:'JetBrains Mono', fontSize:'0.65rem', letterSpacing:'0.12em',
+              fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.65rem', letterSpacing:'0.12em',
               textTransform:'uppercase', cursor:'pointer', border:'none', transition:'all 0.25s',
             }}>{t}</button>
           ))}
@@ -258,7 +258,7 @@ const ProductCard = ({ product, index }) => {
           ) : (
             <div style={{ display:'flex', flexDirection:'column', gap:'0.35rem' }}>
               {product.specs.map((s, i) => (
-                <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:'0.5rem', fontSize:'0.78rem', color:'var(--text-muted)', fontFamily:'JetBrains Mono', letterSpacing:'0.04em' }}>
+                <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:'0.5rem', fontSize:'0.78rem', color:'var(--text-muted)', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", letterSpacing:'0.04em' }}>
                   <div style={{ width:4, height:4, background:'var(--aluminum-dark)', marginTop:5, flexShrink:0 }} />
                   {s}
                 </div>
@@ -273,7 +273,7 @@ const ProductCard = ({ product, index }) => {
           background: hover ? 'var(--gradient-sun)' : 'transparent',
           border:`1px solid ${hover ? 'transparent' : 'var(--aluminum-edge)'}`,
           color: hover ? 'var(--bg-deep)' : 'var(--text-primary)',
-          fontFamily:'Montserrat', fontSize:'0.78rem', fontWeight:700,
+          fontFamily:"'Montserrat', 'Montserrat Fallback', sans-serif", fontSize:'0.78rem', fontWeight:700,
           letterSpacing:'0.08em', textTransform:'uppercase',
           transition:'all 0.4s cubic-bezier(0.16,1,0.3,1)',
         }}>

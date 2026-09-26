@@ -66,7 +66,7 @@ export default function BlogPost() {
 
       <style>{`
         .post{max-width:820px}
-        .post-meta{font-family:'JetBrains Mono';font-size:.7rem;letter-spacing:.08em;color:var(--text-muted);text-transform:uppercase;margin-bottom:.9rem}
+        .post-meta{font-family:'JetBrains Mono', 'JetBrains Mono Fallback', monospace;font-size:.7rem;letter-spacing:.08em;color:var(--text-muted);text-transform:uppercase;margin-bottom:.9rem}
         .post h1{font-size:clamp(2rem,4.5vw,3rem);line-height:1.12;margin-bottom:1.2rem}
         .post-intro{font-size:1.1rem;line-height:1.8;color:var(--text-primary);margin-bottom:1rem}
         .post-section{margin-top:2.4rem}
@@ -76,7 +76,7 @@ export default function BlogPost() {
         .post-table{overflow-x:auto;margin-top:.5rem}
         .post-table table{width:100%;border-collapse:collapse;font-size:.93rem;min-width:520px}
         .post-table th,.post-table td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--border-subtle);vertical-align:top}
-        .post-table thead th{font-family:'JetBrains Mono';font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sun-orange)}
+        .post-table thead th{font-family:'JetBrains Mono', 'JetBrains Mono Fallback', monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sun-orange)}
         .post-table tbody th{color:var(--text-primary);font-weight:600}
         .post-table td{color:var(--text-secondary)}
         .post-products{margin-top:3rem;padding:1.6rem;border:1px solid var(--border-accent);background:var(--bg-elevated)}

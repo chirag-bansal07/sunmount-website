@@ -122,7 +122,7 @@ const WhySunmount = () => {
                     border:`1.5px solid ${isActive ? 'var(--sun-orange)' : 'var(--aluminum-dark)'}`,
                     display:'flex', alignItems:'center', justifyContent:'center',
                     color: isActive ? 'var(--bg-deep)' : 'var(--aluminum-mid)',
-                    fontFamily:'JetBrains Mono', fontSize:'0.6rem',
+                    fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.6rem',
                     fontWeight:700, letterSpacing:'0.08em', textAlign:'center',
                     transition:'all 0.4s',
                     boxShadow: isActive ? '0 0 28px rgba(232,146,58,0.5)' : 'none',
@@ -162,7 +162,7 @@ const WhySunmount = () => {
             border:'1px solid var(--border-subtle)', position:'relative', overflow:'hidden',
           }}>
             <div style={{ position:'absolute', top:0, left:0, width:'100%', height:2, background:'var(--gradient-sun)' }} />
-            <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.25em', color:'var(--sun-orange)', marginBottom:'0.8rem' }}>
+            <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.7rem', letterSpacing:'0.25em', color:'var(--sun-orange)', marginBottom:'0.8rem' }}>
               // {activePillar.label}
             </div>
             <h3 style={{ fontSize:'clamp(1.8rem,3vw,2.4rem)', marginBottom:'1.5rem' }}>

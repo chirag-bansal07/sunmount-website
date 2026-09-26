@@ -104,7 +104,7 @@ const Navbar = () => {
                   to={link.to}
                   className="nav-link"
                   style={{
-                    fontFamily: 'Montserrat',
+                    fontFamily:"'Montserrat', 'Montserrat Fallback', sans-serif",
                     fontSize: '0.82rem',
                     fontWeight: 600,
                     letterSpacing: '0.07em',

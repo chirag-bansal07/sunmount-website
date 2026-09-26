@@ -79,7 +79,7 @@ const Contact = () => {
   const inputStyle = {
     width:'100%', padding:'0.85rem 1rem',
     background:'var(--bg-elevated)', border:'1px solid var(--border-subtle)',
-    color:'var(--text-primary)', fontFamily:'Montserrat', fontSize:'0.9rem',
+    color:'var(--text-primary)', fontFamily:"'Montserrat', 'Montserrat Fallback', sans-serif", fontSize:'0.9rem',
     outline:'none', transition:'border-color 0.3s',
   }
 
@@ -123,7 +123,7 @@ const Contact = () => {
                   style={{ position:'absolute', left:'-9999px', width:1, height:1, opacity:0 }} />
                 {FIELDS.map(({ name, label, type, placeholder, required, autoComplete }) => (
                   <div key={name}>
-                    <label htmlFor={`contact-${name}`} style={{ display:'block', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }}>{label}</label>
+                    <label htmlFor={`contact-${name}`} style={{ display:'block', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }}>{label}</label>
                     <input id={`contact-${name}`} name={name} type={type} placeholder={placeholder} value={form[name]} onChange={handleChange}
                       required={required} autoComplete={autoComplete} {...(type === 'tel' ? { inputMode: 'tel', pattern: '[+0-9 ()-]{7,20}', title: 'Phone number, digits only (e.g. 9876543210 or +91 98765 43210)' } : {})}
                       style={inputStyle}
@@ -133,7 +133,7 @@ const Contact = () => {
                 ))}
 
                 <div>
-                  <label style={{ display:'block', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }} htmlFor="contact-requirement">Product Requirement</label>
+                  <label style={{ display:'block', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }} htmlFor="contact-requirement">Product Requirement</label>
                   <select id="contact-requirement" name="requirement" value={form.requirement} onChange={handleChange}
                     style={{ ...inputStyle, cursor:'pointer' }}
                     onFocus={e => e.target.style.borderColor='var(--sun-orange)'}
@@ -146,7 +146,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label style={{ display:'block', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }} htmlFor="contact-message">Message / Project Details</label>
+                  <label style={{ display:'block', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.68rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'0.5rem' }} htmlFor="contact-message">Message / Project Details</label>
                   <textarea id="contact-message" name="message" rows={5} placeholder="Describe your project — roof type, number of panels, location..."
                     value={form.message} onChange={handleChange}
                     style={{ ...inputStyle, resize:'vertical', minHeight:130 }}
@@ -155,7 +155,7 @@ const Contact = () => {
                 </div>
 
                 {status === 'error' && (
-                  <div style={{ padding:'0.75rem 1rem', background:'rgba(224,85,64,0.08)', border:'1px solid var(--border-accent)', color:'var(--sun-orange)', fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.05em' }}>
+                  <div style={{ padding:'0.75rem 1rem', background:'rgba(224,85,64,0.08)', border:'1px solid var(--border-accent)', color:'var(--sun-orange)', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.72rem', letterSpacing:'0.05em' }}>
                     {errorMsg || 'Something went wrong.'} Please email us directly at sales@sunmount.in
                   </div>
                 )}
@@ -179,7 +179,7 @@ const Contact = () => {
               { label:'SUPPLY COVERAGE', lines:['Pan India','International — All Over World'] },
             ].map((item, i) => (
               <div key={i} style={{ padding:'1.8rem', background:'var(--bg-elevated)', border:'1px solid var(--border-subtle)', borderLeft:'2px solid var(--sun-orange)' }}>
-                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.65rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.6rem' }}>// {item.label}</div>
+                <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.65rem', letterSpacing:'0.2em', color:'var(--sun-orange)', marginBottom:'0.6rem' }}>// {item.label}</div>
                 {item.lines.map((line, j) => (
                   <div key={j} style={{ fontSize:'0.95rem', color:'var(--text-primary)', lineHeight:1.6 }}>
                     {line.href ? <a href={line.href} style={{ color:'var(--text-primary)', textDecoration:'underline', textDecorationColor:'var(--border-accent)', textUnderlineOffset:3 }}>{line.text}</a> : line}
@@ -188,10 +188,10 @@ const Contact = () => {
               </div>
             ))}
             <div style={{ padding:'1.8rem', background:'var(--bg-elevated)', border:'1px solid var(--border-subtle)' }}>
-              <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.65rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', marginBottom:'1rem' }}>// CERTIFICATIONS</div>
+              <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.65rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', marginBottom:'1rem' }}>// CERTIFICATIONS</div>
               <div style={{ display:'flex', gap:'0.75rem', flexWrap:'wrap' }}>
                 {['ISO Certified','TÜV Certified','MSME Registered','Made in India'].map(c => (
-                  <span key={c} style={{ padding:'0.3rem 0.75rem', background:'rgba(255,107,26,0.08)', border:'1px solid var(--border-accent)', fontFamily:'JetBrains Mono', fontSize:'0.65rem', letterSpacing:'0.1em', color:'var(--sun-orange-bright)', textTransform:'uppercase' }}>{c}</span>
+                  <span key={c} style={{ padding:'0.3rem 0.75rem', background:'rgba(255,107,26,0.08)', border:'1px solid var(--border-accent)', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.65rem', letterSpacing:'0.1em', color:'var(--sun-orange-bright)', textTransform:'uppercase' }}>{c}</span>
                 ))}
               </div>
             </div>

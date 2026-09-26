@@ -40,14 +40,16 @@
           imagesrcset="/factory-640.webp 640w, /factory-960.webp 960w, /factory-1280.webp 1280w, /factory-1600.webp 1600w"
           imagesizes="100vw" fetchpriority="high" />
 
-    <!-- Fonts: preconnect + non-render-blocking stylesheet (swap) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400&display=swap" media="print" onload="this.media='all'" />
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400&display=swap" />
-    </noscript>
+    <!-- Fonts: self-hosted (no third-party connection), preloaded, with
+         metric-matched local fallbacks so the swap from Arial/Courier to the
+         web font doesn't shift the layout (CLS). Metrics computed with fontTools. -->
+    <link rel="preload" href="/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <style>
+      @font-face{font-family:'Montserrat';font-style:normal;font-weight:400 900;font-display:swap;src:url(/fonts/montserrat-latin.woff2) format('woff2')}
+      @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/jetbrains-mono-latin.woff2) format('woff2')}
+      @font-face{font-family:'Montserrat Fallback';src:local('Arial');size-adjust:125.13%;ascent-override:77.36%;descent-override:20.06%;line-gap-override:0%}
+      @font-face{font-family:'JetBrains Mono Fallback';src:local('Courier New');size-adjust:99.98%;ascent-override:102.02%;descent-override:30%;line-gap-override:0%}
+    </style>
 
     <!-- Structured data: Organization -->
     <script type="application/ld+json">
