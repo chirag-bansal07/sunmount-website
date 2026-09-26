@@ -77,11 +77,7 @@ const EDUCATION_OPTIONS = [
 ]
 
 const Careers = () => {
-  useSeo({
-    title: 'Careers at Sunmount Solutions | Join Our Team',
-    description: 'Explore career opportunities at Sunmount Solutions — India\'s growing solar mounting manufacturer. View open roles and apply online; applications go straight to our HR team.',
-    path: '/careers',
-  })
+  useSeo('/careers')
   const [expandedJob, setExpandedJob]   = useState(null)
   const [form, setForm]                 = useState({
     name: '', email: '', phone: '', role: '', education: '',

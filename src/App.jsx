@@ -12,6 +12,7 @@ import './index.css'
 const Contact  = lazy(() => import('./pages/Contact'))
 const Products = lazy(() => import('./pages/Products'))
 const Careers  = lazy(() => import('./pages/Careers'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 
 const RouteFallback = () => (
   <div style={{ minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -39,9 +40,11 @@ function ScrollHandler() {
   return null
 }
 
-function App() {
+// Router-agnostic shell — wrapped in BrowserRouter here and in StaticRouter by
+// src/entry-server.jsx, which prerenders every route at build time.
+export function AppShell() {
   return (
-    <Router>
+    <>
       <ScrollHandler />
       <Navbar />
       <Suspense fallback={<RouteFallback />}>
@@ -50,9 +53,18 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/products" element={<Products />} />
           <Route path="/careers" element={<Careers />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
       <Footer />
+    </>
+  )
+}
+
+function App() {
+  return (
+    <Router>
+      <AppShell />
       <Analytics />
       <SpeedInsights />
     </Router>

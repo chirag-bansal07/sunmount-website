@@ -676,16 +676,13 @@ function VariantSlider({ variants, selectedId, onSelect }) {
 const VALID_IDS = PRODUCTS.map(p => p.id)
 
 export default function Products() {
-  useSeo({
-    title: 'Solar Mounting Systems & Products | Mono · Mini · Long Rail · Standing Seam · FRP Walkway — SunMount',
-    description: 'Explore SunMount\'s full range of solar mounting systems with interactive 3D models — Mono Rail, Mini Rail, Long Rail, Standing Seam clamps and FRP Walkway. ISO 9001 & TÜV SÜD certified, rated to 200 km/h.',
-    path: '/products',
-  })
+  useSeo('/products')
   const { hash }  = useLocation()
   const hashId    = hash.replace('#', '')
-  const initId    = VALID_IDS.includes(hashId) ? hashId : 'mono'
 
-  const [selected,   setSelected]   = useState(initId)
+  // Always start on 'mono' to match the prerendered HTML (the server never
+  // sees the hash); the effect below switches to the hashed system on mount.
+  const [selected,   setSelected]   = useState('mono')
   const [variantId,  setVariantId]  = useState(null)
   const [zoom,       setZoom]       = useState(4)
   const [assemblyIdx, setAssemblyIdx] = useState(null) // null = base model

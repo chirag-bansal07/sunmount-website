@@ -27,11 +27,7 @@ function DeferredProducts() {
 }
 
 const Home = () => {
-  useSeo({
-    title: "SunMount® | Solar Mounting Structures | India's Premium Manufacturer",
-    description: "India's indigenous solar PV mounting manufacturer. ISO 9001 & TÜV SÜD certified Mono, Mini, Long Rail, Standing Seam & FRP Walkway systems engineered for 200 km/h wind loads.",
-    path: '/',
-  })
+  useSeo('/')
   return (
   <main>
     <Hero />

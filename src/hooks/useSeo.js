@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
-
-const BASE = 'https://www.sunmount.in'
+import { SITE_URL, DEFAULT_OG_IMAGE, getRouteMeta } from '../seo/routes'
 
 function upsertMeta(attr, key, content) {
-  if (!content) return
   let el = document.head.querySelector(`meta[${attr}="${key}"]`)
+  if (!content) {
+    el?.remove()
+    return
+  }
   if (!el) {
     el = document.createElement('meta')
     el.setAttribute(attr, key)
@@ -15,6 +17,10 @@ function upsertMeta(attr, key, content) {
 
 function upsertCanonical(href) {
   let el = document.head.querySelector('link[rel="canonical"]')
+  if (!href) {
+    el?.remove()
+    return
+  }
   if (!el) {
     el = document.createElement('link')
     el.setAttribute('rel', 'canonical')
@@ -24,20 +30,25 @@ function upsertCanonical(href) {
 }
 
 /**
- * Per-route SEO. Updates the document title, meta description, canonical URL,
- * and Open Graph / Twitter tags whenever the active page mounts — essential
- * for an SPA where every route would otherwise share index.html's tags.
+ * Per-route SEO for client-side navigation. Metadata lives in src/seo/routes.js,
+ * which scripts/prerender.mjs also bakes into each route's static HTML — this
+ * hook just keeps the head in sync when the visitor navigates within the SPA.
  */
-export default function useSeo({ title, description, path = '/' }) {
+export default function useSeo(path) {
   useEffect(() => {
-    const url = BASE + path
-    if (title) document.title = title
-    upsertMeta('name', 'description', description)
-    upsertMeta('property', 'og:title', title)
-    upsertMeta('property', 'og:description', description)
+    const meta = getRouteMeta(path)
+    const url = meta.noindex ? null : SITE_URL + meta.path
+    const image = SITE_URL + (meta.ogImage || DEFAULT_OG_IMAGE)
+    document.title = meta.title
+    upsertMeta('name', 'description', meta.description)
+    upsertMeta('name', 'robots', meta.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large')
+    upsertMeta('property', 'og:title', meta.title)
+    upsertMeta('property', 'og:description', meta.description)
     upsertMeta('property', 'og:url', url)
-    upsertMeta('name', 'twitter:title', title)
-    upsertMeta('name', 'twitter:description', description)
+    upsertMeta('property', 'og:image', image)
+    upsertMeta('name', 'twitter:title', meta.title)
+    upsertMeta('name', 'twitter:description', meta.description)
+    upsertMeta('name', 'twitter:image', image)
     upsertCanonical(url)
-  }, [title, description, path])
+  }, [path])
 }
