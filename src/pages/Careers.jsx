@@ -42,6 +42,9 @@ const PERKS = [
   { icon: '🌏', title: 'National Reach', desc: 'Work with clients from across India and exposure to international markets.' },
 ]
 
+// Above the fold: slide only, so the H1 (LCP) paints from the prerendered HTML
+const introUp = { hidden: { y: 28 }, show: { y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }
+
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
   show:   { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
@@ -140,7 +143,7 @@ const Careers = () => {
       }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'var(--gradient-sun)' }} />
         <div className="container">
-          <motion.div variants={fadeUp} initial="hidden" animate="show">
+          <motion.div variants={introUp} initial="hidden" animate="show">
             <div className="section-label">CAREERS</div>
             <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', maxWidth: 700 }}>
               Build the Future of<br /><span className="gradient-text">Solar Energy.</span>
@@ -330,8 +333,8 @@ const Careers = () => {
 
                   {/* Role dropdown */}
                   <div>
-                    <label style={labelStyle}>Role Applying For *</label>
-                    <select name="role" value={form.role} onChange={handleChange} required
+                    <label style={labelStyle} htmlFor="apply-role">Role Applying For *</label>
+                    <select id="apply-role" name="role" value={form.role} onChange={handleChange} required
                       style={{ ...inputStyle, cursor: 'pointer' }}
                       onFocus={e => e.target.style.borderColor = 'var(--sun-orange)'}
                       onBlur={e => e.target.style.borderColor = 'var(--border-subtle)'}>
@@ -345,15 +348,15 @@ const Careers = () => {
                   {/* Name + Email row */}
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }} className="form-row">
                     <div>
-                      <label style={labelStyle}>Full Name *</label>
-                      <input name="name" type="text" placeholder="Your Name" value={form.name} onChange={handleChange} required
+                      <label style={labelStyle} htmlFor="apply-name">Full Name *</label>
+                      <input id="apply-name" name="name" type="text" placeholder="Your Name" value={form.name} onChange={handleChange} required
                         style={inputStyle}
                         onFocus={e => e.target.style.borderColor = 'var(--sun-orange)'}
                         onBlur={e => e.target.style.borderColor = 'var(--border-subtle)'} />
                     </div>
                     <div>
-                      <label style={labelStyle}>Email Address *</label>
-                      <input name="email" type="email" placeholder="sample@gmail.com" value={form.email} onChange={handleChange} required
+                      <label style={labelStyle} htmlFor="apply-email">Email Address *</label>
+                      <input id="apply-email" name="email" type="email" placeholder="sample@gmail.com" value={form.email} onChange={handleChange} required
                         style={inputStyle}
                         onFocus={e => e.target.style.borderColor = 'var(--sun-orange)'}
                         onBlur={e => e.target.style.borderColor = 'var(--border-subtle)'} />
@@ -363,15 +366,15 @@ const Careers = () => {
                   {/* Phone + Education row */}
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }} className="form-row">
                     <div>
-                      <label style={labelStyle}>Phone Number *</label>
-                      <input name="phone" type="tel" placeholder="9999999999" value={form.phone} onChange={handleChange} required
+                      <label style={labelStyle} htmlFor="apply-phone">Phone Number *</label>
+                      <input id="apply-phone" name="phone" type="tel" placeholder="9999999999" value={form.phone} onChange={handleChange} required
                         style={inputStyle}
                         onFocus={e => e.target.style.borderColor = 'var(--sun-orange)'}
                         onBlur={e => e.target.style.borderColor = 'var(--border-subtle)'} />
                     </div>
                     <div>
-                      <label style={labelStyle}>Highest Education *</label>
-                      <select name="education" value={form.education} onChange={handleChange} required
+                      <label style={labelStyle} htmlFor="apply-education">Highest Education *</label>
+                      <select id="apply-education" name="education" value={form.education} onChange={handleChange} required
                         style={{ ...inputStyle, cursor: 'pointer' }}
                         onFocus={e => e.target.style.borderColor = 'var(--sun-orange)'}
                         onBlur={e => e.target.style.borderColor = 'var(--border-subtle)'}>
@@ -385,8 +388,8 @@ const Careers = () => {
 
                   {/* Experience */}
                   <div>
-                    <label style={labelStyle}>Years of Experience</label>
-                    <input name="experience" type="text" placeholder="e.g. 2 years in solar sales, fresher, etc." value={form.experience} onChange={handleChange}
+                    <label style={labelStyle} htmlFor="apply-experience">Years of Experience</label>
+                    <input id="apply-experience" name="experience" type="text" placeholder="e.g. 2 years in solar sales, fresher, etc." value={form.experience} onChange={handleChange}
                       style={inputStyle}
                       onFocus={e => e.target.style.borderColor = 'var(--sun-orange)'}
                       onBlur={e => e.target.style.borderColor = 'var(--border-subtle)'} />
@@ -394,8 +397,8 @@ const Careers = () => {
 
                   {/* Resume link */}
                   <div>
-                    <label style={labelStyle}>Resume Link (Google Drive / LinkedIn)</label>
-                    <input name="resumeLink" type="url" placeholder="https://drive.google.com/... or linkedin.com/in/..." value={form.resumeLink} onChange={handleChange}
+                    <label style={labelStyle} htmlFor="apply-resumeLink">Resume Link (Google Drive / LinkedIn)</label>
+                    <input id="apply-resumeLink" name="resumeLink" type="url" placeholder="https://drive.google.com/... or linkedin.com/in/..." value={form.resumeLink} onChange={handleChange}
                       style={inputStyle}
                       onFocus={e => e.target.style.borderColor = 'var(--sun-orange)'}
                       onBlur={e => e.target.style.borderColor = 'var(--border-subtle)'} />
@@ -406,8 +409,8 @@ const Careers = () => {
 
                   {/* Cover note */}
                   <div>
-                    <label style={labelStyle}>Cover Note / Why Sunmount?</label>
-                    <textarea name="message" rows={5}
+                    <label style={labelStyle} htmlFor="apply-message">Cover Note / Why Sunmount?</label>
+                    <textarea id="apply-message" name="message" rows={5}
                       placeholder="Tell us a bit about yourself, your experience, and why you want to join Sunmount Solutions…"
                       value={form.message} onChange={handleChange}
                       style={{ ...inputStyle, resize: 'vertical', minHeight: 130 }}

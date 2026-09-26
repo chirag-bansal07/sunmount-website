@@ -81,3 +81,19 @@ img,svg{display:block;max-width:100%}
 .btn-secondary:hover{border-color:var(--sun-orange);color:var(--sun-orange);background:rgba(224,85,64,0.05)}
 
 @media(max-width:768px){.container{padding:0 1.25rem}}
+
+/* ── Accessibility ─────────────────────────────────────────────── */
+/* Visible keyboard focus everywhere (mouse clicks stay clean) */
+:focus-visible{outline:2px solid var(--sun-orange-bright);outline-offset:3px}
+input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--sun-orange-bright)!important;outline-offset:0}
+#main-content:focus{outline:none}
+
+/* Skip link: first Tab stop on every page */
+.skip-link{position:absolute;left:1rem;top:-100px;z-index:2000;padding:.75rem 1.1rem;background:var(--sun-orange);color:#fff;font-weight:700;font-size:.9rem}
+.skip-link:focus{top:1rem}
+
+/* Respect the OS "reduce motion" setting: no parallax, spins or long transitions */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}

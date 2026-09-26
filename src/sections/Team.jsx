@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { ArrowRightIcon } from '../components/icons'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
@@ -65,6 +66,7 @@ const Team = () => {
                 <img
                   src="/team-expo.jpg"
                   alt="SunMount team at a solar energy exhibition"
+                  width="1400" height="1050"
                   loading="lazy"
                   decoding="async"
                   style={{
@@ -109,6 +111,7 @@ const Team = () => {
                   <img
                     src="/director.jpg"
                     alt="Vikas Bansal — Director, Sunmount Solutions"
+                    width="840" height="1120"
                     loading="lazy"
                     decoding="async"
                     style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center 10%', display:'block', transform:'scale(1.08)', transformOrigin:'center 10%' }}
@@ -123,9 +126,9 @@ const Team = () => {
                   Driving innovation in solar mounting design with extensive experience across manufacturing,
                   services and consultancy. Available for project consultations.
                 </p>
-                <a href="/contact" className="btn-primary" style={{ width:'100%', justifyContent:'center', fontSize:'0.75rem', padding:'0.65rem 1rem' }}>
+                <Link to="/contact" className="btn-primary" style={{ width:'100%', justifyContent:'center', fontSize:'0.75rem', padding:'0.65rem 1rem' }}>
                   Make an Appointment <ArrowRightIcon />
-                </a>
+                </Link>
               </div>
             </div>
           </motion.div>

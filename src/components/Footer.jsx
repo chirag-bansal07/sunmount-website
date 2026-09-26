@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { PRODUCT_INDEX } from '../data/productIndex'
 
 const Footer = () => (
   <footer style={{ background:'var(--bg-deep)', borderTop:'1px solid var(--border-subtle)', padding:'5rem 0 2rem' }}>
@@ -9,7 +10,7 @@ const Footer = () => (
         <div>
           <picture>
             <source srcSet="/logo.webp" type="image/webp" />
-            <img src="/logo.png" alt="SunMount Solutions logo" loading="lazy" decoding="async" style={{ height:52, width:'auto', marginBottom:'1rem', filter:'drop-shadow(0 0 8px rgba(224,85,64,0.2))' }} />
+            <img src="/logo.png" alt="SunMount Solutions logo" width="600" height="150" loading="lazy" decoding="async" style={{ height:52, width:'auto', marginBottom:'1rem', filter:'drop-shadow(0 0 8px rgba(224,85,64,0.2))' }} />
           </picture>
           <p style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.15em', color:'var(--sun-orange)', marginBottom:'1.2rem', textTransform:'uppercase' }}>
             Quality · Stability · Infinity
@@ -20,13 +21,13 @@ const Footer = () => (
           {/* Badge grid — 2 × 2 */}
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1rem', alignItems:'center', marginTop:'0.5rem', maxWidth:220 }}>
             {[
-              { src:'/badge-makeindia.webp', alt:'Make in India', h: 90 },
-              { src:'/badge-iso.webp',       alt:'ISO 9001',      h: 80 },
-              { src:'/badge-tuv.webp',       alt:'TÜV SÜD',      h: 80 },
-              { src:'/badge-msme.webp',      alt:'MSME',          h: 90 },
-            ].map(({ src, alt, h }) => (
+              { src:'/badge-makeindia.webp', alt:'Make in India', h: 90, iw: 200, ih: 91 },
+              { src:'/badge-iso.webp',       alt:'ISO 9001',      h: 80, iw: 200, ih: 200 },
+              { src:'/badge-tuv.webp',       alt:'TÜV SÜD',      h: 80, iw: 200, ih: 200 },
+              { src:'/badge-msme.webp',      alt:'MSME',          h: 90, iw: 180, ih: 88 },
+            ].map(({ src, alt, h, iw, ih }) => (
               <div key={alt} style={{ display:'flex', justifyContent:'center', alignItems:'center' }}>
-                <img src={src} alt={alt} loading="lazy" decoding="async"
+                <img src={src} alt={alt} width={iw} height={ih} loading="lazy" decoding="async"
                   style={{ height: h, width:'auto', objectFit:'contain', display:'block' }} />
               </div>
             ))}
@@ -35,8 +36,8 @@ const Footer = () => (
 
         {/* Navigation */}
         <div>
-          <h4 style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Navigation</h4>
-          {[{ to:'/', label:'Home' },{ to:'/#products', label:'Products' },{ to:'/#why', label:'Why Sunmount' },{ to:'/#team', label:'Team' },{ to:'/contact', label:'Contact Us' },{ to:'/careers', label:'Careers' }].map(l => (
+          <h2 style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Navigation</h2>
+          {[{ to:'/', label:'Home' },{ to:'/products', label:'Products' },{ to:'/#why', label:'Why Sunmount' },{ to:'/#team', label:'Team' },{ to:'/contact', label:'Contact Us' },{ to:'/careers', label:'Careers' }].map(l => (
             <div key={l.label} style={{ marginBottom:'0.7rem' }}>
               <Link to={l.to} style={{ fontSize:'0.88rem', color:'var(--text-muted)', transition:'color 0.2s' }}
                 onMouseEnter={e => e.target.style.color='var(--sun-orange)'}
@@ -47,13 +48,9 @@ const Footer = () => (
 
         {/* Products */}
         <div>
-          <h4 style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Products</h4>
+          <h2 style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Products</h2>
           {[
-            { label:'Mono Rail System',      to:'/products#mono'     },
-            { label:'Mini Rail System',      to:'/products#mini'     },
-            { label:'Long Rail System',      to:'/products#long'     },
-            { label:'Standing Seam System',  to:'/products#seam'     },
-            { label:'Inclined System',       to:'/products#inclined' },
+            ...PRODUCT_INDEX.map(p => ({ label: p.name, to: `/products/${p.slug}` })),
             { label:'Accessories & Hardware',to:'/products'          },
           ].map(p => (
             <div key={p.label} style={{ marginBottom:'0.7rem' }}>
@@ -66,7 +63,7 @@ const Footer = () => (
 
         {/* Contact */}
         <div>
-          <h4 style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Contact</h4>
+          <h2 style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Contact</h2>
           <div style={{ fontSize:'0.88rem', color:'var(--text-muted)', lineHeight:1.9 }}>
             <div>Sunmount Solutions Private Limited</div>
             <div>Surya Koti, Bajekan-Sirsa Main Road</div>
@@ -77,11 +74,7 @@ const Footer = () => (
             <div>
               <a href="tel:+918531999222" style={{ color:'var(--sun-orange)' }}>+91 8531 999 222</a>
             </div>
-            <div><a href="mailto:info@sunmount.in" style={{ color:'var(--sun-orange)' }}>info@sunmount.in</a></div>
-            <div style={{ marginTop:'0.6rem' }}>
-              <a href="https://www.sunmount.in" target="_blank" rel="noopener noreferrer"
-                style={{ color:'var(--aluminum-mid)', textDecoration:'underline', fontSize:'0.82rem' }}>www.sunmount.in</a>
-            </div>
+            <div><a href="mailto:sales@sunmount.in" style={{ color:'var(--sun-orange)' }}>sales@sunmount.in</a></div>
           </div>
         </div>
       </div>

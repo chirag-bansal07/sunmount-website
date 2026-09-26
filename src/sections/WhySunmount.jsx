@@ -86,7 +86,7 @@ const WhySunmount = () => {
               zIndex:2,
               border:'3px solid rgba(232,146,58,0.3)',
             }}>
-              <img src="/sm-icon.png" alt="SunMount"
+              <img src="/sm-icon-400.webp" alt="SunMount brand mark" width="400" height="397" loading="lazy" decoding="async"
                 style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
             </div>
 
