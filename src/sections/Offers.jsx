@@ -80,7 +80,7 @@ const OfferCard = ({ Icon, title, sub, index }) => {
       <div style={{
         position: 'absolute',
         top: '1rem', right: '1.2rem',
-        fontFamily: 'JetBrains Mono',
+        fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace",
         fontSize: '0.62rem',
         letterSpacing: '0.15em',
         color: 'var(--text-muted)',
@@ -116,7 +116,7 @@ const OfferCard = ({ Icon, title, sub, index }) => {
         {title}
       </h3>
       <p style={{
-        fontFamily: 'JetBrains Mono',
+        fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace",
         fontSize: '0.72rem',
         letterSpacing: '0.05em',
         color: 'var(--text-muted)',

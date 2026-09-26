@@ -76,7 +76,7 @@ const Testimonials = () => {
                   background:'linear-gradient(180deg,var(--bg-elevated) 0%,var(--bg-surface) 100%)',
                   border:'1px solid var(--border-subtle)', position:'relative',
                 }}>
-                  <div style={{ position:'absolute', top:-18, left:28, fontFamily:'Montserrat', fontSize:'5rem', fontWeight:900, lineHeight:1, color:'var(--sun-orange)', opacity:0.22 }}>"</div>
+                  <div style={{ position:'absolute', top:-18, left:28, fontFamily:"'Montserrat', 'Montserrat Fallback', sans-serif", fontSize:'5rem', fontWeight:900, lineHeight:1, color:'var(--sun-orange)', opacity:0.22 }}>"</div>
                   <div style={{ display:'flex', gap:'0.2rem', marginBottom:'1.4rem', color:'var(--sun-yellow)' }}>
                     {Array.from({ length: review.rating }).map((_, i) => <StarIcon key={i} />)}
                   </div>
@@ -88,13 +88,13 @@ const Testimonials = () => {
                       width:50, height:50, borderRadius:'50%',
                       background:'var(--gradient-sun)',
                       display:'flex', alignItems:'center', justifyContent:'center',
-                      fontFamily:'Montserrat', fontSize:'0.9rem', fontWeight:800, color:'var(--bg-deep)',
+                      fontFamily:"'Montserrat', 'Montserrat Fallback', sans-serif", fontSize:'0.9rem', fontWeight:800, color:'var(--bg-deep)',
                     }}>
                       {review.name.split(' ').map(n => n[0]).join('')}
                     </div>
                     <div>
                       <div style={{ fontSize:'0.95rem', fontWeight:700 }}>{review.name}</div>
-                      <div style={{ fontSize:'0.75rem', color:'var(--text-muted)', fontFamily:'JetBrains Mono', letterSpacing:'0.08em', textTransform:'uppercase' }}>
+                      <div style={{ fontSize:'0.75rem', color:'var(--text-muted)', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", letterSpacing:'0.08em', textTransform:'uppercase' }}>
                         {review.role} · {review.company}
                       </div>
                     </div>

@@ -11,7 +11,7 @@ import { PRODUCT_INDEX } from '../data/productIndex'
 import useSeo from '../hooks/useSeo'
 import NotFound from './NotFound'
 
-const mono = { fontFamily: 'JetBrains Mono', letterSpacing: '0.12em', textTransform: 'uppercase' }
+const mono = { fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", letterSpacing: '0.12em', textTransform: 'uppercase' }
 
 function SpecTable({ specs, caption }) {
   return (
@@ -182,7 +182,7 @@ function ProductView({ product, meta }) {
         .pd-canvas{position:relative;height:380px;border:1px solid var(--border-subtle);background:radial-gradient(ellipse at 50% 70%,rgba(224,85,64,.07) 0%,transparent 70%)}
         .pd-picker{display:grid;gap:.6rem;align-content:start}
         .pd-picker button{display:grid;gap:.25rem;text-align:left;padding:.9rem 1rem;background:var(--bg-elevated);border:1px solid var(--border-subtle);color:var(--text-primary);cursor:pointer;font:inherit}
-        .pd-picker button span{font-family:'JetBrains Mono';font-size:.66rem;letter-spacing:.08em;color:var(--text-muted)}
+        .pd-picker button span{font-family:'JetBrains Mono', 'JetBrains Mono Fallback', monospace;font-size:.66rem;letter-spacing:.08em;color:var(--text-muted)}
         .pd-picker button[aria-pressed="true"]{border-color:var(--sun-orange);background:rgba(224,85,64,.08)}
         .pd-variant{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:2.5rem;padding-top:2.5rem;border-top:1px solid var(--border-subtle)}
         .pd-list{display:grid;gap:.45rem;padding-left:1.1rem;color:var(--text-secondary)}
@@ -190,7 +190,7 @@ function ProductView({ product, meta }) {
         .pd-specs th,.pd-specs td,.pd-compare th,.pd-compare td{text-align:left;padding:.65rem .8rem;border-bottom:1px solid var(--border-subtle);vertical-align:top}
         .pd-specs th,.pd-compare tbody th{color:var(--text-muted);font-weight:600;width:42%}
         .pd-specs td,.pd-compare td{color:var(--text-primary)}
-        .pd-compare thead th{font-family:'JetBrains Mono';font-size:.7rem;letter-spacing:.08em;color:var(--sun-orange);white-space:nowrap}
+        .pd-compare thead th{font-family:'JetBrains Mono', 'JetBrains Mono Fallback', monospace;font-size:.7rem;letter-spacing:.08em;color:var(--sun-orange);white-space:nowrap}
         .pd-scroll{overflow-x:auto}
         .pd-compare{min-width:640px}
         .pd-others{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}

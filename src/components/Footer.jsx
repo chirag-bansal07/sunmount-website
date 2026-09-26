@@ -20,7 +20,7 @@ const Footer = () => (
             <source srcSet="/logo.webp" type="image/webp" />
             <img src="/logo.png" alt="SunMount Solutions logo" width="600" height="150" loading="lazy" decoding="async" style={{ height:52, width:'auto', marginBottom:'1rem', filter:'drop-shadow(0 0 8px rgba(224,85,64,0.2))' }} />
           </picture>
-          <p style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.15em', color:'var(--sun-orange)', marginBottom:'1.2rem', textTransform:'uppercase' }}>
+          <p style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.7rem', letterSpacing:'0.15em', color:'var(--sun-orange)', marginBottom:'1.2rem', textTransform:'uppercase' }}>
             Quality · Stability · Infinity
           </p>
           <ul aria-label="SunMount on other sites" style={{ display:'flex', flexWrap:'wrap', gap:'0.5rem', listStyle:'none', padding:0, margin:'0 0 1.2rem' }}>
@@ -51,7 +51,7 @@ const Footer = () => (
 
         {/* Navigation */}
         <div>
-          <h2 style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Navigation</h2>
+          <h2 style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Navigation</h2>
           {[{ to:'/', label:'Home' },{ to:'/products', label:'Products' },{ to:'/#why', label:'Why Sunmount' },{ to:'/#team', label:'Team' },{ to:'/blog', label:'Guides' },{ to:'/faq', label:'FAQ' },{ to:'/contact', label:'Contact Us' },{ to:'/careers', label:'Careers' }].map(l => (
             <div key={l.label} style={{ marginBottom:'0.7rem' }}>
               <Link to={l.to} style={{ fontSize:'0.88rem', color:'var(--text-muted)', transition:'color 0.2s' }}
@@ -63,7 +63,7 @@ const Footer = () => (
 
         {/* Products */}
         <div>
-          <h2 style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Products</h2>
+          <h2 style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Products</h2>
           {[
             ...PRODUCT_INDEX.map(p => ({ label: p.name, to: `/products/${p.slug}` })),
             { label:'Accessories & Hardware',to:'/products'          },
@@ -78,7 +78,7 @@ const Footer = () => (
 
         {/* Contact */}
         <div>
-          <h2 style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Contact</h2>
+          <h2 style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Contact</h2>
           <div style={{ fontSize:'0.88rem', color:'var(--text-muted)', lineHeight:1.9 }}>
             <div>Sunmount Solutions Private Limited</div>
             <div>Surya Koti, Bajekan-Sirsa Main Road</div>
@@ -95,10 +95,10 @@ const Footer = () => (
       </div>
 
       <div style={{ paddingTop:'2rem', borderTop:'1px solid var(--border-subtle)', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:'1rem' }}>
-        <div style={{ fontSize:'0.78rem', color:'var(--text-muted)', fontFamily:'JetBrains Mono' }}>
+        <div style={{ fontSize:'0.78rem', color:'var(--text-muted)', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace" }}>
           © {new Date().getFullYear()} SunMount® Solutions. All rights reserved.
         </div>
-        <div style={{ display:'flex', gap:'1rem', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.1em', color:'var(--text-muted)' }}>
+        <div style={{ display:'flex', gap:'1rem', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.68rem', letterSpacing:'0.1em', color:'var(--text-muted)' }}>
           <span>ISO 9001 CERTIFIED</span>
           <span style={{ color:'var(--aluminum-edge)' }}>·</span>
           <span>TÜV SÜD CERTIFIED</span>
@@ -109,7 +109,7 @@ const Footer = () => (
     </div>
 
     <style>{`
-      .footer-social{display:inline-block;padding:0.3rem 0.65rem;border:1px solid var(--border-subtle);font-family:'JetBrains Mono';font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);transition:color .2s,border-color .2s}
+      .footer-social{display:inline-block;padding:0.3rem 0.65rem;border:1px solid var(--border-subtle);font-family:'JetBrains Mono', 'JetBrains Mono Fallback', monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);transition:color .2s,border-color .2s}
       .footer-social:hover{color:var(--sun-orange);border-color:var(--border-accent)}
       @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr!important}}
       @media(max-width:600px){.footer-grid{grid-template-columns:1fr!important}}

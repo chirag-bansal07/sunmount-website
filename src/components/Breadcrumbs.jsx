@@ -13,7 +13,7 @@ export default function Breadcrumbs({ items }) {
         )}
       </ol>
       <style>{`
-        .crumbs{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;padding:0;margin:0;font-family:'JetBrains Mono';font-size:.72rem;letter-spacing:.08em;color:var(--text-muted)}
+        .crumbs{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;padding:0;margin:0;font-family:'JetBrains Mono', 'JetBrains Mono Fallback', monospace;font-size:.72rem;letter-spacing:.08em;color:var(--text-muted)}
         .crumbs li+li::before{content:'/';margin-right:.5rem;color:var(--aluminum-dark)}
         .crumbs a{color:var(--text-secondary)} .crumbs a:hover{color:var(--sun-orange)}
       `}</style>

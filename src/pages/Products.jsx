@@ -48,7 +48,7 @@ function VariantSlider({ variants, selectedId, onSelect }) {
             >
               {/* Index */}
               <div style={{
-                fontFamily: 'JetBrains Mono', fontSize: '0.55rem',
+                fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize: '0.55rem',
                 letterSpacing: '0.15em', color: active ? 'var(--sun-orange)' : 'var(--text-muted)',
                 marginBottom: '0.45rem',
               }}>
@@ -57,7 +57,7 @@ function VariantSlider({ variants, selectedId, onSelect }) {
 
               {/* Name */}
               <div style={{
-                fontFamily: 'Montserrat', fontSize: '0.88rem', fontWeight: 800,
+                fontFamily:"'Montserrat', 'Montserrat Fallback', sans-serif", fontSize: '0.88rem', fontWeight: 800,
                 color: active ? 'var(--text-primary)' : 'var(--text-secondary)',
                 marginBottom: '0.2rem', lineHeight: 1.25,
               }}>
@@ -66,7 +66,7 @@ function VariantSlider({ variants, selectedId, onSelect }) {
 
               {/* Subtitle */}
               <div style={{
-                fontFamily: 'JetBrains Mono', fontSize: '0.62rem',
+                fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize: '0.62rem',
                 letterSpacing: '0.05em',
                 color: active ? 'rgba(224,85,64,0.8)' : 'var(--text-muted)',
               }}>
@@ -185,14 +185,14 @@ export default function Products() {
                 }}>
                   <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center',
                     flexWrap:'nowrap', gap:'0.4rem', marginBottom:'0.22rem' }}>
-                    <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.55rem', letterSpacing:'0.18em',
+                    <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.55rem', letterSpacing:'0.18em',
                       color: active ? 'var(--sun-orange)' : 'var(--text-muted)',
                       textTransform:'uppercase', whiteSpace:'nowrap', overflow:'hidden',
                       textOverflow:'ellipsis', minWidth:0 }}>
                       0{i + 1} · {p.tag}
                     </div>
                     {varCount > 1 && (
-                      <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.52rem', letterSpacing:'0.1em',
+                      <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.52rem', letterSpacing:'0.1em',
                         color: active ? 'rgba(224,85,64,0.7)' : 'var(--text-muted)',
                         background: active ? 'rgba(224,85,64,0.12)' : 'rgba(255,255,255,0.05)',
                         padding:'0.1rem 0.35rem', borderRadius:2,
@@ -201,11 +201,11 @@ export default function Products() {
                       </div>
                     )}
                   </div>
-                  <div style={{ fontFamily:'Montserrat', fontSize:'0.86rem', fontWeight:700,
+                  <div style={{ fontFamily:"'Montserrat', 'Montserrat Fallback', sans-serif", fontSize:'0.86rem', fontWeight:700,
                     color: active ? 'var(--text-primary)' : 'var(--text-secondary)', marginBottom:'0.1rem' }}>
                     {p.name}
                   </div>
-                  <div style={{ fontSize:'0.68rem', color:'var(--text-muted)', fontFamily:'JetBrains Mono', letterSpacing:'0.04em' }}>
+                  <div style={{ fontSize:'0.68rem', color:'var(--text-muted)', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", letterSpacing:'0.04em' }}>
                     {p.short}
                   </div>
                 </button>
@@ -230,12 +230,12 @@ export default function Products() {
                 <div style={{ display:'flex', gap:'0.5rem', marginBottom:'0.7rem', flexWrap:'wrap' }}>
                   <span style={{ padding:'0.2rem 0.6rem', background:'rgba(224,85,64,0.12)',
                     border:'1px solid var(--border-accent)', borderRadius:2,
-                    fontFamily:'JetBrains Mono', fontSize:'0.58rem', letterSpacing:'0.12em',
+                    fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.58rem', letterSpacing:'0.12em',
                     color:'var(--sun-orange)', textTransform:'uppercase' }}>{product?.tag}</span>
                   {product?.badge && (
                     <span style={{ padding:'0.2rem 0.6rem', background:'rgba(201,212,224,0.07)',
                       border:'1px solid var(--border-subtle)', borderRadius:2,
-                      fontFamily:'JetBrains Mono', fontSize:'0.58rem', letterSpacing:'0.12em',
+                      fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.58rem', letterSpacing:'0.12em',
                       color:'var(--aluminum-mid)', textTransform:'uppercase' }}>{product.badge}</span>
                   )}
                 </div>
@@ -277,14 +277,14 @@ export default function Products() {
                           background:'rgba(10,14,26,0.75)', backdropFilter:'blur(8px)',
                           border:'1px solid var(--border-subtle)',
                           padding:'0.35rem 0.75rem',
-                          fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.1em',
+                          fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.62rem', letterSpacing:'0.1em',
                           color:'var(--text-primary)',
                         }}>
                           {assemblyModel ? assemblyModel.label : activeVariant.name}
                         </div>
                         <div style={{
                           position:'absolute', bottom:'0.9rem', left:'1rem',
-                          fontFamily:'JetBrains Mono', fontSize:'0.58rem', letterSpacing:'0.14em',
+                          fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.58rem', letterSpacing:'0.14em',
                           color:'var(--text-muted)', textTransform:'uppercase', pointerEvents:'none',
                         }}>↻ Drag to rotate</div>
                       </div>
@@ -297,11 +297,11 @@ export default function Products() {
                         alignItems:'center', justifyContent:'center', gap:'1rem',
                       }}>
                         <div style={{ fontSize:'3.5rem', opacity:0.5 }}>🏗️</div>
-                        <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.18em', color:'var(--sun-orange)', textTransform:'uppercase' }}>{activeVariant.name}</div>
-                        <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.12em', color:'var(--text-muted)', textTransform:'uppercase' }}>3D Model Coming Soon</div>
+                        <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.72rem', letterSpacing:'0.18em', color:'var(--sun-orange)', textTransform:'uppercase' }}>{activeVariant.name}</div>
+                        <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.62rem', letterSpacing:'0.12em', color:'var(--text-muted)', textTransform:'uppercase' }}>3D Model Coming Soon</div>
                         <div style={{ display:'flex', flexWrap:'wrap', gap:'0.5rem', justifyContent:'center', maxWidth:320, marginTop:'0.5rem' }}>
                           {activeVariant.specs.slice(0,4).map((s,i) => (
-                            <div key={i} style={{ padding:'0.3rem 0.75rem', background:'rgba(201,212,224,0.06)', border:'1px solid var(--border-subtle)', fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.08em', color:'var(--aluminum-mid)', textTransform:'uppercase', textAlign:'center' }}>
+                            <div key={i} style={{ padding:'0.3rem 0.75rem', background:'rgba(201,212,224,0.06)', border:'1px solid var(--border-subtle)', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.6rem', letterSpacing:'0.08em', color:'var(--aluminum-mid)', textTransform:'uppercase', textAlign:'center' }}>
                               {s.label}: <span style={{ color:'var(--text-primary)' }}>{s.value}</span>
                             </div>
                           ))}
@@ -317,7 +317,7 @@ export default function Products() {
                         border:'1px solid var(--border-subtle)',
                         padding:'0.9rem 0.55rem', borderRadius:4, flexShrink:0, width:36,
                       }}>
-                        <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.75rem', color:'var(--sun-orange)', lineHeight:1, userSelect:'none' }}>+</span>
+                        <span style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.75rem', color:'var(--sun-orange)', lineHeight:1, userSelect:'none' }}>+</span>
                         <div style={{ height:140, display:'flex', alignItems:'center', justifyContent:'center', width:20 }}>
                           <input
                             type="range" min={2} max={7} step={0.05} aria-label="Zoom 3D model"
@@ -326,7 +326,7 @@ export default function Products() {
                             style={{ transform:'rotate(-90deg)', width:140, cursor:'pointer', accentColor:'#E05540', margin:0 }}
                           />
                         </div>
-                        <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.75rem', color:'var(--text-muted)', lineHeight:1, userSelect:'none' }}>−</span>
+                        <span style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.75rem', color:'var(--text-muted)', lineHeight:1, userSelect:'none' }}>−</span>
                       </div>}
                     </div>
 
@@ -334,7 +334,7 @@ export default function Products() {
                     {activeVariant.assemblyModels?.length > 0 && (
                       <div style={{ display:'flex', gap:'0.5rem', marginBottom:'1.2rem', flexWrap:'wrap' }}>
                         <button onClick={() => setAssemblyIdx(null)} style={{
-                          padding:'0.4rem 0.9rem', fontFamily:'JetBrains Mono', fontSize:'0.65rem',
+                          padding:'0.4rem 0.9rem', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.65rem',
                           letterSpacing:'0.1em', textTransform:'uppercase', cursor:'pointer',
                           background: assemblyIdx === null ? 'var(--gradient-sun)' : 'var(--bg-elevated)',
                           color: assemblyIdx === null ? 'var(--bg-deep)' : 'var(--text-muted)',
@@ -343,7 +343,7 @@ export default function Products() {
                         }}>Base Rail</button>
                         {activeVariant.assemblyModels.map((m, i) => (
                           <button key={i} onClick={() => setAssemblyIdx(i)} style={{
-                            padding:'0.4rem 0.9rem', fontFamily:'JetBrains Mono', fontSize:'0.65rem',
+                            padding:'0.4rem 0.9rem', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.65rem',
                             letterSpacing:'0.1em', textTransform:'uppercase', cursor:'pointer',
                             background: assemblyIdx === i ? 'var(--gradient-sun)' : 'var(--bg-elevated)',
                             color: assemblyIdx === i ? 'var(--bg-deep)' : 'var(--text-muted)',
@@ -356,7 +356,7 @@ export default function Products() {
 
                     {/* Variant tagline + description */}
                     <div style={{ marginBottom:'2rem' }}>
-                      <p style={{ fontSize:'0.95rem', color:'var(--sun-yellow)', fontFamily:'JetBrains Mono',
+                      <p style={{ fontSize:'0.95rem', color:'var(--sun-yellow)', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace",
                         letterSpacing:'0.03em', marginBottom:'0.75rem', lineHeight:1.5 }}>
                         {activeVariant.tagline}
                       </p>
@@ -369,7 +369,7 @@ export default function Products() {
                     {/* Specs + Highlights */}
                     <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'2rem' }} className="prod-detail-grid">
                       <div>
-                        <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.2em',
+                        <h3 style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.68rem', letterSpacing:'0.2em',
                           color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.9rem' }}>
                           // Technical Specifications
                         </h3>
@@ -382,7 +382,7 @@ export default function Products() {
                               border:'1px solid var(--border-subtle)',
                               borderTop: i === 0 ? '1px solid var(--border-subtle)' : 'none',
                             }}>
-                              <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.66rem', letterSpacing:'0.06em',
+                              <span style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.66rem', letterSpacing:'0.06em',
                                 color:'var(--text-muted)', whiteSpace:'nowrap' }}>{s.label}</span>
                               <span style={{ fontSize:'0.78rem', color:'var(--text-primary)', fontWeight:600, textAlign:'right' }}>
                                 {s.value}
@@ -393,7 +393,7 @@ export default function Products() {
                       </div>
 
                       <div>
-                        <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.2em',
+                        <h3 style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.68rem', letterSpacing:'0.2em',
                           color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.9rem' }}>
                           // Key Highlights
                         </h3>
@@ -407,7 +407,7 @@ export default function Products() {
                           ))}
                         </div>
 
-                        <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.2em',
+                        <h3 style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.68rem', letterSpacing:'0.2em',
                           color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.65rem' }}>
                           // Ideal Applications
                         </h3>
@@ -416,7 +416,7 @@ export default function Products() {
                             <span key={app} style={{
                               padding:'0.28rem 0.7rem',
                               background:'rgba(201,212,224,0.06)', border:'1px solid var(--border-subtle)',
-                              fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.08em',
+                              fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.62rem', letterSpacing:'0.08em',
                               color:'var(--aluminum-mid)', textTransform:'uppercase',
                             }}>{app}</span>
                           ))}
@@ -460,7 +460,7 @@ export default function Products() {
                   border:`1px solid ${active ? 'var(--sun-orange)' : 'var(--border-subtle)'}`,
                   background: active ? 'var(--gradient-sun)' : 'var(--bg-elevated)',
                   color: active ? 'var(--bg-deep)' : 'var(--text-secondary)',
-                  fontFamily:'Montserrat', fontSize:'0.75rem', fontWeight:700,
+                  fontFamily:"'Montserrat', 'Montserrat Fallback', sans-serif", fontSize:'0.75rem', fontWeight:700,
                   whiteSpace:'nowrap', cursor:'pointer', transition:'all 0.25s',
                 }}>{p.name}</button>
               )
@@ -471,8 +471,8 @@ export default function Products() {
         {/* System Info */}
         <div style={{ padding:'1.2rem 1rem 0' }}>
           <div style={{ display:'flex', gap:'0.4rem', marginBottom:'0.6rem', flexWrap:'wrap' }}>
-            <span style={{ padding:'0.2rem 0.6rem', background:'rgba(224,85,64,0.12)', border:'1px solid var(--border-accent)', fontFamily:'JetBrains Mono', fontSize:'0.58rem', letterSpacing:'0.12em', color:'var(--sun-orange)', textTransform:'uppercase' }}>{product?.tag}</span>
-            {product?.badge && <span style={{ padding:'0.2rem 0.6rem', background:'rgba(201,212,224,0.07)', border:'1px solid var(--border-subtle)', fontFamily:'JetBrains Mono', fontSize:'0.58rem', letterSpacing:'0.12em', color:'var(--aluminum-mid)', textTransform:'uppercase' }}>{product.badge}</span>}
+            <span style={{ padding:'0.2rem 0.6rem', background:'rgba(224,85,64,0.12)', border:'1px solid var(--border-accent)', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.58rem', letterSpacing:'0.12em', color:'var(--sun-orange)', textTransform:'uppercase' }}>{product?.tag}</span>
+            {product?.badge && <span style={{ padding:'0.2rem 0.6rem', background:'rgba(201,212,224,0.07)', border:'1px solid var(--border-subtle)', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.58rem', letterSpacing:'0.12em', color:'var(--aluminum-mid)', textTransform:'uppercase' }}>{product.badge}</span>}
           </div>
           <h2 style={{ fontSize:'1.8rem', marginBottom:'0.6rem' }}>{product?.name}</h2>
           <p style={{ color:'var(--text-secondary)', fontSize:'0.95rem', lineHeight:1.75 }}>{product?.systemDesc}</p>
@@ -492,7 +492,7 @@ export default function Products() {
                     borderTop:`2px solid ${active ? 'var(--sun-orange)' : 'transparent'}`,
                     background: active ? 'rgba(224,85,64,0.13)' : 'var(--bg-elevated)',
                     color: active ? 'var(--sun-orange)' : 'var(--text-muted)',
-                    fontFamily:'Montserrat', fontSize:'0.72rem', fontWeight:700,
+                    fontFamily:"'Montserrat', 'Montserrat Fallback', sans-serif", fontSize:'0.72rem', fontWeight:700,
                     whiteSpace:'nowrap', cursor:'pointer', transition:'all 0.25s',
                   }}>{v.name}</button>
                 )
@@ -508,45 +508,45 @@ export default function Products() {
               {displayModel ? (
               <div style={{ margin:'1.2rem 1rem 0', position:'relative', height:300, border:'1px solid var(--border-subtle)', background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)', overflow:'hidden' }}>
                 <Model3D kind="product" model={displayModel} zoom={zoom} label={activeVariant.name} />
-                <div style={{ position:'absolute', top:'0.75rem', left:'0.75rem', background:'rgba(10,14,26,0.8)', backdropFilter:'blur(8px)', border:'1px solid var(--border-subtle)', padding:'0.3rem 0.65rem', fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.1em', color:'var(--text-primary)' }}>
+                <div style={{ position:'absolute', top:'0.75rem', left:'0.75rem', background:'rgba(10,14,26,0.8)', backdropFilter:'blur(8px)', border:'1px solid var(--border-subtle)', padding:'0.3rem 0.65rem', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.6rem', letterSpacing:'0.1em', color:'var(--text-primary)' }}>
                   {assemblyModel ? assemblyModel.label : activeVariant.name}
                 </div>
-                <div style={{ position:'absolute', bottom:'0.7rem', left:'0.75rem', fontFamily:'JetBrains Mono', fontSize:'0.55rem', letterSpacing:'0.14em', color:'var(--text-muted)', pointerEvents:'none', textTransform:'uppercase' }}>↻ Drag to rotate</div>
+                <div style={{ position:'absolute', bottom:'0.7rem', left:'0.75rem', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.55rem', letterSpacing:'0.14em', color:'var(--text-muted)', pointerEvents:'none', textTransform:'uppercase' }}>↻ Drag to rotate</div>
               </div>
               ) : (
               <div style={{ margin:'1.2rem 1rem 0', height:240, border:'1px solid var(--border-subtle)', background:'linear-gradient(135deg,rgba(224,85,64,0.06) 0%,rgba(232,146,58,0.04) 100%)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:'0.75rem' }}>
                 <div style={{ fontSize:'2.8rem', opacity:0.5 }}>🏗️</div>
-                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.15em', color:'var(--sun-orange)', textTransform:'uppercase' }}>{activeVariant.name}</div>
-                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.1em', color:'var(--text-muted)', textTransform:'uppercase' }}>3D Model Coming Soon</div>
+                <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.7rem', letterSpacing:'0.15em', color:'var(--sun-orange)', textTransform:'uppercase' }}>{activeVariant.name}</div>
+                <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.6rem', letterSpacing:'0.1em', color:'var(--text-muted)', textTransform:'uppercase' }}>3D Model Coming Soon</div>
               </div>
               )}
 
               {/* Mobile model switcher */}
               {activeVariant.assemblyModels?.length > 0 && (
                 <div style={{ display:'flex', gap:'0.45rem', padding:'0.9rem 1rem 0', flexWrap:'wrap' }}>
-                  <button onClick={() => setAssemblyIdx(null)} style={{ padding:'0.38rem 0.8rem', fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.1em', textTransform:'uppercase', cursor:'pointer', background: assemblyIdx === null ? 'var(--gradient-sun)' : 'var(--bg-elevated)', color: assemblyIdx === null ? 'var(--bg-deep)' : 'var(--text-muted)', border:`1px solid ${assemblyIdx === null ? 'transparent' : 'var(--border-subtle)'}`, transition:'all 0.25s' }}>Base Rail</button>
+                  <button onClick={() => setAssemblyIdx(null)} style={{ padding:'0.38rem 0.8rem', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.62rem', letterSpacing:'0.1em', textTransform:'uppercase', cursor:'pointer', background: assemblyIdx === null ? 'var(--gradient-sun)' : 'var(--bg-elevated)', color: assemblyIdx === null ? 'var(--bg-deep)' : 'var(--text-muted)', border:`1px solid ${assemblyIdx === null ? 'transparent' : 'var(--border-subtle)'}`, transition:'all 0.25s' }}>Base Rail</button>
                   {activeVariant.assemblyModels.map((m, i) => (
-                    <button key={i} onClick={() => setAssemblyIdx(i)} style={{ padding:'0.38rem 0.8rem', fontFamily:'JetBrains Mono', fontSize:'0.62rem', letterSpacing:'0.1em', textTransform:'uppercase', cursor:'pointer', background: assemblyIdx === i ? 'var(--gradient-sun)' : 'var(--bg-elevated)', color: assemblyIdx === i ? 'var(--bg-deep)' : 'var(--text-muted)', border:`1px solid ${assemblyIdx === i ? 'transparent' : 'var(--border-subtle)'}`, transition:'all 0.25s' }}>{m.label}</button>
+                    <button key={i} onClick={() => setAssemblyIdx(i)} style={{ padding:'0.38rem 0.8rem', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.62rem', letterSpacing:'0.1em', textTransform:'uppercase', cursor:'pointer', background: assemblyIdx === i ? 'var(--gradient-sun)' : 'var(--bg-elevated)', color: assemblyIdx === i ? 'var(--bg-deep)' : 'var(--text-muted)', border:`1px solid ${assemblyIdx === i ? 'transparent' : 'var(--border-subtle)'}`, transition:'all 0.25s' }}>{m.label}</button>
                   ))}
                 </div>
               )}
 
               {/* Detail */}
               <div style={{ padding:'1.2rem 1rem 2rem' }}>
-                <p style={{ fontSize:'0.96rem', color:'var(--sun-yellow)', fontFamily:'JetBrains Mono', letterSpacing:'0.03em', marginBottom:'0.9rem', lineHeight:1.6 }}>{activeVariant.tagline}</p>
+                <p style={{ fontSize:'0.96rem', color:'var(--sun-yellow)', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", letterSpacing:'0.03em', marginBottom:'0.9rem', lineHeight:1.6 }}>{activeVariant.tagline}</p>
                 <p style={{ color:'var(--text-secondary)', fontSize:'0.93rem', lineHeight:1.85, borderLeft:'2px solid var(--border-accent)', paddingLeft:'1rem', marginBottom:'1.8rem' }}>{activeVariant.desc}</p>
 
-                <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.75rem' }}>// Technical Specifications</h3>
+                <h3 style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.7rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.75rem' }}>// Technical Specifications</h3>
                 <div style={{ marginBottom:'1.8rem' }}>
                   {activeVariant.specs.map((s, i) => (
                     <div key={i} style={{ display:'flex', justifyContent:'space-between', gap:'1rem', padding:'0.65rem 0.85rem', background:i%2===0?'var(--bg-elevated)':'transparent', border:'1px solid var(--border-subtle)', borderTop:i===0?'1px solid var(--border-subtle)':'none' }}>
-                      <span style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.06em', color:'var(--text-muted)', whiteSpace:'nowrap' }}>{s.label}</span>
+                      <span style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.7rem', letterSpacing:'0.06em', color:'var(--text-muted)', whiteSpace:'nowrap' }}>{s.label}</span>
                       <span style={{ fontSize:'0.82rem', color:'var(--text-primary)', fontWeight:600, textAlign:'right' }}>{s.value}</span>
                     </div>
                   ))}
                 </div>
 
-                <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.65rem' }}>// Key Highlights</h3>
+                <h3 style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.7rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.65rem' }}>// Key Highlights</h3>
                 <div style={{ display:'flex', flexDirection:'column', gap:'0.5rem', marginBottom:'1.8rem' }}>
                   {activeVariant.highlights.map((h, i) => (
                     <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:'0.6rem', fontSize:'0.92rem', color:'var(--text-secondary)' }}>
@@ -556,10 +556,10 @@ export default function Products() {
                   ))}
                 </div>
 
-                <h3 style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.6rem' }}>// Ideal Applications</h3>
+                <h3 style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.7rem', letterSpacing:'0.2em', color:'var(--aluminum-mid)', textTransform:'uppercase', marginBottom:'0.6rem' }}>// Ideal Applications</h3>
                 <div style={{ display:'flex', gap:'0.4rem', flexWrap:'wrap', marginBottom:'2rem' }}>
                   {activeVariant.applications.map(app => (
-                    <span key={app} style={{ padding:'0.3rem 0.75rem', background:'rgba(201,212,224,0.06)', border:'1px solid var(--border-subtle)', fontFamily:'JetBrains Mono', fontSize:'0.68rem', letterSpacing:'0.08em', color:'var(--aluminum-mid)', textTransform:'uppercase' }}>{app}</span>
+                    <span key={app} style={{ padding:'0.3rem 0.75rem', background:'rgba(201,212,224,0.06)', border:'1px solid var(--border-subtle)', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.68rem', letterSpacing:'0.08em', color:'var(--aluminum-mid)', textTransform:'uppercase' }}>{app}</span>
                   ))}
                 </div>
 
@@ -592,9 +592,9 @@ export default function Products() {
 
         /* Phone: swap to mobile layout entirely */
           .prod-pages { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1.2rem; }
-          .prod-pages a { font-family:'JetBrains Mono'; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.4rem 0.75rem; border:1px solid var(--border-subtle); color:var(--text-secondary); transition:border-color .3s, color .3s; }
+          .prod-pages a { font-family:'JetBrains Mono', 'JetBrains Mono Fallback', monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; padding:0.4rem 0.75rem; border:1px solid var(--border-subtle); color:var(--text-secondary); transition:border-color .3s, color .3s; }
           .prod-pages a:hover { border-color:var(--border-accent); color:var(--sun-orange); }
-          .prod-more { display:inline-flex; align-items:center; gap:0.5rem; margin-top:0.9rem; font-family:'JetBrains Mono'; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--sun-orange); }
+          .prod-more { display:inline-flex; align-items:center; gap:0.5rem; margin-top:0.9rem; font-family:'JetBrains Mono', 'JetBrains Mono Fallback', monospace; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--sun-orange); }
         @media(max-width:768px) {
           .desktop-products-layout { display:none !important; }
           .mobile-products-layout  { display:block !important; }
@@ -651,7 +651,7 @@ export default function Products() {
                 }}>
                 <div className="acc-line" style={{ position:'absolute', top:0, left:0, height:2, width:0,
                   background:'var(--gradient-sun)', transition:'width 0.5s cubic-bezier(0.16,1,0.3,1)' }} />
-                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.6rem', letterSpacing:'0.15em',
+                <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.6rem', letterSpacing:'0.15em',
                   color:'var(--text-muted)', marginBottom:'1rem' }}>
                   / {String(i + 1).padStart(2, '0')}
                 </div>
@@ -663,7 +663,7 @@ export default function Products() {
                 <h3 style={{ fontSize:'1.05rem', fontWeight:800, letterSpacing:'0.02em', marginBottom:'0.4rem', color:'var(--text-primary)' }}>
                   {acc.name}
                 </h3>
-                <div style={{ fontFamily:'JetBrains Mono', fontSize:'0.65rem', letterSpacing:'0.08em',
+                <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize:'0.65rem', letterSpacing:'0.08em',
                   color:'var(--sun-orange)', marginBottom:'1rem' }}>
                   {acc.material}
                 </div>

@@ -37,8 +37,8 @@ export default function Blog() {
         .blog-list a:hover{border-color:var(--border-accent)}
         .blog-list h2{font-size:1.2rem;line-height:1.3;color:var(--text-primary)}
         .blog-list p{color:var(--text-secondary);line-height:1.7;font-size:.95rem}
-        .blog-meta{font-family:'JetBrains Mono';font-size:.68rem;letter-spacing:.08em;color:var(--text-muted);text-transform:uppercase}
-        .blog-more{margin-top:auto;display:inline-flex;align-items:center;gap:.5rem;font-family:'JetBrains Mono';font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sun-orange)}
+        .blog-meta{font-family:'JetBrains Mono', 'JetBrains Mono Fallback', monospace;font-size:.68rem;letter-spacing:.08em;color:var(--text-muted);text-transform:uppercase}
+        .blog-more{margin-top:auto;display:inline-flex;align-items:center;gap:.5rem;font-family:'JetBrains Mono', 'JetBrains Mono Fallback', monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sun-orange)}
       `}</style>
     </main>
   )

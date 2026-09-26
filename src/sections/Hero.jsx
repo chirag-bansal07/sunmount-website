@@ -136,12 +136,12 @@ const Hero = () => (
           {STATS.map((s, i) => (
             <div key={i}>
               <div style={{
-                fontFamily:'Montserrat', fontSize:'2.1rem', fontWeight:900,
+                fontFamily:"'Montserrat', 'Montserrat Fallback', sans-serif", fontSize:'2.1rem', fontWeight:900,
                 color:'var(--sun-orange)', lineHeight:1, marginBottom:'0.25rem',
               }}>{s.value}</div>
               <div style={{
                 fontSize:'0.72rem', color:'rgba(255,255,255,0.75)',
-                letterSpacing:'0.08em', textTransform:'uppercase', fontFamily:'JetBrains Mono',
+                letterSpacing:'0.08em', textTransform:'uppercase', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace",
               }}>{s.label}</div>
             </div>
           ))}

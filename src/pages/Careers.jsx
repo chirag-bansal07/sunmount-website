@@ -25,12 +25,12 @@ const fadeUp = {
 const inputStyle = {
   width: '100%', padding: '0.85rem 1rem',
   background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)',
-  color: 'var(--text-primary)', fontFamily: 'Montserrat', fontSize: '0.9rem',
+  color: 'var(--text-primary)', fontFamily:"'Montserrat', 'Montserrat Fallback', sans-serif", fontSize: '0.9rem',
   outline: 'none', transition: 'border-color 0.3s', boxSizing: 'border-box',
 }
 
 const labelStyle = {
-  display: 'block', fontFamily: 'JetBrains Mono', fontSize: '0.68rem',
+  display: 'block', fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize: '0.68rem',
   letterSpacing: '0.15em', textTransform: 'uppercase',
   color: 'var(--aluminum-mid)', marginBottom: '0.5rem',
 }
@@ -192,7 +192,7 @@ const Careers = () => {
                         { icon: '💰', text: job.salary },
                         { icon: '🎓', text: 'Minimum Undergraduate' },
                       ].map((tag, t) => (
-                        <span key={t} style={{ fontFamily: 'Montserrat', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.03em', color: 'var(--text-secondary)' }}>
+                        <span key={t} style={{ fontFamily:"'Montserrat', 'Montserrat Fallback', sans-serif", fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.03em', color: 'var(--text-secondary)' }}>
                           {tag.icon} {tag.text}
                         </span>
                       ))}
@@ -214,7 +214,7 @@ const Careers = () => {
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }} className="job-detail-grid">
                       <div>
-                        <div style={{ fontFamily: 'JetBrains Mono', fontSize: '0.65rem', letterSpacing: '0.18em', color: 'var(--sun-orange)', marginBottom: '0.8rem' }}>// RESPONSIBILITIES</div>
+                        <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize: '0.65rem', letterSpacing: '0.18em', color: 'var(--sun-orange)', marginBottom: '0.8rem' }}>// RESPONSIBILITIES</div>
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                           {job.responsibilities.map((r, ri) => (
                             <li key={ri} style={{ display: 'flex', gap: '0.6rem', fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
@@ -224,7 +224,7 @@ const Careers = () => {
                         </ul>
                       </div>
                       <div>
-                        <div style={{ fontFamily: 'JetBrains Mono', fontSize: '0.65rem', letterSpacing: '0.18em', color: 'var(--sun-orange)', marginBottom: '0.8rem' }}>// REQUIREMENTS</div>
+                        <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize: '0.65rem', letterSpacing: '0.18em', color: 'var(--sun-orange)', marginBottom: '0.8rem' }}>// REQUIREMENTS</div>
                         <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                           {job.requirements.map((r, ri) => (
                             <li key={ri} style={{ display: 'flex', gap: '0.6rem', fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
@@ -277,7 +277,7 @@ const Careers = () => {
                     padding: '1.4rem 1.6rem', background: 'var(--bg-elevated)',
                     border: '1px solid var(--border-subtle)', borderLeft: '2px solid var(--sun-orange)',
                   }}>
-                    <div style={{ fontFamily: 'JetBrains Mono', fontSize: '0.62rem', letterSpacing: '0.18em', color: 'var(--sun-orange)', marginBottom: '0.4rem' }}>// {item.label}</div>
+                    <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize: '0.62rem', letterSpacing: '0.18em', color: 'var(--sun-orange)', marginBottom: '0.4rem' }}>// {item.label}</div>
                     {item.value.split('\n').map((line, j) => (
                       <div key={j} style={{ fontSize: '0.88rem', color: 'var(--text-primary)', lineHeight: 1.7 }}>{line}</div>
                     ))}
@@ -374,7 +374,7 @@ const Careers = () => {
                       style={inputStyle}
                       onFocus={e => e.target.style.borderColor = 'var(--sun-orange)'}
                       onBlur={e => e.target.style.borderColor = 'var(--border-subtle)'} />
-                    <div style={{ fontFamily: 'JetBrains Mono', fontSize: '0.6rem', letterSpacing: '0.08em', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
+                    <div style={{ fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize: '0.6rem', letterSpacing: '0.08em', color: 'var(--text-muted)', marginTop: '0.4rem' }}>
                       Share a public Google Drive or LinkedIn profile link. Alternatively email your resume directly to info@sunmount.in
                     </div>
                   </div>
@@ -394,7 +394,7 @@ const Careers = () => {
                     <div style={{
                       padding: '0.75rem 1rem', background: 'rgba(224,85,64,0.08)',
                       border: '1px solid var(--border-accent)', color: 'var(--sun-orange)',
-                      fontFamily: 'JetBrains Mono', fontSize: '0.72rem', letterSpacing: '0.05em',
+                      fontFamily:"'JetBrains Mono', 'JetBrains Mono Fallback', monospace", fontSize: '0.72rem', letterSpacing: '0.05em',
                     }}>
                       {errorMsg || 'Something went wrong.'} Please email us directly at info@sunmount.in
                     </div>
