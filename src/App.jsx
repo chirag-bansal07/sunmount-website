@@ -2,7 +2,10 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { useEffect, lazy, Suspense } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
-import { MotionConfig } from 'framer-motion'
+import { MotionConfig, LazyMotion } from 'framer-motion'
+
+// Animation features load in their own chunk so they stay out of the critical bundle
+const loadMotionFeatures = () => import('./motionFeatures').then(r => r.default)
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import WhatsAppButton from './components/WhatsAppButton'
@@ -16,6 +19,9 @@ const Products = lazy(() => import('./pages/Products'))
 const ProductDetail = lazy(() => import('./pages/ProductDetail'))
 const Careers  = lazy(() => import('./pages/Careers'))
 const NotFound = lazy(() => import('./pages/NotFound'))
+const Blog = lazy(() => import('./pages/Blog'))
+const BlogPost = lazy(() => import('./pages/BlogPost'))
+const Faq = lazy(() => import('./pages/Faq'))
 
 const RouteFallback = () => (
   <div style={{ minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -48,6 +54,7 @@ function ScrollHandler() {
 export function AppShell() {
   // reducedMotion="user": framer-motion skips transform animations when the OS asks for less motion
   return (
+    <LazyMotion features={loadMotionFeatures} strict>
     <MotionConfig reducedMotion="user">
       <ScrollHandler />
       <a href="#main-content" className="skip-link">Skip to content</a>
@@ -56,6 +63,9 @@ export function AppShell() {
       <Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/faq" element={<Faq />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:slug" element={<ProductDetail />} />
@@ -67,6 +77,7 @@ export function AppShell() {
       <Footer />
       <WhatsAppButton />
     </MotionConfig>
+    </LazyMotion>
   )
 }
 

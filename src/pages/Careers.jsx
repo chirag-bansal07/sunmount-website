@@ -1,36 +1,8 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { ArrowRightIcon } from '../components/icons'
 import useSeo from '../hooks/useSeo'
-
-/* ── Job openings — add/remove roles here ─────────────────────── */
-const OPENINGS = [
-  {
-    id: 'sales-executive',
-    title: 'Sales Executive',
-    type: 'Full-Time · On-Site',
-    location: 'Sirsa, Haryana',
-    salary: 'To be discussed',
-    education: 'BBA / B.Com / Marketing / Sales / B.Tech (minimum graduation)',
-    description:
-      'Drive business growth by identifying EPC contractors, solar installers, and distributors across India. Build strong client relationships, prepare quotations, and close orders for our full range of solar mounting systems.',
-    responsibilities: [
-      'Identify and reach out to EPC contractors, solar installers, and distributors',
-      'Understand customer project requirements and recommend the right mounting system',
-      'Follow up on leads, prepare quotations, and close orders',
-      'Build and maintain long-term client relationships',
-      'Represent Sunmount at industry meets, exhibitions, and site visits',
-      'Coordinate with internal teams on order fulfilment and after-sales support',
-    ],
-    requirements: [
-      'Minimum graduation in BBA / B.Com / Marketing / Sales / B.Tech or equivalent',
-      'Strong communication and negotiation skills',
-      'Self-motivated with a target-driven mindset',
-      'Prior experience in solar, building materials, or industrial sales is a plus — not mandatory',
-      'Willingness to travel for client visits and site meetings',
-    ],
-  },
-]
+import { OPENINGS } from '../data/jobs'
 
 /* ── Perks ────────────────────────────────────────────────────── */
 const PERKS = [
@@ -143,7 +115,7 @@ const Careers = () => {
       }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'var(--gradient-sun)' }} />
         <div className="container">
-          <motion.div variants={introUp} initial="hidden" animate="show">
+          <m.div variants={introUp} initial="hidden" animate="show">
             <div className="section-label">CAREERS</div>
             <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', maxWidth: 700 }}>
               Build the Future of<br /><span className="gradient-text">Solar Energy.</span>
@@ -152,22 +124,22 @@ const Careers = () => {
               Join a team that's manufacturing world-class solar mounting systems right here in India —
               and putting them on rooftops across 50+ countries.
             </p>
-          </motion.div>
+          </m.div>
         </div>
       </div>
 
       {/* ── Why join us ──────────────────────────────────────────── */}
       <section style={{ padding: '5rem 0', background: 'var(--bg-base)' }}>
         <div className="container">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
+          <m.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
             <div className="section-label">WHY SUNMOUNT</div>
             <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', marginBottom: '3rem' }}>
               A Place to <span className="gradient-text">Grow</span>
             </h2>
-          </motion.div>
+          </m.div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }} className="perks-grid">
             {PERKS.map((perk, i) => (
-              <motion.div key={i}
+              <m.div key={i}
                 variants={fadeUp} initial="hidden" whileInView="show"
                 viewport={{ once: true }} transition={{ delay: i * 0.07 }}
                 style={{
@@ -178,7 +150,7 @@ const Careers = () => {
                 <div style={{ fontSize: '2rem', marginBottom: '0.8rem' }}>{perk.icon}</div>
                 <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>{perk.title}</h3>
                 <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>{perk.desc}</p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -187,16 +159,16 @@ const Careers = () => {
       {/* ── Current openings ─────────────────────────────────────── */}
       <section style={{ padding: '4rem 0 5rem', background: 'var(--bg-deep)' }}>
         <div className="container">
-          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
+          <m.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
             <div className="section-label">OPEN POSITIONS</div>
             <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', marginBottom: '2.5rem' }}>
               Current <span className="gradient-text">Openings</span>
             </h2>
-          </motion.div>
+          </m.div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
             {OPENINGS.map((job, i) => (
-              <motion.div key={job.id}
+              <m.div key={job.id}
                 variants={fadeUp} initial="hidden" whileInView="show"
                 viewport={{ once: true }} transition={{ delay: i * 0.08 }}
                 style={{
@@ -274,7 +246,7 @@ const Careers = () => {
                     </button>
                   </div>
                 )}
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -286,7 +258,7 @@ const Careers = () => {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: '5rem', alignItems: 'start' }} className="careers-form-grid">
 
             {/* Left info */}
-            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
+            <m.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
               <div className="section-label">APPLY NOW</div>
               <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', marginBottom: '1.2rem' }}>
                 Send Us Your <span className="gradient-text">Application</span>
@@ -312,10 +284,10 @@ const Careers = () => {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Form */}
-            <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} transition={{ delay: 0.15 }}>
+            <m.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} transition={{ delay: 0.15 }}>
               {status === 'sent' ? (
                 <div style={{
                   padding: '4rem 3rem', background: 'var(--bg-elevated)',
@@ -435,7 +407,7 @@ const Careers = () => {
                   </button>
                 </form>
               )}
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>

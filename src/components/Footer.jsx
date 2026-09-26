@@ -1,6 +1,14 @@
 import { Link } from 'react-router-dom'
 import { PRODUCT_INDEX } from '../data/productIndex'
 
+// Official profiles — keep in sync with "sameAs" in index.html's Organization JSON-LD
+const SOCIAL = [
+  { label: 'LinkedIn',  href: 'https://in.linkedin.com/company/sunmountsolutions' },
+  { label: 'IndiaMART', href: 'https://www.indiamart.com/sunmountsolutions/' },
+  { label: 'Facebook',  href: 'https://www.facebook.com/sunmountsolutions/' },
+  { label: 'Instagram', href: 'https://www.instagram.com/sunmountsolutions/' },
+]
+
 const Footer = () => (
   <footer style={{ background:'var(--bg-deep)', borderTop:'1px solid var(--border-subtle)', padding:'5rem 0 2rem' }}>
     <div className="container">
@@ -15,6 +23,13 @@ const Footer = () => (
           <p style={{ fontFamily:'JetBrains Mono', fontSize:'0.7rem', letterSpacing:'0.15em', color:'var(--sun-orange)', marginBottom:'1.2rem', textTransform:'uppercase' }}>
             Quality · Stability · Infinity
           </p>
+          <ul aria-label="SunMount on other sites" style={{ display:'flex', flexWrap:'wrap', gap:'0.5rem', listStyle:'none', padding:0, margin:'0 0 1.2rem' }}>
+            {SOCIAL.map(s => (
+              <li key={s.label}>
+                <a href={s.href} target="_blank" rel="noopener noreferrer me" className="footer-social">{s.label}</a>
+              </li>
+            ))}
+          </ul>
           <p style={{ fontSize:'0.88rem', color:'var(--text-muted)', lineHeight:1.7, maxWidth:280, marginBottom:'1.5rem' }}>
             India's indigenous solar PV mounting manufacturer. ISO 9001 & MSME registered. TÜV SÜD certified. Supplying across the globe.
           </p>
@@ -37,7 +52,7 @@ const Footer = () => (
         {/* Navigation */}
         <div>
           <h2 style={{ fontFamily:'JetBrains Mono', fontSize:'0.72rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'var(--aluminum-mid)', marginBottom:'1.2rem' }}>Navigation</h2>
-          {[{ to:'/', label:'Home' },{ to:'/products', label:'Products' },{ to:'/#why', label:'Why Sunmount' },{ to:'/#team', label:'Team' },{ to:'/contact', label:'Contact Us' },{ to:'/careers', label:'Careers' }].map(l => (
+          {[{ to:'/', label:'Home' },{ to:'/products', label:'Products' },{ to:'/#why', label:'Why Sunmount' },{ to:'/#team', label:'Team' },{ to:'/blog', label:'Guides' },{ to:'/faq', label:'FAQ' },{ to:'/contact', label:'Contact Us' },{ to:'/careers', label:'Careers' }].map(l => (
             <div key={l.label} style={{ marginBottom:'0.7rem' }}>
               <Link to={l.to} style={{ fontSize:'0.88rem', color:'var(--text-muted)', transition:'color 0.2s' }}
                 onMouseEnter={e => e.target.style.color='var(--sun-orange)'}
@@ -94,6 +109,8 @@ const Footer = () => (
     </div>
 
     <style>{`
+      .footer-social{display:inline-block;padding:0.3rem 0.65rem;border:1px solid var(--border-subtle);font-family:'JetBrains Mono';font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);transition:color .2s,border-color .2s}
+      .footer-social:hover{color:var(--sun-orange);border-color:var(--border-accent)}
       @media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr!important}}
       @media(max-width:600px){.footer-grid{grid-template-columns:1fr!important}}
     `}</style>

@@ -69,7 +69,7 @@ await writePage(NOT_FOUND, '404.html')
 const lastmod = new Date().toISOString().slice(0, 10)
 const urls = ROUTES.map(r => `  <url>
     <loc>${SITE_URL}${r.path}</loc>
-    <lastmod>${lastmod}</lastmod>
+    <lastmod>${r.lastmod || lastmod}</lastmod>
     <changefreq>${r.changefreq}</changefreq>
     <priority>${r.priority}</priority>
   </url>`)

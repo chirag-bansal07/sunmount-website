@@ -1,5 +1,5 @@
 import { RupeeIcon, ShieldIcon, ClockIcon, WindIcon, GearIcon, SupportIcon } from '../components/icons'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 const fadeUp  = { hidden:{opacity:0,y:28}, show:{opacity:1,y:0,transition:{duration:0.65,ease:[0.16,1,0.3,1]}} }
 const stagger = { hidden:{},              show:{transition:{staggerChildren:0.09}} }
@@ -30,7 +30,7 @@ const Offers = () => {
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
+        <m.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
           style={{ textAlign: 'center', marginBottom: '2.5rem', maxWidth: 700, margin: '0 auto 2.5rem' }}>
           <div className="section-label" style={{ display: 'inline-flex' }}>WHAT SUNMOUNT OFFERS</div>
           <h2 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.6rem)', marginBottom: '1.2rem' }}>
@@ -40,9 +40,9 @@ const Offers = () => {
           <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: 1.7 }}>
             Six promises that define every project we deliver — across India and 50+ countries worldwide.
           </p>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           variants={stagger} initial="hidden" whileInView="show" viewport={{once:true,margin:'-60px'}}
           style={{
             display: 'grid',
@@ -50,11 +50,11 @@ const Offers = () => {
             gap: '1.2rem',
           }}>
           {OFFERS.map((offer, i) => (
-            <motion.div key={i} variants={fadeUp} style={{ height:'100%', display:'flex', flexDirection:'column' }}>
+            <m.div key={i} variants={fadeUp} style={{ height:'100%', display:'flex', flexDirection:'column' }}>
               <OfferCard {...offer} index={i} />
-            </motion.div>
+            </m.div>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

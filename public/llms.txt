@@ -20,12 +20,25 @@ Sunmount (brand name SunMount®) designs and manufactures rooftop solar mounting
 - [FRP Walkway for Solar Rooftops](https://www.sunmount.in/products/frp-walkway): Anti-slip FRP walkway grating for solar rooftop maintenance access. Meniscus top, 38 × 38 mm mesh, UV-stabilised, corrosion-free, 20 & 25 mm heights.
 - [Inclined Solar Mounting Structure (5°–20° Tilt)](https://www.sunmount.in/products/inclined): Inclined aluminium solar mounting structure for flat and low-pitch roofs. Adjustable 5°–20° tilt for south-facing panels on metal or asbestos roofs.
 
+## Guides
+
+- [Aluminium vs GI Solar Mounting Structures: Which to Choose](https://www.sunmount.in/blog/aluminium-vs-gi-solar-mounting-structures): Aluminium vs galvanised iron (GI) solar mounting structures compared on weight, corrosion, roof load, installation and lifespan for Indian rooftops.
+- [Choosing a Solar Mounting Structure for a Metal (Tin Shed) Roof](https://www.sunmount.in/blog/solar-mounting-structure-for-metal-roof): Mono Rail, Mini Rail or Long Rail? How to pick a solar mounting structure for trapezoidal metal and tin-shed roofs by orientation, clearance and roof type.
+- [Solar on Standing Seam Roofs Without Drilling](https://www.sunmount.in/blog/standing-seam-solar-mounting-without-drilling): How standing seam solar clamps grip the roof seam with zero penetration, which clamp fits 55, 70 or 100 mm seams, and what to check before installing.
+- [Wind Load and Solar Mounting Structures in India](https://www.sunmount.in/blog/solar-mounting-wind-load-india): What a 200 km/h wind rating means, how IS 875 (Part 3) basic wind speeds apply to rooftop solar in India, and what to ask your mounting supplier.
+- [The Future of Solar Is Bright: Rooftop Solar in India](https://www.sunmount.in/blog/the-future-of-solar-is-bright): Why rooftop solar is growing fast in India, what it means for factories, homes and EPC installers, and why the mounting structure decides a system's lifespan.
+
+## FAQ
+
+- [Solar Mounting Structure FAQ](https://www.sunmount.in/faq): Roof compatibility, wind ratings (up to 200 km/h; Inclined System 170 km/h), materials (aluminium 6063 T6, SS 304, EPDM), module fit (30/35/40 mm frames), certifications and ordering.
+
 ## Resources
 
 - [Product Catalogue (PDF)](https://www.sunmount.in/catalogue.pdf): Complete printable catalogue of all mounting systems and accessories.
 
 ## Contact
 
+- Profiles: https://in.linkedin.com/company/sunmountsolutions, https://www.indiamart.com/sunmountsolutions/
 - Email: sales@sunmount.in
 - Phone: +91 7837 999 222, +91 8531 999 222
 - Address: Surya Koti, Bajekan-Sirsa Main Road, Sirsa, Haryana 125055, India

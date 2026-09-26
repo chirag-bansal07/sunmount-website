@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRightIcon } from '../components/icons'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { m, useScroll, useTransform } from 'framer-motion'
 
 const STATS = [
   { num:'75+',  label:'Years Combined Experience' },
@@ -24,18 +24,18 @@ const Team = () => {
   return (
     <section ref={sectionRef} id="team" style={{ padding:'4.5rem 0 3.5rem', background:'var(--bg-deep)', position:'relative' }}>
       <div className="container">
-        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
+        <m.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
           style={{ marginBottom:'2.5rem' }}>
           <div className="section-label">OUR TEAM & CULTURE</div>
           <h2 style={{ fontSize:'clamp(2.2rem,4.5vw,3.6rem)' }}>
             Engineers, Architects,<br /><span className="gradient-text">Innovators.</span>
           </h2>
-        </motion.div>
+        </m.div>
 
         <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:'4rem', alignItems:'start', marginBottom:'3rem' }} className="team-grid">
 
           {/* LEFT: Culture + factory image */}
-          <motion.div variants={slideLeft} initial="hidden" whileInView="show" viewport={{once:true,margin:'-60px'}}
+          <m.div variants={slideLeft} initial="hidden" whileInView="show" viewport={{once:true,margin:'-60px'}}
             style={{ display:'flex', flexDirection:'column' }}>
             <p style={{ fontSize:'1.05rem', lineHeight:1.8, color:'var(--text-secondary)', marginBottom:'1.5rem' }}>
               SunMount® is an industrious team of prolific, vastly experienced professionals —
@@ -90,10 +90,10 @@ const Team = () => {
                 // Team · Solar Exhibition
               </div>
             </div>
-          </motion.div>
+          </m.div>
 
           {/* RIGHT: Director card — parallax float */}
-          <motion.div style={{ y: cardY, position:'sticky', top:120 }}>
+          <m.div style={{ y: cardY, position:'sticky', top:120 }}>
             <div style={{ background:'linear-gradient(180deg,var(--bg-elevated) 0%,var(--bg-surface) 100%)', border:'1px solid var(--border-subtle)', overflow:'hidden' }}>
               <div style={{ height:3, background:'var(--gradient-sun)' }} />
 
@@ -131,7 +131,7 @@ const Team = () => {
                 </Link>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
 
