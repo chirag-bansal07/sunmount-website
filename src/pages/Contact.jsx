@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ArrowRightIcon } from '../components/icons'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import useSeo from '../hooks/useSeo'
 
 const FIELDS = [
@@ -90,7 +90,7 @@ const Contact = () => {
       <div style={{ padding:'5rem 0 4rem', background:'linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-base) 100%)', borderBottom:'1px solid var(--border-subtle)', position:'relative' }}>
         <div style={{ position:'absolute', top:0, left:0, right:0, height:2, background:'var(--gradient-sun)' }} />
         <div className="container">
-          <motion.div variants={fadeUp} initial="hidden" animate="show">
+          <m.div variants={fadeUp} initial="hidden" animate="show">
             <div className="section-label">CONTACT US</div>
             <h1 style={{ fontSize:'clamp(2.5rem, 6vw, 5rem)', maxWidth:760 }}>
               Request a Solar Mounting<br /><span className="gradient-text">Structure Quote.</span>
@@ -100,7 +100,7 @@ const Contact = () => {
               Mono Rail, Mini Rail, Long Rail, Standing Seam or Inclined system and reply within 24 hours
               with a quote and the product catalogue.
             </p>
-          </motion.div>
+          </m.div>
         </div>
       </div>
 
@@ -108,7 +108,7 @@ const Contact = () => {
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'5rem', alignItems:'start' }} className="contact-grid">
 
           {/* Form */}
-          <motion.div variants={fadeUp} initial="hidden" animate="show" transition={{ delay:0.15 }}>
+          <m.div variants={fadeUp} initial="hidden" animate="show" transition={{ delay:0.15 }}>
             {status === 'sent' ? (
               <div style={{ padding:'3rem', background:'var(--bg-elevated)', border:'1px solid var(--border-accent)', textAlign:'center' }}>
                 <div style={{ fontSize:'3rem', marginBottom:'1rem', color:'var(--sun-orange)' }}>✓</div>
@@ -167,10 +167,10 @@ const Contact = () => {
                 </button>
               </form>
             )}
-          </motion.div>
+          </m.div>
 
           {/* Contact info */}
-          <motion.div variants={fadeUp} initial="hidden" animate="show" transition={{ delay:0.28 }}
+          <m.div variants={fadeUp} initial="hidden" animate="show" transition={{ delay:0.28 }}
             style={{ display:'flex', flexDirection:'column', gap:'1.5rem' }}>
             {[
               { label:'HEADQUARTERS', lines:['Sunmount Solutions Private Limited','Surya Koti, Bajekan-Sirsa Main Road','Sirsa, Haryana 125055'] },
@@ -195,7 +195,7 @@ const Contact = () => {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
 

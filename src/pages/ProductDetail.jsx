@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Model3D from '../components/Model3D'
+import Breadcrumbs from '../components/Breadcrumbs'
+import FaqList from '../components/FaqList'
+import { productFaq } from '../data/faq'
+import { POST_INDEX } from '../data/postIndex'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { productBySlug } from '../data/products'
 import { PRODUCT_INDEX } from '../data/productIndex'
@@ -8,18 +12,6 @@ import useSeo from '../hooks/useSeo'
 import NotFound from './NotFound'
 
 const mono = { fontFamily: 'JetBrains Mono', letterSpacing: '0.12em', textTransform: 'uppercase' }
-
-function Breadcrumbs({ name }) {
-  return (
-    <nav aria-label="Breadcrumb" style={{ marginBottom: '1.6rem' }}>
-      <ol className="pd-crumbs">
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/products">Products</Link></li>
-        <li aria-current="page">{name}</li>
-      </ol>
-    </nav>
-  )
-}
 
 function SpecTable({ specs, caption }) {
   return (
@@ -62,12 +54,14 @@ function ProductView({ product, meta }) {
   const active = product.variants.find(v => v.id === activeId) ?? product.variants[0]
   const others = PRODUCT_INDEX.filter(p => p.slug !== product.slug)
   const multi = product.variants.length > 1
+  const faq = productFaq(product)
+  const guides = POST_INDEX.filter(p => p.related?.includes(product.slug))
 
   return (
     <main style={{ paddingTop: 110, background: 'var(--bg-base)' }}>
       {/* ── Header ── */}
       <section className="container" style={{ paddingBottom: '2.5rem' }}>
-        <Breadcrumbs name={product.name} />
+        <Breadcrumbs items={[{ name: 'Products', to: '/products' }, { name: product.name }]} />
         <div className="section-label">{product.short}</div>
         <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.6rem)', lineHeight: 1.1, marginBottom: '1.2rem', maxWidth: 900 }}>{meta.h1}</h1>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: 1.75, maxWidth: 760, marginBottom: '1.8rem' }}>
@@ -135,6 +129,23 @@ function ProductView({ product, meta }) {
         </section>
       )}
 
+      {/* ── FAQ (answer-ready passages for search and AI assistants) ── */}
+      {faq.length > 0 && (
+        <section className="container" style={{ paddingBlock: '2rem', maxWidth: 1000 }}>
+          <h2 style={{ fontSize: 'clamp(1.4rem, 3vw, 2rem)', marginBottom: '1.2rem' }}>{product.name} FAQ</h2>
+          <FaqList items={faq} openFirst />
+        </section>
+      )}
+
+      {guides.length > 0 && (
+        <section className="container" style={{ paddingBlock: '1rem' }}>
+          <h2 style={{ fontSize: 'clamp(1.2rem, 2.6vw, 1.6rem)', marginBottom: '0.8rem' }}>Related guides</h2>
+          <ul className="pd-guides">
+            {guides.map(g => <li key={g.slug}><Link to={`/blog/${g.slug}`}>{g.title} <ArrowRightIcon /></Link></li>)}
+          </ul>
+        </section>
+      )}
+
       {/* ── Other systems (internal links) ── */}
       <section className="container" style={{ paddingBlock: '3rem' }}>
         <h2 style={{ fontSize: 'clamp(1.4rem, 3vw, 2rem)', marginBottom: '1.2rem' }}>Other SunMount mounting systems</h2>
@@ -165,9 +176,8 @@ function ProductView({ product, meta }) {
 
       <style>{`
         .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-        .pd-crumbs{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;padding:0;margin:0;font-family:'JetBrains Mono';font-size:.72rem;letter-spacing:.08em;color:var(--text-muted)}
-        .pd-crumbs li+li::before{content:'/';margin-right:.5rem;color:var(--aluminum-dark)}
-        .pd-crumbs a{color:var(--text-secondary)} .pd-crumbs a:hover{color:var(--sun-orange)}
+        .pd-guides{list-style:none;padding:0;display:grid;gap:.6rem}
+        .pd-guides a{display:inline-flex;align-items:center;gap:.5rem;color:var(--text-secondary)} .pd-guides a:hover{color:var(--sun-orange)}
         .pd-viewer{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:1rem;align-items:stretch}
         .pd-canvas{position:relative;height:380px;border:1px solid var(--border-subtle);background:radial-gradient(ellipse at 50% 70%,rgba(224,85,64,.07) 0%,transparent 70%)}
         .pd-picker{display:grid;gap:.6rem;align-content:start}

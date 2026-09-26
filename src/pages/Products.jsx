@@ -4,7 +4,7 @@ import { PRODUCTS, ACCESSORIES } from '../data/products'
 import { PRODUCT_INDEX } from '../data/productIndex'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import useSeo from '../hooks/useSeo'
 
 /* ─────────────────────────────────────────────────────────────────
@@ -140,7 +140,7 @@ export default function Products() {
       }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'var(--gradient-sun)' }} />
         <div className="container">
-          <motion.div initial={{ y:24 }} animate={{ y:0 }}
+          <m.div initial={{ y:24 }} animate={{ y:0 }}
             transition={{ duration:0.7, ease:[0.16,1,0.3,1] }}>
             <div className="section-label">COMPLETE PRODUCT RANGE</div>
             <h1 className="prod-h1" style={{ fontSize:'clamp(1.8rem,3vw,2.8rem)', maxWidth:540, lineHeight:1.15 }}>
@@ -153,7 +153,7 @@ export default function Products() {
             <nav aria-label="Product pages" className="prod-pages">
               {PRODUCT_INDEX.map(p => <Link key={p.slug} to={`/products/${p.slug}`}>{p.name.replace(/ System$/, "")}</Link>)}
             </nav>
-          </motion.div>
+          </m.div>
         </div>
       </div>
 
@@ -164,7 +164,7 @@ export default function Products() {
           padding:'2.5rem 2rem', alignItems:'start' }} className="prod-layout">
 
           {/* ── Sidebar ── */}
-          <motion.div initial={{ x:-24 }} animate={{ x:0 }}
+          <m.div initial={{ x:-24 }} animate={{ x:0 }}
             transition={{ duration:0.7, ease:[0.16,1,0.3,1], delay:0.1 }}
             style={{ position:'sticky', top:108 }}>
 
@@ -217,11 +217,11 @@ export default function Products() {
               style={{ width:'100%', justifyContent:'center', fontSize:'0.78rem', marginTop:'1.2rem', padding:'0.85rem 1rem' }}>
               <DownloadIcon /> Download Catalogue
             </a>
-          </motion.div>
+          </m.div>
 
           {/* ── Detail Panel ── */}
           <AnimatePresence mode="wait" initial={false}>
-            <motion.div key={selected} className="prod-detail-wrap"
+            <m.div key={selected} className="prod-detail-wrap"
               initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, y:-10 }}
               transition={{ duration:0.4, ease:[0.16,1,0.3,1] }}>
 
@@ -258,7 +258,7 @@ export default function Products() {
               {/* ── 3D Canvas ── */}
               {activeVariant && (
                 <AnimatePresence mode="wait" initial={false}>
-                  <motion.div key={activeVariant.id}
+                  <m.div key={activeVariant.id}
                     initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
                     transition={{ duration:0.3 }}>
 
@@ -436,10 +436,10 @@ export default function Products() {
                         <DownloadIcon /> Download Full Catalogue
                       </a>
                     </div>
-                  </motion.div>
+                  </m.div>
                 </AnimatePresence>
               )}
-            </motion.div>
+            </m.div>
           </AnimatePresence>
         </div>
       </div>
@@ -504,7 +504,7 @@ export default function Products() {
         {/* 3D Canvas — full width with margins */}
         {activeVariant && (
           <AnimatePresence mode="wait" initial={false}>
-            <motion.div key={activeVariant.id} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.3}}>
+            <m.div key={activeVariant.id} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.3}}>
               {displayModel ? (
               <div style={{ margin:'1.2rem 1rem 0', position:'relative', height:300, border:'1px solid var(--border-subtle)', background:'radial-gradient(ellipse at 50% 70%,rgba(224,85,64,0.07) 0%,transparent 70%)', overflow:'hidden' }}>
                 <Model3D kind="product" model={displayModel} zoom={zoom} label={activeVariant.name} />
@@ -568,7 +568,7 @@ export default function Products() {
                   <a href="/catalogue.pdf" target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{ justifyContent:'center', fontSize:'0.85rem' }}><DownloadIcon /> Download Catalogue</a>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           </AnimatePresence>
         )}
       </div>{/* end mobile-products-layout */}
@@ -618,7 +618,7 @@ export default function Products() {
       {/* ── ACCESSORIES SECTION ── */}
       <section className="acc-section" style={{ background:'var(--bg-deep)', borderTop:'1px solid var(--border-subtle)', padding:'4rem 0 5rem' }}>
         <div className="container">
-          <motion.div
+          <m.div
             initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }}
             viewport={{ once:true, margin:'-80px' }}
             transition={{ duration:0.7, ease:[0.16,1,0.3,1] }}
@@ -630,15 +630,15 @@ export default function Products() {
             <p style={{ color:'var(--text-secondary)', fontSize:'0.95rem', lineHeight:1.7 }}>
               High-grade Aluminium 6063 T6 and SS 304 stainless steel accessories — designed to pair with every SunMount rail system.
             </p>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial="hidden" whileInView="show" viewport={{ once:true, margin:'-60px' }}
             variants={{ hidden:{}, show:{ transition:{ staggerChildren:0.06 } } }}
             className="acc-grid"
             style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'1.4rem' }}>
             {ACCESSORIES.map((acc, i) => (
-              <motion.div key={acc.name}
+              <m.div key={acc.name}
                 variants={{ hidden:{opacity:0,y:24}, show:{opacity:1,y:0,transition:{duration:0.55,ease:[0.16,1,0.3,1]}} }}
                 className="acc-card"
                 style={{
@@ -675,9 +675,9 @@ export default function Products() {
                     </div>
                   ))}
                 </div>
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
         </div>
         <style>{`
           .acc-card:hover { border-color:var(--border-accent) !important; transform:translateY(-4px); }

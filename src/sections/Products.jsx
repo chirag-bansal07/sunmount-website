@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Model3D from '../components/Model3D'
 import { ArrowRightIcon, DownloadIcon } from '../components/icons'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 const fadeUp  = { hidden:{opacity:0,y:30}, show:{opacity:1,y:0,transition:{duration:0.7,ease:[0.16,1,0.3,1]}} }
 const stagger = { hidden:{},              show:{transition:{staggerChildren:0.11}} }
@@ -287,7 +287,7 @@ const ProductCard = ({ product, index }) => {
 const Products = () => (
   <section id="products" style={{ padding:'4rem 0 3rem', background:'var(--bg-base)', position:'relative' }}>
     <div className="container">
-      <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
+      <m.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
         style={{ textAlign:'center', marginBottom:'2.5rem', maxWidth:680, margin:'0 auto 2.5rem' }}>
         <div className="section-label" style={{ display:'inline-flex' }}>OUR PRODUCT RANGE</div>
         <h2 style={{ fontSize:'clamp(2.2rem,4.5vw,3.4rem)', marginBottom:'1.1rem' }}>
@@ -297,31 +297,31 @@ const Products = () => (
           Five precision-engineered mounting systems — plus heavy-duty FRP walkways for safe
           rooftop access. From trapezoidal sheets to standing seam, all rated for 200 km/h winds.
         </p>
-      </motion.div>
+      </m.div>
 
-      <motion.div
+      <m.div
         className="home-products-grid"
         variants={stagger} initial="hidden" whileInView="show" viewport={{once:true,margin:'-60px'}}
         style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'1.4rem', marginBottom:'2.5rem', alignItems:'stretch' }}>
         {PRODUCTS.map((p, i) => (
-          <motion.div key={p.id} variants={fadeUp} style={{ height:'100%', display:'flex', flexDirection:'column' }}>
+          <m.div key={p.id} variants={fadeUp} style={{ height:'100%', display:'flex', flexDirection:'column' }}>
             <ProductCard product={p} index={i} />
-          </motion.div>
+          </m.div>
         ))}
-      </motion.div>
+      </m.div>
       <style>{`
         @media(max-width:900px){ .home-products-grid{ grid-template-columns:repeat(2,1fr)!important; } }
         @media(max-width:560px){ .home-products-grid{ grid-template-columns:1fr!important; } }
       `}</style>
 
-      <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true}}
+      <m.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true}}
         style={{ textAlign:'center' }}>
         <a href="/catalogue.pdf"
           target="_blank" rel="noopener noreferrer" className="btn-primary"
           style={{ fontSize:'0.95rem', padding:'1.1rem 2.2rem' }}>
           <DownloadIcon /> Download Full Catalogue
         </a>
-      </motion.div>
+      </m.div>
     </div>
   </section>
 )

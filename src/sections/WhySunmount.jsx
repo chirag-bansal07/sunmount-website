@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 const fadeUp = { hidden:{opacity:0,y:32}, show:{opacity:1,y:0,transition:{duration:0.7,ease:[0.16,1,0.3,1]}} }
 
@@ -44,7 +44,7 @@ const WhySunmount = () => {
       }} />
 
       <div className="container" style={{ position:'relative', zIndex:1 }}>
-        <motion.div
+        <m.div
           variants={fadeUp} initial="hidden" whileInView="show" viewport={{once:true,margin:'-80px'}}
           style={{ textAlign:'center', marginBottom:'3rem', maxWidth:720, margin:'0 auto 3rem' }}
         >
@@ -53,13 +53,13 @@ const WhySunmount = () => {
             Built on <span className="gradient-text">Principles</span>,<br />
             Driven by <span style={{ color:'var(--aluminum-light)' }}>Purpose.</span>
           </h2>
-        </motion.div>
+        </m.div>
 
         <div style={{ display:'grid', gridTemplateColumns:'1.3fr 1fr', gap:'3rem', alignItems:'center' }} className="why-grid">
 
 
           {/* Interactive orbital wheel — hidden on mobile */}
-          <motion.div
+          <m.div
             className="why-wheel"
             initial={{opacity:0,scale:0.88}} whileInView={{opacity:1,scale:1}}
             viewport={{once:true,margin:'-80px'}} transition={{duration:0.8,ease:[0.16,1,0.3,1]}}
@@ -151,10 +151,10 @@ const WhySunmount = () => {
                 )
               })}
             </svg>
-          </motion.div>
+          </m.div>
 
           {/* Text panel */}
-          <motion.div
+          <m.div
             initial={{opacity:0,x:40}} whileInView={{opacity:1,x:0}}
             viewport={{once:true,margin:'-80px'}} transition={{duration:0.7,ease:[0.16,1,0.3,1],delay:0.15}}
             style={{
@@ -180,7 +180,7 @@ const WhySunmount = () => {
                 }} />
               ))}
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
 

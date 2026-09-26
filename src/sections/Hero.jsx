@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { DownloadIcon, ArrowRightIcon } from '../components/icons'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 const STATS = [
   { value: '50+',  label: 'Global Locations' },
@@ -51,7 +51,7 @@ const Hero = () => (
       position:'relative', zIndex:3,
       height:'100%', display:'flex', alignItems:'center',
     }}>
-      <motion.div
+      <m.div
         className="hero-content-wrap"
         style={{ maxWidth:620, paddingTop:'5rem' }}
         initial={{ y:44 }}
@@ -60,15 +60,15 @@ const Hero = () => (
       >
 
         {/* Label */}
-        <motion.div
+        <m.div
           className="section-label" style={{ marginBottom:'1.4rem' }}
           initial={{ y:8 }} animate={{ y:0 }} transition={{ delay:0.2, duration:0.7 }}
         >
           ISO 9001 · TÜV SÜD Certified · MSME Registered
-        </motion.div>
+        </m.div>
 
         {/* Headline */}
-        <motion.h1
+        <m.h1
           style={{
             fontSize:'clamp(2.8rem, 5.5vw, 5rem)',
             fontWeight:900, lineHeight:1.05,
@@ -81,10 +81,10 @@ const Hero = () => (
           Solar Mounting<br />
           <span className="gradient-text">Structures</span><br />
           Redefined.
-        </motion.h1>
+        </m.h1>
 
         {/* Sub-copy */}
-        <motion.p
+        <m.p
           style={{
             fontSize:'1.08rem', color:'rgba(244,246,251,0.72)',
             lineHeight:1.75, marginBottom:'2.5rem', maxWidth:500,
@@ -95,10 +95,10 @@ const Hero = () => (
           India's indigenous solar PV mounting manufacturer.
           Aluminium &amp; steel structures engineered for extreme wind loads —
           supplying across the globe.
-        </motion.p>
+        </m.p>
 
         {/* CTAs */}
-        <motion.div
+        <m.div
           style={{ display:'flex', gap:'1rem', flexWrap:'wrap' }}
           initial={{ y:16 }} animate={{ y:0 }}
           transition={{ delay:0.45, duration:0.8, ease:[0.16,1,0.3,1] }}
@@ -114,12 +114,12 @@ const Hero = () => (
           >
             <DownloadIcon /> Download Catalogue
           </a>
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     </div>
 
     {/* ── STATS BAR ── */}
-    <motion.div
+    <m.div
       style={{
         position:'absolute', bottom:0, left:0, right:0, zIndex:4,
         background:'rgba(6,9,18,0.78)', backdropFilter:'blur(16px)',
@@ -147,7 +147,7 @@ const Hero = () => (
           ))}
         </div>
       </div>
-    </motion.div>
+    </m.div>
 
     <style>{`
       @media(max-width:768px){
