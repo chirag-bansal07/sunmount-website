@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
-import { useEffect, lazy, Suspense } from 'react'
+import { useEffect, Suspense } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import { MotionConfig, LazyMotion } from 'framer-motion'
@@ -12,16 +12,8 @@ import WhatsAppButton from './components/WhatsAppButton'
 import Home from './pages/Home'
 import './index.css'
 
-// Route-level code splitting — keeps the heavy 3D Products page and the
-// other routes out of the initial bundle for a fast first load.
-const Contact  = lazy(() => import('./pages/Contact'))
-const Products = lazy(() => import('./pages/Products'))
-const ProductDetail = lazy(() => import('./pages/ProductDetail'))
-const Careers  = lazy(() => import('./pages/Careers'))
-const NotFound = lazy(() => import('./pages/NotFound'))
-const Blog = lazy(() => import('./pages/Blog'))
-const BlogPost = lazy(() => import('./pages/BlogPost'))
-const Faq = lazy(() => import('./pages/Faq'))
+// Lazy route components live in src/lazyRoutes.js (with preloadRoute for main.jsx)
+import { Contact, Products, ProductDetail, Careers, NotFound, Blog, BlogPost, Faq } from './lazyRoutes'
 
 const RouteFallback = () => (
   <div style={{ minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

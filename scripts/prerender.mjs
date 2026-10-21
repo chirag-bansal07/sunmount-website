@@ -18,6 +18,35 @@ const { render, ROUTES, NOT_FOUND, SITE_URL, DEFAULT_OG_IMAGE, PRODUCTS, PRODUCT
   await import(pathToFileURL(path.join(ssrDir, 'entry-server.js')).href)
 
 let template = await readFile(path.join(dist, 'index.html'), 'utf8')
+const manifest = JSON.parse(await readFile(path.join(dist, '.vite', 'manifest.json'), 'utf8'))
+
+// Route → lazily loaded page module (mirrors the Routes in src/App.jsx).
+function pageSource(p) {
+  if (p === '/blog') return 'src/pages/Blog.jsx'
+  if (p.startsWith('/blog/')) return 'src/pages/BlogPost.jsx'
+  if (p === '/faq') return 'src/pages/Faq.jsx'
+  if (p === '/contact') return 'src/pages/Contact.jsx'
+  if (p === '/products') return 'src/pages/Products.jsx'
+  if (p.startsWith('/products/')) return 'src/pages/ProductDetail.jsx'
+  if (p === '/careers') return 'src/pages/Careers.jsx'
+  if (p === '/404') return 'src/pages/NotFound.jsx'
+  return null
+}
+// The page's chunk plus the shared chunks it statically imports, so the
+// browser fetches them alongside the main bundle instead of after it.
+function modulePreloads(p) {
+  const src = pageSource(p)
+  if (!src || !manifest[src]) return []
+  const files = new Set()
+  const walk = key => {
+    const e = manifest[key]
+    if (!e || files.has(e.file) || e.isEntry) return
+    files.add(e.file)
+    for (const i of e.imports || []) walk(i)
+  }
+  walk(src)
+  return [...files].map(f => `<link rel="modulepreload" crossorigin href="/${f}" />`)
+}
 
 // Inline the (tiny) app stylesheet so it no longer blocks first paint.
 const cssLink = template.match(/<link rel="stylesheet"[^>]*href="(\/assets\/[^"]+\.css)"[^>]*>/)
@@ -231,6 +260,7 @@ function headTags(meta) {
     `<meta name="robots" content="${meta.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}" />`,
     meta.noindex ? '' : `<link rel="canonical" href="${url}" />`,
     md ? `<link rel="alternate" type="text/markdown" href="${SITE_URL}/${md}" title="Markdown version" />` : '',
+    ...modulePreloads(meta.path),
     `<meta property="og:title" content="${esc(meta.title)}" />`,
     `<meta property="og:description" content="${esc(meta.description)}" />`,
     meta.noindex ? '' : `<meta property="og:url" content="${url}" />`,
