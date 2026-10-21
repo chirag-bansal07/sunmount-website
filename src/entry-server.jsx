@@ -8,6 +8,12 @@ import { StaticRouter } from 'react-router-dom'
 import { AppShell } from './App.jsx'
 
 export { ROUTES, NOT_FOUND, SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from './seo/routes.js'
+// Full content data for the build-only outputs (Product JSON-LD, Markdown
+// twins, llms.txt). Kept out of src/seo/routes.js so the client bundle stays small.
+export { PRODUCTS } from './data/products.js'
+export { PRODUCT_INDEX } from './data/productIndex.js'
+export { POSTS } from './data/posts.js'
+export { FAQ, productFaq } from './data/faq.js'
 
 const app = url => (
   <StrictMode>

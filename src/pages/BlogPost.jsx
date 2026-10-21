@@ -38,9 +38,12 @@ export default function BlogPost() {
       <article className="container post">
         <Breadcrumbs items={[{ name: 'Guides', to: '/blog' }, { name: post.title }]} />
         <div className="post-meta">
-          <time dateTime={post.date}>{formatDate(post.date)}</time> · {post.minutes} min read · SunMount engineering team
+          <time dateTime={post.date}>{formatDate(post.date)}</time>
+          {post.updated && post.updated !== post.date && <> · Updated <time dateTime={post.updated}>{formatDate(post.updated)}</time></>}
+          {' '}· {post.minutes} min read · SunMount engineering team
         </div>
         <h1>{post.title}</h1>
+        {post.summary && <p className="post-summary"><strong>In short:</strong> {post.summary}</p>}
         <p className="post-intro">{post.intro}</p>
         {post.sections.map(s => <Section key={s.h2} s={s} />)}
 
@@ -68,6 +71,8 @@ export default function BlogPost() {
         .post{max-width:820px}
         .post-meta{font-family:'JetBrains Mono', 'JetBrains Mono Fallback', monospace;font-size:.7rem;letter-spacing:.08em;color:var(--text-muted);text-transform:uppercase;margin-bottom:.9rem}
         .post h1{font-size:clamp(2rem,4.5vw,3rem);line-height:1.12;margin-bottom:1.2rem}
+        .post-summary{margin:0 0 1.4rem;padding:1rem 1.2rem;border-left:3px solid var(--sun-orange);background:var(--bg-elevated);color:var(--text-primary);line-height:1.75}
+        .post-summary strong{color:var(--sun-orange)}
         .post-intro{font-size:1.1rem;line-height:1.8;color:var(--text-primary);margin-bottom:1rem}
         .post-section{margin-top:2.4rem}
         .post-section h2{font-size:clamp(1.3rem,3vw,1.7rem);margin-bottom:.9rem}

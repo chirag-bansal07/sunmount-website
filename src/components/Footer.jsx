@@ -7,6 +7,7 @@ const SOCIAL = [
   { label: 'IndiaMART', href: 'https://www.indiamart.com/sunmountsolutions/' },
   { label: 'Facebook',  href: 'https://www.facebook.com/sunmountsolutions/' },
   { label: 'Instagram', href: 'https://www.instagram.com/sunmountsolutions/' },
+  { label: 'EnfSolar',  href: 'https://www.enfsolar.com/sunmount' },
 ]
 
 const Footer = () => (
