@@ -92,9 +92,9 @@ const Hero = () => (
           initial={{ y:16 }} animate={{ y:0 }}
           transition={{ delay:0.3, duration:0.8, ease:[0.16,1,0.3,1] }}
         >
-          India's indigenous solar PV mounting manufacturer.
-          Aluminium &amp; steel structures engineered for extreme wind loads —
-          supplying across the globe.
+          Sunmount Solutions is an ISO 9001 and TÜV SÜD certified manufacturer of aluminium
+          solar PV mounting structures in Sirsa, Haryana, India: rail systems, standing seam clamps
+          and FRP walkways rated for winds up to 200 km/h, supplied across India and worldwide.
         </m.p>
 
         {/* CTAs */}

@@ -1,4 +1,39 @@
+# www.sunmount.in crawl policy
+# Search engines and AI assistants are welcome to index and cite this site.
+# Human-readable site map for AI agents: /llms.txt (Markdown twins of every
+# content page are listed there, e.g. /products/mono-rail.md).
+
 User-agent: *
 Allow: /
+Disallow: /api/
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+
+# AI search and answer engines (the crawlers that decide citability)
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot
+User-agent: Bingbot
+User-agent: DuckAssistBot
+User-agent: Amazonbot
+User-agent: MistralAI-User
+Allow: /
+Disallow: /api/
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+
+# Model-training crawlers (allowed so the brand is known to the models)
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: CCBot
+User-agent: Applebot-Extended
+User-agent: meta-externalagent
+User-agent: Bytespider
+Allow: /
+Disallow: /api/
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 Sitemap: https://www.sunmount.in/sitemap.xml

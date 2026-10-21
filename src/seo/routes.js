@@ -58,7 +58,7 @@ const postRoutes = POST_INDEX.map(p => ({
   description: p.description,
   changefreq: 'yearly',
   priority: '0.6',
-  lastmod: p.date,
+  lastmod: p.updated || p.date,
   jsonLd: [
     crumbs({ name: 'Guides', path: '/blog' }, { name: p.title, path: `/blog/${p.slug}` }),
     {
@@ -67,7 +67,7 @@ const postRoutes = POST_INDEX.map(p => ({
       headline: p.title,
       description: p.description,
       datePublished: p.date,
-      dateModified: p.date,
+      dateModified: p.updated || p.date,
       image: SITE_URL + DEFAULT_OG_IMAGE,
       mainEntityOfPage: `${SITE_URL}/blog/${p.slug}`,
       author: { '@type': 'Organization', name: 'SunMount engineering team', url: SITE_URL + '/' },
